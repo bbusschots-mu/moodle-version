@@ -1,0 +1,30 @@
+{
+  "name": "@maynoothuniversity/moodle-version",
+  "version": "0.1.1",
+  "description": "A parser for Moodle version strings",
+  "main": "src/lib.js",
+  "scripts": {
+    "build": "./node_modules/.bin/urequire config ./urequire.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bbusschots-mu/moodle-version.git"
+  },
+  "keywords": [
+    "Moodle"
+  ],
+  "author": "Bart Busschots",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bbusschots-mu/moodle-version/issues"
+  },
+  "homepage": "https://github.com/bbusschots-mu/moodle-version#readme",
+  "dependencies": {
+    "is_js": "^0.9.0",
+    "urequire": "^0.7.0-beta.33"
+  },
+  "devDependencies": {
+    "esdoc": "^1.1.0",
+    "urequire-cli": "^0.7.5"
+  }
+}
