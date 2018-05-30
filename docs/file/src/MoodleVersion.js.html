@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/MoodleVersion.js | @maynoothuniversity/moodle-version</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A parser for Moodle version strings"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="@maynoothuniversity/moodle-version"><meta property="twitter:description" content="A parser for Moodle version strings"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/bbusschots-mu/moodle-version"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html">MoodleVersion</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-BranchNumber">BranchNumber</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-BranchString">BranchString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-BuildNumber">BuildNumber</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-DateNumber">DateNumber</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ReleaseNumber">ReleaseNumber</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ReleaseString">ReleaseString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-VersionNumber">VersionNumber</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-VersionString">VersionString</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/MoodleVersion.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const is = require(&apos;is_js&apos;);
+
+/**
+ * A Moodle version string. These are the version numbers used on the
+ * [Moodle download page](https://download.moodle.org/releases/latest/) and
+ * displayed in the footer of the Moodle admin area.
+ *
+ * Moodle version strings generally consist of the branch string separated from
+ * the release number by a period. The initial release for a given branch is
+ * given the release number zero, which may be omitted. Alpha and Beta releases
+ * have `dev` appended, and weekly releases have a plus symbol appended.
+ *
+ * For example, all the development releases of the Moodle 3.5 branch have the
+ * version string `3.5dev`, the initial release is `3.5`, the
+ * first update release is `3.5.1`, and all weekly releases between the
+ * release of `3.5.1` and `3.5.2` share `3.5.1+`.
+ *
+ * @typedef {string} VersionString
+ * @example &apos;3.5dev&apos;
+ * @example &apos;3.5&apos;
+ * @example &apos;3.5+&apos;
+ * @example &apos;3.5.1&apos;
+ * @example &apos;3.5.1+&apos;
+ */
+
+/**
+ * A moodle version number. These version numbers are used under-the-hood in
+ * the Moodle source code. They consist of the branch&apos;s branch date number
+ * followed by the release number, optionally followed by a period and an
+ * incremental change number.
+ *
+ * For example, the Moodle 3.3.6 release has the version number `2017051506.00`.
+ * The branch date number for Moodle 3.3 is `20170515` (a {@link DateNumber}),
+ * which is then followed by the two-digit form of the release number, `06`, and
+ * an incremental change number of `00`.
+ *
+ * @typedef {string|number} VersionNumber
+ * @example &apos;2017051506.00&apos;
+ * @see DateNumber
+ */
+
+/**
+ * A Moodle branch string. These are the human-friendly major-version numbers
+ * used throught the official Moodle documentation. They take the form of two
+ * digits separated by a period, e.g. `3.5`.
+ * 
+ * @typedef {string} BranchString
+ * @example &apos;3.5&apos;
+ */
+
+/**
+ * A Moodle branch number. These are used under-the-hood to represent Moodel
+ * branches within the Moodle code. They take the form of a two-digit integer
+ * number - the human-friendly branch without the period e.g. Moodle 3.5 has a
+ * branch number of `35`.
+ *
+ * @typedef {number|string} BranchNumber
+ * @see BranchString
+ * @example 35
+ */
+
+/**
+ * A Moodle release string. These are the most detailed version numbers
+ * displayed to users, consisting of the version string and a build number.
+ *
+ * The release string for Moodle 3.3.6 is `3.3.6 (Build: 20180517)`.
+ *
+ * @typedef {string} ReleaseString
+ * @see VersionString
+ * @example &apos;3.3.6 (Build: 20180517)&apos;
+ */
+
+/**
+ * An integer representing an offical Moodle release within a branch. The
+ * initial release of any branch has the release number 0, subsequent offical
+ * update releases then count up from there.
+ * 
+ * @typedef {number|string} ReleaseNumber
+ */
+
+/**
+ * Each released moodle build, both the weeklys and the offical updates are
+ * assigned a build number which takes the form of a {@link DateNumber}.
+ * 
+ * @typedef {DateNumber} BuildNumber
+ */
+
+/**
+ * An 8-digit date representation used within a number of Moodle version
+ * identifiers. The first four digits represent the year, the next two the
+ * month and the last two the day of the month.
+ *
+ * For example, Christmas 2018 has the date number `20181225`.
+ * 
+ * @typedef {string|number} DateNumber
+ * @example &apos;20181225&apos;
+ */
+
+/**
+ * A mapping form branch numbers to branching date numbers.
+ * 
+ * @type {Object}
+ * @protected
+ */
+const BNUM_BDNUM_MAP = {
+    &apos;22&apos;: &apos;20111205&apos;,
+    &apos;23&apos;: &apos;20120625&apos;,
+    &apos;24&apos;: &apos;20121203&apos;,
+    &apos;25&apos;: &apos;20130514&apos;,
+    &apos;26&apos;: &apos;20131118&apos;,
+    &apos;27&apos;: &apos;20140512&apos;,
+    &apos;28&apos;: &apos;20141110&apos;,
+    &apos;29&apos;: &apos;20150511&apos;,
+    &apos;30&apos;: &apos;20151116&apos;,
+    &apos;31&apos;: &apos;20160523&apos;,
+    &apos;32&apos;: &apos;20161205&apos;,
+    &apos;33&apos;: &apos;20170515&apos;,
+    &apos;34&apos;: &apos;20171113&apos;,
+    &apos;35&apos;: &apos;20180517&apos;
+};
+
+/**
+ * A list of LTS (Long-Term Support) branch numbers.
+ *
+ * @type {Array&lt;number&gt;}
+ * @protected
+ */
+const LTS_BNUMS = [27, 31, 35];
+
+/**
+ * A lookup table to test if a given branch number is a long-term support (LTS)
+ * branch. This lookup table is generated from {@link LTS_BNUMS}.
+ *
+ * @type {Object}
+ * @protected
+ * @see LTS_BNUMS
+ */
+const BNUM_LTS_LOOKUP = {};
+for(const bnum of LTS_BNUMS){
+    BNUM_LTS_LOOKUP[bnum] = true;
+}
+
+/**
+ * A class for parsing and representing
+ * [version information](https://docs.moodle.org/35/en/Moodle_version) for the
+ * [Moodle VLE](http://moodle.org/).
+ *
+ * The class can parse both the human-friendly Moodle release strings like
+ * `3.3.6 (Build: 20180517)`, and the underlying raw version numbers like
+ * `2017051506`.
+ *
+ * Note that this class only reliably understands version information from
+ * Moodle 2.2 up. The reason for this limitation is that this is the first
+ * Moodle version which uses the now standard versioning conventions.
+ *
+ * @see https://docs.moodle.org/35/en/Moodle_version
+ * @see https://docs.moodle.org/dev/Releases
+ */
+module.exports = class MoodleVersion {
+    /**
+     * Constructor description.
+     */
+    constructor() {
+    }
+    
+    /**
+     * toString() description.
+     */
+    toString(){
+        return &apos;Some Moodle Version&apos;;
+    }
+};</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

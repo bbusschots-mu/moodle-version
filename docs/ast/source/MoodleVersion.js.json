@@ -1,0 +1,5701 @@
+{
+  "type": "File",
+  "start": 0,
+  "end": 5081,
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 172,
+      "column": 2
+    }
+  },
+  "program": {
+    "type": "Program",
+    "start": 0,
+    "end": 5081,
+    "loc": {
+      "start": {
+        "line": 1,
+        "column": 0
+      },
+      "end": {
+        "line": 172,
+        "column": 2
+      }
+    },
+    "sourceType": "module",
+    "body": [
+      {
+        "type": "ImportDeclaration",
+        "start": 0,
+        "end": 23,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 23
+          }
+        },
+        "specifiers": [
+          {
+            "type": "ImportDefaultSpecifier",
+            "start": 7,
+            "end": 9,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 7
+              },
+              "end": {
+                "line": 1,
+                "column": 9
+              }
+            },
+            "local": {
+              "type": "Identifier",
+              "start": 7,
+              "end": 9,
+              "loc": {
+                "start": {
+                  "line": 1,
+                  "column": 7
+                },
+                "end": {
+                  "line": 1,
+                  "column": 9
+                },
+                "identifierName": "is"
+              },
+              "name": "is"
+            }
+          }
+        ],
+        "source": {
+          "type": "StringLiteral",
+          "start": 15,
+          "end": 22,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 15
+            },
+            "end": {
+              "line": 1,
+              "column": 22
+            }
+          },
+          "extra": {
+            "rawValue": "is_js",
+            "raw": "'is_js'"
+          },
+          "value": "is_js"
+        },
+        "trailingComments": [
+          {
+            "type": "CommentBlock",
+            "value": "*\n * A Moodle version string. These are the version numbers used on the\n * [Moodle download page](https://download.moodle.org/releases/latest/) and\n * displayed in the footer of the Moodle admin area.\n *\n * Moodle version strings generally consist of the branch string separated from\n * the release number by a period. The initial release for a given branch is\n * given the release number zero, which may be omitted. Alpha and Beta releases\n * have `dev` appended, and weekly releases have a plus symbol appended.\n *\n * For example, all the development releases of the Moodle 3.5 branch have the\n * version string `3.5dev`, the initial release is `3.5`, the\n * first update release is `3.5.1`, and all weekly releases between the\n * release of `3.5.1` and `3.5.2` share `3.5.1+`.\n *\n * @typedef {string} VersionString\n * @example '3.5dev'\n * @example '3.5'\n * @example '3.5+'\n * @example '3.5.1'\n * @example '3.5.1+'\n ",
+            "start": 25,
+            "end": 947,
+            "loc": {
+              "start": {
+                "line": 3,
+                "column": 0
+              },
+              "end": {
+                "line": 24,
+                "column": 3
+              }
+            }
+          },
+          {
+            "type": "CommentBlock",
+            "value": "*\n * A moodle version number. These version numbers are used under-the-hood in\n * the Moodle source code. They consist of the branch's branch date number\n * followed by the release number, optionally followed by a period and an\n * incremental change number.\n *\n * For example, the Moodle 3.3.6 release has the version number `2017051506.00`.\n * The branch date number for Moodle 3.3 is `20170515` (a {@link DateNumber}),\n * which is then followed by the two-digit form of the release number, `06`, and\n * an incremental change number of `00`.\n *\n * @typedef {string|number} VersionNumber\n * @example '2017051506.00'\n * @see DateNumber\n ",
+            "start": 949,
+            "end": 1589,
+            "loc": {
+              "start": {
+                "line": 26,
+                "column": 0
+              },
+              "end": {
+                "line": 40,
+                "column": 3
+              }
+            }
+          },
+          {
+            "type": "CommentBlock",
+            "value": "*\n * A Moodle branch string. These are the human-friendly major-version numbers\n * used throught the official Moodle documentation. They take the form of two\n * digits separated by a period, e.g. `3.5`.\n * \n * @typedef {string} BranchString\n * @example '3.5'\n ",
+            "start": 1591,
+            "end": 1855,
+            "loc": {
+              "start": {
+                "line": 42,
+                "column": 0
+              },
+              "end": {
+                "line": 49,
+                "column": 3
+              }
+            }
+          },
+          {
+            "type": "CommentBlock",
+            "value": "*\n * A Moodle branch number. These are used under-the-hood to represent Moodel\n * branches within the Moodle code. They take the form of a two-digit integer\n * number - the human-friendly branch without the period e.g. Moodle 3.5 has a\n * branch number of `35`.\n *\n * @typedef {number|string} BranchNumber\n * @see BranchString\n * @example 35\n ",
+            "start": 1857,
+            "end": 2204,
+            "loc": {
+              "start": {
+                "line": 51,
+                "column": 0
+              },
+              "end": {
+                "line": 60,
+                "column": 3
+              }
+            }
+          },
+          {
+            "type": "CommentBlock",
+            "value": "*\n * A Moodle release string. These are the most detailed version numbers\n * displayed to users, consisting of the version string and a build number.\n *\n * The release string for Moodle 3.3.6 is `3.3.6 (Build: 20180517)`.\n *\n * @typedef {string} ReleaseString\n * @see VersionString\n * @example '3.3.6 (Build: 20180517)'\n ",
+            "start": 2206,
+            "end": 2531,
+            "loc": {
+              "start": {
+                "line": 62,
+                "column": 0
+              },
+              "end": {
+                "line": 71,
+                "column": 3
+              }
+            }
+          },
+          {
+            "type": "CommentBlock",
+            "value": "*\n * An integer representing an offical Moodle release within a branch. The\n * initial release of any branch has the release number 0, subsequent offical\n * update releases then count up from there.\n * \n * @typedef {number|string} ReleaseNumber\n ",
+            "start": 2533,
+            "end": 2783,
+            "loc": {
+              "start": {
+                "line": 73,
+                "column": 0
+              },
+              "end": {
+                "line": 79,
+                "column": 3
+              }
+            }
+          },
+          {
+            "type": "CommentBlock",
+            "value": "*\n * Each released moodle build, both the weeklys and the offical updates are\n * assigned a build number which takes the form of a {@link DateNumber}.\n * \n * @typedef {DateNumber} BuildNumber\n ",
+            "start": 2785,
+            "end": 2982,
+            "loc": {
+              "start": {
+                "line": 81,
+                "column": 0
+              },
+              "end": {
+                "line": 86,
+                "column": 3
+              }
+            }
+          },
+          {
+            "type": "CommentBlock",
+            "value": "*\n * An 8-digit date representation used within a number of Moodle version\n * identifiers. The first four digits represent the year, the next two the\n * month and the last two the day of the month.\n *\n * For example, Christmas 2018 has the date number `20181225`.\n * \n * @typedef {string|number} DateNumber\n * @example '20181225'\n ",
+            "start": 2984,
+            "end": 3319,
+            "loc": {
+              "start": {
+                "line": 88,
+                "column": 0
+              },
+              "end": {
+                "line": 97,
+                "column": 3
+              }
+            }
+          },
+          {
+            "type": "CommentBlock",
+            "value": "*\n * A mapping form branch numbers to branching date numbers.\n * \n * @type {Object}\n * @protected\n ",
+            "start": 3321,
+            "end": 3424,
+            "loc": {
+              "start": {
+                "line": 99,
+                "column": 0
+              },
+              "end": {
+                "line": 104,
+                "column": 3
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "VariableDeclaration",
+        "start": 3425,
+        "end": 3759,
+        "loc": {
+          "start": {
+            "line": 105,
+            "column": 0
+          },
+          "end": {
+            "line": 120,
+            "column": 2
+          }
+        },
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "start": 3431,
+            "end": 3758,
+            "loc": {
+              "start": {
+                "line": 105,
+                "column": 6
+              },
+              "end": {
+                "line": 120,
+                "column": 1
+              }
+            },
+            "id": {
+              "type": "Identifier",
+              "start": 3431,
+              "end": 3445,
+              "loc": {
+                "start": {
+                  "line": 105,
+                  "column": 6
+                },
+                "end": {
+                  "line": 105,
+                  "column": 20
+                },
+                "identifierName": "BNUM_BDNUM_MAP"
+              },
+              "name": "BNUM_BDNUM_MAP",
+              "leadingComments": null
+            },
+            "init": {
+              "type": "ObjectExpression",
+              "start": 3448,
+              "end": 3758,
+              "loc": {
+                "start": {
+                  "line": 105,
+                  "column": 23
+                },
+                "end": {
+                  "line": 120,
+                  "column": 1
+                }
+              },
+              "properties": [
+                {
+                  "type": "ObjectProperty",
+                  "start": 3454,
+                  "end": 3470,
+                  "loc": {
+                    "start": {
+                      "line": 106,
+                      "column": 4
+                    },
+                    "end": {
+                      "line": 106,
+                      "column": 20
+                    }
+                  },
+                  "method": false,
+                  "shorthand": false,
+                  "computed": false,
+                  "key": {
+                    "type": "StringLiteral",
+                    "start": 3454,
+                    "end": 3458,
+                    "loc": {
+                      "start": {
+                        "line": 106,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 106,
+                        "column": 8
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "22",
+                      "raw": "'22'"
+                    },
+                    "value": "22"
+                  },
+                  "value": {
+                    "type": "StringLiteral",
+                    "start": 3460,
+                    "end": 3470,
+                    "loc": {
+                      "start": {
+                        "line": 106,
+                        "column": 10
+                      },
+                      "end": {
+                        "line": 106,
+                        "column": 20
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "20111205",
+                      "raw": "'20111205'"
+                    },
+                    "value": "20111205"
+                  }
+                },
+                {
+                  "type": "ObjectProperty",
+                  "start": 3476,
+                  "end": 3492,
+                  "loc": {
+                    "start": {
+                      "line": 107,
+                      "column": 4
+                    },
+                    "end": {
+                      "line": 107,
+                      "column": 20
+                    }
+                  },
+                  "method": false,
+                  "shorthand": false,
+                  "computed": false,
+                  "key": {
+                    "type": "StringLiteral",
+                    "start": 3476,
+                    "end": 3480,
+                    "loc": {
+                      "start": {
+                        "line": 107,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 107,
+                        "column": 8
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "23",
+                      "raw": "'23'"
+                    },
+                    "value": "23"
+                  },
+                  "value": {
+                    "type": "StringLiteral",
+                    "start": 3482,
+                    "end": 3492,
+                    "loc": {
+                      "start": {
+                        "line": 107,
+                        "column": 10
+                      },
+                      "end": {
+                        "line": 107,
+                        "column": 20
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "20120625",
+                      "raw": "'20120625'"
+                    },
+                    "value": "20120625"
+                  }
+                },
+                {
+                  "type": "ObjectProperty",
+                  "start": 3498,
+                  "end": 3514,
+                  "loc": {
+                    "start": {
+                      "line": 108,
+                      "column": 4
+                    },
+                    "end": {
+                      "line": 108,
+                      "column": 20
+                    }
+                  },
+                  "method": false,
+                  "shorthand": false,
+                  "computed": false,
+                  "key": {
+                    "type": "StringLiteral",
+                    "start": 3498,
+                    "end": 3502,
+                    "loc": {
+                      "start": {
+                        "line": 108,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 108,
+                        "column": 8
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "24",
+                      "raw": "'24'"
+                    },
+                    "value": "24"
+                  },
+                  "value": {
+                    "type": "StringLiteral",
+                    "start": 3504,
+                    "end": 3514,
+                    "loc": {
+                      "start": {
+                        "line": 108,
+                        "column": 10
+                      },
+                      "end": {
+                        "line": 108,
+                        "column": 20
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "20121203",
+                      "raw": "'20121203'"
+                    },
+                    "value": "20121203"
+                  }
+                },
+                {
+                  "type": "ObjectProperty",
+                  "start": 3520,
+                  "end": 3536,
+                  "loc": {
+                    "start": {
+                      "line": 109,
+                      "column": 4
+                    },
+                    "end": {
+                      "line": 109,
+                      "column": 20
+                    }
+                  },
+                  "method": false,
+                  "shorthand": false,
+                  "computed": false,
+                  "key": {
+                    "type": "StringLiteral",
+                    "start": 3520,
+                    "end": 3524,
+                    "loc": {
+                      "start": {
+                        "line": 109,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 109,
+                        "column": 8
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "25",
+                      "raw": "'25'"
+                    },
+                    "value": "25"
+                  },
+                  "value": {
+                    "type": "StringLiteral",
+                    "start": 3526,
+                    "end": 3536,
+                    "loc": {
+                      "start": {
+                        "line": 109,
+                        "column": 10
+                      },
+                      "end": {
+                        "line": 109,
+                        "column": 20
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "20130514",
+                      "raw": "'20130514'"
+                    },
+                    "value": "20130514"
+                  }
+                },
+                {
+                  "type": "ObjectProperty",
+                  "start": 3542,
+                  "end": 3558,
+                  "loc": {
+                    "start": {
+                      "line": 110,
+                      "column": 4
+                    },
+                    "end": {
+                      "line": 110,
+                      "column": 20
+                    }
+                  },
+                  "method": false,
+                  "shorthand": false,
+                  "computed": false,
+                  "key": {
+                    "type": "StringLiteral",
+                    "start": 3542,
+                    "end": 3546,
+                    "loc": {
+                      "start": {
+                        "line": 110,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 110,
+                        "column": 8
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "26",
+                      "raw": "'26'"
+                    },
+                    "value": "26"
+                  },
+                  "value": {
+                    "type": "StringLiteral",
+                    "start": 3548,
+                    "end": 3558,
+                    "loc": {
+                      "start": {
+                        "line": 110,
+                        "column": 10
+                      },
+                      "end": {
+                        "line": 110,
+                        "column": 20
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "20131118",
+                      "raw": "'20131118'"
+                    },
+                    "value": "20131118"
+                  }
+                },
+                {
+                  "type": "ObjectProperty",
+                  "start": 3564,
+                  "end": 3580,
+                  "loc": {
+                    "start": {
+                      "line": 111,
+                      "column": 4
+                    },
+                    "end": {
+                      "line": 111,
+                      "column": 20
+                    }
+                  },
+                  "method": false,
+                  "shorthand": false,
+                  "computed": false,
+                  "key": {
+                    "type": "StringLiteral",
+                    "start": 3564,
+                    "end": 3568,
+                    "loc": {
+                      "start": {
+                        "line": 111,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 111,
+                        "column": 8
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "27",
+                      "raw": "'27'"
+                    },
+                    "value": "27"
+                  },
+                  "value": {
+                    "type": "StringLiteral",
+                    "start": 3570,
+                    "end": 3580,
+                    "loc": {
+                      "start": {
+                        "line": 111,
+                        "column": 10
+                      },
+                      "end": {
+                        "line": 111,
+                        "column": 20
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "20140512",
+                      "raw": "'20140512'"
+                    },
+                    "value": "20140512"
+                  }
+                },
+                {
+                  "type": "ObjectProperty",
+                  "start": 3586,
+                  "end": 3602,
+                  "loc": {
+                    "start": {
+                      "line": 112,
+                      "column": 4
+                    },
+                    "end": {
+                      "line": 112,
+                      "column": 20
+                    }
+                  },
+                  "method": false,
+                  "shorthand": false,
+                  "computed": false,
+                  "key": {
+                    "type": "StringLiteral",
+                    "start": 3586,
+                    "end": 3590,
+                    "loc": {
+                      "start": {
+                        "line": 112,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 112,
+                        "column": 8
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "28",
+                      "raw": "'28'"
+                    },
+                    "value": "28"
+                  },
+                  "value": {
+                    "type": "StringLiteral",
+                    "start": 3592,
+                    "end": 3602,
+                    "loc": {
+                      "start": {
+                        "line": 112,
+                        "column": 10
+                      },
+                      "end": {
+                        "line": 112,
+                        "column": 20
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "20141110",
+                      "raw": "'20141110'"
+                    },
+                    "value": "20141110"
+                  }
+                },
+                {
+                  "type": "ObjectProperty",
+                  "start": 3608,
+                  "end": 3624,
+                  "loc": {
+                    "start": {
+                      "line": 113,
+                      "column": 4
+                    },
+                    "end": {
+                      "line": 113,
+                      "column": 20
+                    }
+                  },
+                  "method": false,
+                  "shorthand": false,
+                  "computed": false,
+                  "key": {
+                    "type": "StringLiteral",
+                    "start": 3608,
+                    "end": 3612,
+                    "loc": {
+                      "start": {
+                        "line": 113,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 113,
+                        "column": 8
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "29",
+                      "raw": "'29'"
+                    },
+                    "value": "29"
+                  },
+                  "value": {
+                    "type": "StringLiteral",
+                    "start": 3614,
+                    "end": 3624,
+                    "loc": {
+                      "start": {
+                        "line": 113,
+                        "column": 10
+                      },
+                      "end": {
+                        "line": 113,
+                        "column": 20
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "20150511",
+                      "raw": "'20150511'"
+                    },
+                    "value": "20150511"
+                  }
+                },
+                {
+                  "type": "ObjectProperty",
+                  "start": 3630,
+                  "end": 3646,
+                  "loc": {
+                    "start": {
+                      "line": 114,
+                      "column": 4
+                    },
+                    "end": {
+                      "line": 114,
+                      "column": 20
+                    }
+                  },
+                  "method": false,
+                  "shorthand": false,
+                  "computed": false,
+                  "key": {
+                    "type": "StringLiteral",
+                    "start": 3630,
+                    "end": 3634,
+                    "loc": {
+                      "start": {
+                        "line": 114,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 114,
+                        "column": 8
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "30",
+                      "raw": "'30'"
+                    },
+                    "value": "30"
+                  },
+                  "value": {
+                    "type": "StringLiteral",
+                    "start": 3636,
+                    "end": 3646,
+                    "loc": {
+                      "start": {
+                        "line": 114,
+                        "column": 10
+                      },
+                      "end": {
+                        "line": 114,
+                        "column": 20
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "20151116",
+                      "raw": "'20151116'"
+                    },
+                    "value": "20151116"
+                  }
+                },
+                {
+                  "type": "ObjectProperty",
+                  "start": 3652,
+                  "end": 3668,
+                  "loc": {
+                    "start": {
+                      "line": 115,
+                      "column": 4
+                    },
+                    "end": {
+                      "line": 115,
+                      "column": 20
+                    }
+                  },
+                  "method": false,
+                  "shorthand": false,
+                  "computed": false,
+                  "key": {
+                    "type": "StringLiteral",
+                    "start": 3652,
+                    "end": 3656,
+                    "loc": {
+                      "start": {
+                        "line": 115,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 115,
+                        "column": 8
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "31",
+                      "raw": "'31'"
+                    },
+                    "value": "31"
+                  },
+                  "value": {
+                    "type": "StringLiteral",
+                    "start": 3658,
+                    "end": 3668,
+                    "loc": {
+                      "start": {
+                        "line": 115,
+                        "column": 10
+                      },
+                      "end": {
+                        "line": 115,
+                        "column": 20
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "20160523",
+                      "raw": "'20160523'"
+                    },
+                    "value": "20160523"
+                  }
+                },
+                {
+                  "type": "ObjectProperty",
+                  "start": 3674,
+                  "end": 3690,
+                  "loc": {
+                    "start": {
+                      "line": 116,
+                      "column": 4
+                    },
+                    "end": {
+                      "line": 116,
+                      "column": 20
+                    }
+                  },
+                  "method": false,
+                  "shorthand": false,
+                  "computed": false,
+                  "key": {
+                    "type": "StringLiteral",
+                    "start": 3674,
+                    "end": 3678,
+                    "loc": {
+                      "start": {
+                        "line": 116,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 116,
+                        "column": 8
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "32",
+                      "raw": "'32'"
+                    },
+                    "value": "32"
+                  },
+                  "value": {
+                    "type": "StringLiteral",
+                    "start": 3680,
+                    "end": 3690,
+                    "loc": {
+                      "start": {
+                        "line": 116,
+                        "column": 10
+                      },
+                      "end": {
+                        "line": 116,
+                        "column": 20
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "20161205",
+                      "raw": "'20161205'"
+                    },
+                    "value": "20161205"
+                  }
+                },
+                {
+                  "type": "ObjectProperty",
+                  "start": 3696,
+                  "end": 3712,
+                  "loc": {
+                    "start": {
+                      "line": 117,
+                      "column": 4
+                    },
+                    "end": {
+                      "line": 117,
+                      "column": 20
+                    }
+                  },
+                  "method": false,
+                  "shorthand": false,
+                  "computed": false,
+                  "key": {
+                    "type": "StringLiteral",
+                    "start": 3696,
+                    "end": 3700,
+                    "loc": {
+                      "start": {
+                        "line": 117,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 117,
+                        "column": 8
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "33",
+                      "raw": "'33'"
+                    },
+                    "value": "33"
+                  },
+                  "value": {
+                    "type": "StringLiteral",
+                    "start": 3702,
+                    "end": 3712,
+                    "loc": {
+                      "start": {
+                        "line": 117,
+                        "column": 10
+                      },
+                      "end": {
+                        "line": 117,
+                        "column": 20
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "20170515",
+                      "raw": "'20170515'"
+                    },
+                    "value": "20170515"
+                  }
+                },
+                {
+                  "type": "ObjectProperty",
+                  "start": 3718,
+                  "end": 3734,
+                  "loc": {
+                    "start": {
+                      "line": 118,
+                      "column": 4
+                    },
+                    "end": {
+                      "line": 118,
+                      "column": 20
+                    }
+                  },
+                  "method": false,
+                  "shorthand": false,
+                  "computed": false,
+                  "key": {
+                    "type": "StringLiteral",
+                    "start": 3718,
+                    "end": 3722,
+                    "loc": {
+                      "start": {
+                        "line": 118,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 118,
+                        "column": 8
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "34",
+                      "raw": "'34'"
+                    },
+                    "value": "34"
+                  },
+                  "value": {
+                    "type": "StringLiteral",
+                    "start": 3724,
+                    "end": 3734,
+                    "loc": {
+                      "start": {
+                        "line": 118,
+                        "column": 10
+                      },
+                      "end": {
+                        "line": 118,
+                        "column": 20
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "20171113",
+                      "raw": "'20171113'"
+                    },
+                    "value": "20171113"
+                  }
+                },
+                {
+                  "type": "ObjectProperty",
+                  "start": 3740,
+                  "end": 3756,
+                  "loc": {
+                    "start": {
+                      "line": 119,
+                      "column": 4
+                    },
+                    "end": {
+                      "line": 119,
+                      "column": 20
+                    }
+                  },
+                  "method": false,
+                  "shorthand": false,
+                  "computed": false,
+                  "key": {
+                    "type": "StringLiteral",
+                    "start": 3740,
+                    "end": 3744,
+                    "loc": {
+                      "start": {
+                        "line": 119,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 119,
+                        "column": 8
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "35",
+                      "raw": "'35'"
+                    },
+                    "value": "35"
+                  },
+                  "value": {
+                    "type": "StringLiteral",
+                    "start": 3746,
+                    "end": 3756,
+                    "loc": {
+                      "start": {
+                        "line": 119,
+                        "column": 10
+                      },
+                      "end": {
+                        "line": 119,
+                        "column": 20
+                      }
+                    },
+                    "extra": {
+                      "rawValue": "20180517",
+                      "raw": "'20180517'"
+                    },
+                    "value": "20180517"
+                  }
+                }
+              ]
+            },
+            "leadingComments": null
+          }
+        ],
+        "kind": "const",
+        "leadingComments": [
+          {
+            "type": "CommentBlock",
+            "value": "*\n * A Moodle version string. These are the version numbers used on the\n * [Moodle download page](https://download.moodle.org/releases/latest/) and\n * displayed in the footer of the Moodle admin area.\n *\n * Moodle version strings generally consist of the branch string separated from\n * the release number by a period. The initial release for a given branch is\n * given the release number zero, which may be omitted. Alpha and Beta releases\n * have `dev` appended, and weekly releases have a plus symbol appended.\n *\n * For example, all the development releases of the Moodle 3.5 branch have the\n * version string `3.5dev`, the initial release is `3.5`, the\n * first update release is `3.5.1`, and all weekly releases between the\n * release of `3.5.1` and `3.5.2` share `3.5.1+`.\n *\n * @typedef {string} VersionString\n * @example '3.5dev'\n * @example '3.5'\n * @example '3.5+'\n * @example '3.5.1'\n * @example '3.5.1+'\n ",
+            "start": 25,
+            "end": 947,
+            "loc": {
+              "start": {
+                "line": 3,
+                "column": 0
+              },
+              "end": {
+                "line": 24,
+                "column": 3
+              }
+            }
+          },
+          {
+            "type": "CommentBlock",
+            "value": "*\n * A moodle version number. These version numbers are used under-the-hood in\n * the Moodle source code. They consist of the branch's branch date number\n * followed by the release number, optionally followed by a period and an\n * incremental change number.\n *\n * For example, the Moodle 3.3.6 release has the version number `2017051506.00`.\n * The branch date number for Moodle 3.3 is `20170515` (a {@link DateNumber}),\n * which is then followed by the two-digit form of the release number, `06`, and\n * an incremental change number of `00`.\n *\n * @typedef {string|number} VersionNumber\n * @example '2017051506.00'\n * @see DateNumber\n ",
+            "start": 949,
+            "end": 1589,
+            "loc": {
+              "start": {
+                "line": 26,
+                "column": 0
+              },
+              "end": {
+                "line": 40,
+                "column": 3
+              }
+            }
+          },
+          {
+            "type": "CommentBlock",
+            "value": "*\n * A Moodle branch string. These are the human-friendly major-version numbers\n * used throught the official Moodle documentation. They take the form of two\n * digits separated by a period, e.g. `3.5`.\n * \n * @typedef {string} BranchString\n * @example '3.5'\n ",
+            "start": 1591,
+            "end": 1855,
+            "loc": {
+              "start": {
+                "line": 42,
+                "column": 0
+              },
+              "end": {
+                "line": 49,
+                "column": 3
+              }
+            }
+          },
+          {
+            "type": "CommentBlock",
+            "value": "*\n * A Moodle branch number. These are used under-the-hood to represent Moodel\n * branches within the Moodle code. They take the form of a two-digit integer\n * number - the human-friendly branch without the period e.g. Moodle 3.5 has a\n * branch number of `35`.\n *\n * @typedef {number|string} BranchNumber\n * @see BranchString\n * @example 35\n ",
+            "start": 1857,
+            "end": 2204,
+            "loc": {
+              "start": {
+                "line": 51,
+                "column": 0
+              },
+              "end": {
+                "line": 60,
+                "column": 3
+              }
+            }
+          },
+          {
+            "type": "CommentBlock",
+            "value": "*\n * A Moodle release string. These are the most detailed version numbers\n * displayed to users, consisting of the version string and a build number.\n *\n * The release string for Moodle 3.3.6 is `3.3.6 (Build: 20180517)`.\n *\n * @typedef {string} ReleaseString\n * @see VersionString\n * @example '3.3.6 (Build: 20180517)'\n ",
+            "start": 2206,
+            "end": 2531,
+            "loc": {
+              "start": {
+                "line": 62,
+                "column": 0
+              },
+              "end": {
+                "line": 71,
+                "column": 3
+              }
+            }
+          },
+          {
+            "type": "CommentBlock",
+            "value": "*\n * An integer representing an offical Moodle release within a branch. The\n * initial release of any branch has the release number 0, subsequent offical\n * update releases then count up from there.\n * \n * @typedef {number|string} ReleaseNumber\n ",
+            "start": 2533,
+            "end": 2783,
+            "loc": {
+              "start": {
+                "line": 73,
+                "column": 0
+              },
+              "end": {
+                "line": 79,
+                "column": 3
+              }
+            }
+          },
+          {
+            "type": "CommentBlock",
+            "value": "*\n * Each released moodle build, both the weeklys and the offical updates are\n * assigned a build number which takes the form of a {@link DateNumber}.\n * \n * @typedef {DateNumber} BuildNumber\n ",
+            "start": 2785,
+            "end": 2982,
+            "loc": {
+              "start": {
+                "line": 81,
+                "column": 0
+              },
+              "end": {
+                "line": 86,
+                "column": 3
+              }
+            }
+          },
+          {
+            "type": "CommentBlock",
+            "value": "*\n * An 8-digit date representation used within a number of Moodle version\n * identifiers. The first four digits represent the year, the next two the\n * month and the last two the day of the month.\n *\n * For example, Christmas 2018 has the date number `20181225`.\n * \n * @typedef {string|number} DateNumber\n * @example '20181225'\n ",
+            "start": 2984,
+            "end": 3319,
+            "loc": {
+              "start": {
+                "line": 88,
+                "column": 0
+              },
+              "end": {
+                "line": 97,
+                "column": 3
+              }
+            }
+          },
+          {
+            "type": "CommentBlock",
+            "value": "*\n * A mapping form branch numbers to branching date numbers.\n * \n * @type {Object}\n * @protected\n ",
+            "start": 3321,
+            "end": 3424,
+            "loc": {
+              "start": {
+                "line": 99,
+                "column": 0
+              },
+              "end": {
+                "line": 104,
+                "column": 3
+              }
+            }
+          }
+        ],
+        "trailingComments": [
+          {
+            "type": "CommentBlock",
+            "value": "*\n * A list of LTS (Long-Term Support) branch numbers.\n *\n * @type {Array<number>}\n * @protected\n ",
+            "start": 3761,
+            "end": 3863,
+            "loc": {
+              "start": {
+                "line": 122,
+                "column": 0
+              },
+              "end": {
+                "line": 127,
+                "column": 3
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "VariableDeclaration",
+        "start": 3864,
+        "end": 3895,
+        "loc": {
+          "start": {
+            "line": 128,
+            "column": 0
+          },
+          "end": {
+            "line": 128,
+            "column": 31
+          }
+        },
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "start": 3870,
+            "end": 3894,
+            "loc": {
+              "start": {
+                "line": 128,
+                "column": 6
+              },
+              "end": {
+                "line": 128,
+                "column": 30
+              }
+            },
+            "id": {
+              "type": "Identifier",
+              "start": 3870,
+              "end": 3879,
+              "loc": {
+                "start": {
+                  "line": 128,
+                  "column": 6
+                },
+                "end": {
+                  "line": 128,
+                  "column": 15
+                },
+                "identifierName": "LTS_BNUMS"
+              },
+              "name": "LTS_BNUMS",
+              "leadingComments": null
+            },
+            "init": {
+              "type": "ArrayExpression",
+              "start": 3882,
+              "end": 3894,
+              "loc": {
+                "start": {
+                  "line": 128,
+                  "column": 18
+                },
+                "end": {
+                  "line": 128,
+                  "column": 30
+                }
+              },
+              "elements": [
+                {
+                  "type": "NumericLiteral",
+                  "start": 3883,
+                  "end": 3885,
+                  "loc": {
+                    "start": {
+                      "line": 128,
+                      "column": 19
+                    },
+                    "end": {
+                      "line": 128,
+                      "column": 21
+                    }
+                  },
+                  "extra": {
+                    "rawValue": 27,
+                    "raw": "27"
+                  },
+                  "value": 27
+                },
+                {
+                  "type": "NumericLiteral",
+                  "start": 3887,
+                  "end": 3889,
+                  "loc": {
+                    "start": {
+                      "line": 128,
+                      "column": 23
+                    },
+                    "end": {
+                      "line": 128,
+                      "column": 25
+                    }
+                  },
+                  "extra": {
+                    "rawValue": 31,
+                    "raw": "31"
+                  },
+                  "value": 31
+                },
+                {
+                  "type": "NumericLiteral",
+                  "start": 3891,
+                  "end": 3893,
+                  "loc": {
+                    "start": {
+                      "line": 128,
+                      "column": 27
+                    },
+                    "end": {
+                      "line": 128,
+                      "column": 29
+                    }
+                  },
+                  "extra": {
+                    "rawValue": 35,
+                    "raw": "35"
+                  },
+                  "value": 35
+                }
+              ]
+            },
+            "leadingComments": null
+          }
+        ],
+        "kind": "const",
+        "leadingComments": [
+          {
+            "type": "CommentBlock",
+            "value": "*\n * A list of LTS (Long-Term Support) branch numbers.\n *\n * @type {Array<number>}\n * @protected\n ",
+            "start": 3761,
+            "end": 3863,
+            "loc": {
+              "start": {
+                "line": 122,
+                "column": 0
+              },
+              "end": {
+                "line": 127,
+                "column": 3
+              }
+            }
+          }
+        ],
+        "trailingComments": [
+          {
+            "type": "CommentBlock",
+            "value": "*\n * A lookup table to test if a given branch number is a long-term support (LTS)\n * branch. This lookup table is generated from {@link LTS_BNUMS}.\n *\n * @type {Object}\n * @protected\n * @see LTS_BNUMS\n ",
+            "start": 3897,
+            "end": 4103,
+            "loc": {
+              "start": {
+                "line": 130,
+                "column": 0
+              },
+              "end": {
+                "line": 137,
+                "column": 3
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "VariableDeclaration",
+        "start": 4104,
+        "end": 4131,
+        "loc": {
+          "start": {
+            "line": 138,
+            "column": 0
+          },
+          "end": {
+            "line": 138,
+            "column": 27
+          }
+        },
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "start": 4110,
+            "end": 4130,
+            "loc": {
+              "start": {
+                "line": 138,
+                "column": 6
+              },
+              "end": {
+                "line": 138,
+                "column": 26
+              }
+            },
+            "id": {
+              "type": "Identifier",
+              "start": 4110,
+              "end": 4125,
+              "loc": {
+                "start": {
+                  "line": 138,
+                  "column": 6
+                },
+                "end": {
+                  "line": 138,
+                  "column": 21
+                },
+                "identifierName": "BNUM_LTS_LOOKUP"
+              },
+              "name": "BNUM_LTS_LOOKUP",
+              "leadingComments": null
+            },
+            "init": {
+              "type": "ObjectExpression",
+              "start": 4128,
+              "end": 4130,
+              "loc": {
+                "start": {
+                  "line": 138,
+                  "column": 24
+                },
+                "end": {
+                  "line": 138,
+                  "column": 26
+                }
+              },
+              "properties": []
+            },
+            "leadingComments": null
+          }
+        ],
+        "kind": "const",
+        "leadingComments": [
+          {
+            "type": "CommentBlock",
+            "value": "*\n * A lookup table to test if a given branch number is a long-term support (LTS)\n * branch. This lookup table is generated from {@link LTS_BNUMS}.\n *\n * @type {Object}\n * @protected\n * @see LTS_BNUMS\n ",
+            "start": 3897,
+            "end": 4103,
+            "loc": {
+              "start": {
+                "line": 130,
+                "column": 0
+              },
+              "end": {
+                "line": 137,
+                "column": 3
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "ForOfStatement",
+        "start": 4132,
+        "end": 4197,
+        "loc": {
+          "start": {
+            "line": 139,
+            "column": 0
+          },
+          "end": {
+            "line": 141,
+            "column": 1
+          }
+        },
+        "left": {
+          "type": "VariableDeclaration",
+          "start": 4136,
+          "end": 4146,
+          "loc": {
+            "start": {
+              "line": 139,
+              "column": 4
+            },
+            "end": {
+              "line": 139,
+              "column": 14
+            }
+          },
+          "declarations": [
+            {
+              "type": "VariableDeclarator",
+              "start": 4142,
+              "end": 4146,
+              "loc": {
+                "start": {
+                  "line": 139,
+                  "column": 10
+                },
+                "end": {
+                  "line": 139,
+                  "column": 14
+                }
+              },
+              "id": {
+                "type": "Identifier",
+                "start": 4142,
+                "end": 4146,
+                "loc": {
+                  "start": {
+                    "line": 139,
+                    "column": 10
+                  },
+                  "end": {
+                    "line": 139,
+                    "column": 14
+                  },
+                  "identifierName": "bnum"
+                },
+                "name": "bnum"
+              },
+              "init": null
+            }
+          ],
+          "kind": "const"
+        },
+        "right": {
+          "type": "Identifier",
+          "start": 4150,
+          "end": 4159,
+          "loc": {
+            "start": {
+              "line": 139,
+              "column": 18
+            },
+            "end": {
+              "line": 139,
+              "column": 27
+            },
+            "identifierName": "LTS_BNUMS"
+          },
+          "name": "LTS_BNUMS"
+        },
+        "body": {
+          "type": "BlockStatement",
+          "start": 4160,
+          "end": 4197,
+          "loc": {
+            "start": {
+              "line": 139,
+              "column": 28
+            },
+            "end": {
+              "line": 141,
+              "column": 1
+            }
+          },
+          "body": [
+            {
+              "type": "ExpressionStatement",
+              "start": 4166,
+              "end": 4195,
+              "loc": {
+                "start": {
+                  "line": 140,
+                  "column": 4
+                },
+                "end": {
+                  "line": 140,
+                  "column": 33
+                }
+              },
+              "expression": {
+                "type": "AssignmentExpression",
+                "start": 4166,
+                "end": 4194,
+                "loc": {
+                  "start": {
+                    "line": 140,
+                    "column": 4
+                  },
+                  "end": {
+                    "line": 140,
+                    "column": 32
+                  }
+                },
+                "operator": "=",
+                "left": {
+                  "type": "MemberExpression",
+                  "start": 4166,
+                  "end": 4187,
+                  "loc": {
+                    "start": {
+                      "line": 140,
+                      "column": 4
+                    },
+                    "end": {
+                      "line": 140,
+                      "column": 25
+                    }
+                  },
+                  "object": {
+                    "type": "Identifier",
+                    "start": 4166,
+                    "end": 4181,
+                    "loc": {
+                      "start": {
+                        "line": 140,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 140,
+                        "column": 19
+                      },
+                      "identifierName": "BNUM_LTS_LOOKUP"
+                    },
+                    "name": "BNUM_LTS_LOOKUP"
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "start": 4182,
+                    "end": 4186,
+                    "loc": {
+                      "start": {
+                        "line": 140,
+                        "column": 20
+                      },
+                      "end": {
+                        "line": 140,
+                        "column": 24
+                      },
+                      "identifierName": "bnum"
+                    },
+                    "name": "bnum"
+                  },
+                  "computed": true
+                },
+                "right": {
+                  "type": "BooleanLiteral",
+                  "start": 4190,
+                  "end": 4194,
+                  "loc": {
+                    "start": {
+                      "line": 140,
+                      "column": 28
+                    },
+                    "end": {
+                      "line": 140,
+                      "column": 32
+                    }
+                  },
+                  "value": true
+                }
+              }
+            }
+          ],
+          "directives": [],
+          "trailingComments": null
+        },
+        "trailingComments": [
+          {
+            "type": "CommentBlock",
+            "value": "*\n * A class for parsing and representing\n * [version information](https://docs.moodle.org/35/en/Moodle_version) for the\n * [Moodle VLE](http://moodle.org/).\n *\n * The class can parse both the human-friendly Moodle release strings like\n * `3.3.6 (Build: 20180517)`, and the underlying raw version numbers like\n * `2017051506`.\n *\n * Note that this class only reliably understands version information from\n * Moodle 2.2 up. The reason for this limitation is that this is the first\n * Moodle version which uses the now standard versioning conventions.\n *\n * @see https://docs.moodle.org/35/en/Moodle_version\n * @see https://docs.moodle.org/dev/Releases\n ",
+            "start": 4199,
+            "end": 4855,
+            "loc": {
+              "start": {
+                "line": 143,
+                "column": 0
+              },
+              "end": {
+                "line": 158,
+                "column": 3
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "ExportDefaultDeclaration",
+        "start": 4856,
+        "end": 5080,
+        "loc": {
+          "start": {
+            "line": 159,
+            "column": 0
+          },
+          "end": {
+            "line": 172,
+            "column": 1
+          }
+        },
+        "declaration": {
+          "type": "ClassDeclaration",
+          "start": 4871,
+          "end": 5080,
+          "loc": {
+            "start": {
+              "line": 159,
+              "column": 15
+            },
+            "end": {
+              "line": 172,
+              "column": 1
+            }
+          },
+          "id": {
+            "type": "Identifier",
+            "start": 4877,
+            "end": 4890,
+            "loc": {
+              "start": {
+                "line": 159,
+                "column": 21
+              },
+              "end": {
+                "line": 159,
+                "column": 34
+              },
+              "identifierName": "MoodleVersion"
+            },
+            "name": "MoodleVersion",
+            "leadingComments": null
+          },
+          "superClass": null,
+          "body": {
+            "type": "ClassBody",
+            "start": 4891,
+            "end": 5080,
+            "loc": {
+              "start": {
+                "line": 159,
+                "column": 35
+              },
+              "end": {
+                "line": 172,
+                "column": 1
+              }
+            },
+            "body": [
+              {
+                "type": "ClassMethod",
+                "start": 4945,
+                "end": 4966,
+                "loc": {
+                  "start": {
+                    "line": 163,
+                    "column": 4
+                  },
+                  "end": {
+                    "line": 164,
+                    "column": 5
+                  }
+                },
+                "static": false,
+                "computed": false,
+                "key": {
+                  "type": "Identifier",
+                  "start": 4945,
+                  "end": 4956,
+                  "loc": {
+                    "start": {
+                      "line": 163,
+                      "column": 4
+                    },
+                    "end": {
+                      "line": 163,
+                      "column": 15
+                    },
+                    "identifierName": "constructor"
+                  },
+                  "name": "constructor",
+                  "leadingComments": null
+                },
+                "kind": "constructor",
+                "id": null,
+                "generator": false,
+                "expression": false,
+                "async": false,
+                "params": [],
+                "body": {
+                  "type": "BlockStatement",
+                  "start": 4959,
+                  "end": 4966,
+                  "loc": {
+                    "start": {
+                      "line": 163,
+                      "column": 18
+                    },
+                    "end": {
+                      "line": 164,
+                      "column": 5
+                    }
+                  },
+                  "body": [],
+                  "directives": [],
+                  "leadingComments": null,
+                  "trailingComments": null
+                },
+                "leadingComments": [
+                  {
+                    "type": "CommentBlock",
+                    "value": "*\n     * Constructor description.\n     ",
+                    "start": 4897,
+                    "end": 4940,
+                    "loc": {
+                      "start": {
+                        "line": 160,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 162,
+                        "column": 7
+                      }
+                    }
+                  }
+                ],
+                "trailingComments": [
+                  {
+                    "type": "CommentBlock",
+                    "value": "*\n     * toString() description.\n     ",
+                    "start": 4976,
+                    "end": 5018,
+                    "loc": {
+                      "start": {
+                        "line": 166,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 168,
+                        "column": 7
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "ClassMethod",
+                "start": 5023,
+                "end": 5078,
+                "loc": {
+                  "start": {
+                    "line": 169,
+                    "column": 4
+                  },
+                  "end": {
+                    "line": 171,
+                    "column": 5
+                  }
+                },
+                "static": false,
+                "computed": false,
+                "key": {
+                  "type": "Identifier",
+                  "start": 5023,
+                  "end": 5031,
+                  "loc": {
+                    "start": {
+                      "line": 169,
+                      "column": 4
+                    },
+                    "end": {
+                      "line": 169,
+                      "column": 12
+                    },
+                    "identifierName": "toString"
+                  },
+                  "name": "toString",
+                  "leadingComments": null
+                },
+                "kind": "method",
+                "id": null,
+                "generator": false,
+                "expression": false,
+                "async": false,
+                "params": [],
+                "body": {
+                  "type": "BlockStatement",
+                  "start": 5033,
+                  "end": 5078,
+                  "loc": {
+                    "start": {
+                      "line": 169,
+                      "column": 14
+                    },
+                    "end": {
+                      "line": 171,
+                      "column": 5
+                    }
+                  },
+                  "body": [
+                    {
+                      "type": "ReturnStatement",
+                      "start": 5043,
+                      "end": 5072,
+                      "loc": {
+                        "start": {
+                          "line": 170,
+                          "column": 8
+                        },
+                        "end": {
+                          "line": 170,
+                          "column": 37
+                        }
+                      },
+                      "argument": {
+                        "type": "StringLiteral",
+                        "start": 5050,
+                        "end": 5071,
+                        "loc": {
+                          "start": {
+                            "line": 170,
+                            "column": 15
+                          },
+                          "end": {
+                            "line": 170,
+                            "column": 36
+                          }
+                        },
+                        "extra": {
+                          "rawValue": "Some Moodle Version",
+                          "raw": "'Some Moodle Version'"
+                        },
+                        "value": "Some Moodle Version"
+                      }
+                    }
+                  ],
+                  "directives": []
+                },
+                "leadingComments": [
+                  {
+                    "type": "CommentBlock",
+                    "value": "*\n     * toString() description.\n     ",
+                    "start": 4976,
+                    "end": 5018,
+                    "loc": {
+                      "start": {
+                        "line": 166,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 168,
+                        "column": 7
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "leadingComments": [
+            {
+              "type": "CommentBlock",
+              "value": "*\n * A class for parsing and representing\n * [version information](https://docs.moodle.org/35/en/Moodle_version) for the\n * [Moodle VLE](http://moodle.org/).\n *\n * The class can parse both the human-friendly Moodle release strings like\n * `3.3.6 (Build: 20180517)`, and the underlying raw version numbers like\n * `2017051506`.\n *\n * Note that this class only reliably understands version information from\n * Moodle 2.2 up. The reason for this limitation is that this is the first\n * Moodle version which uses the now standard versioning conventions.\n *\n * @see https://docs.moodle.org/35/en/Moodle_version\n * @see https://docs.moodle.org/dev/Releases\n ",
+              "start": 4199,
+              "end": 4855,
+              "loc": {
+                "start": {
+                  "line": 143,
+                  "column": 0
+                },
+                "end": {
+                  "line": 158,
+                  "column": 3
+                }
+              }
+            }
+          ],
+          "trailingComments": []
+        },
+        "leadingComments": [
+          {
+            "type": "CommentBlock",
+            "value": "*\n * A class for parsing and representing\n * [version information](https://docs.moodle.org/35/en/Moodle_version) for the\n * [Moodle VLE](http://moodle.org/).\n *\n * The class can parse both the human-friendly Moodle release strings like\n * `3.3.6 (Build: 20180517)`, and the underlying raw version numbers like\n * `2017051506`.\n *\n * Note that this class only reliably understands version information from\n * Moodle 2.2 up. The reason for this limitation is that this is the first\n * Moodle version which uses the now standard versioning conventions.\n *\n * @see https://docs.moodle.org/35/en/Moodle_version\n * @see https://docs.moodle.org/dev/Releases\n ",
+            "start": 4199,
+            "end": 4855,
+            "loc": {
+              "start": {
+                "line": 143,
+                "column": 0
+              },
+              "end": {
+                "line": 158,
+                "column": 3
+              }
+            }
+          }
+        ]
+      },
+      {
+        "type": "EmptyStatement",
+        "start": 5080,
+        "end": 5081,
+        "loc": {
+          "start": {
+            "line": 172,
+            "column": 1
+          },
+          "end": {
+            "line": 172,
+            "column": 2
+          }
+        }
+      }
+    ],
+    "directives": []
+  },
+  "comments": [
+    {
+      "type": "CommentBlock",
+      "value": "*\n * A Moodle version string. These are the version numbers used on the\n * [Moodle download page](https://download.moodle.org/releases/latest/) and\n * displayed in the footer of the Moodle admin area.\n *\n * Moodle version strings generally consist of the branch string separated from\n * the release number by a period. The initial release for a given branch is\n * given the release number zero, which may be omitted. Alpha and Beta releases\n * have `dev` appended, and weekly releases have a plus symbol appended.\n *\n * For example, all the development releases of the Moodle 3.5 branch have the\n * version string `3.5dev`, the initial release is `3.5`, the\n * first update release is `3.5.1`, and all weekly releases between the\n * release of `3.5.1` and `3.5.2` share `3.5.1+`.\n *\n * @typedef {string} VersionString\n * @example '3.5dev'\n * @example '3.5'\n * @example '3.5+'\n * @example '3.5.1'\n * @example '3.5.1+'\n ",
+      "start": 25,
+      "end": 947,
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 0
+        },
+        "end": {
+          "line": 24,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * A moodle version number. These version numbers are used under-the-hood in\n * the Moodle source code. They consist of the branch's branch date number\n * followed by the release number, optionally followed by a period and an\n * incremental change number.\n *\n * For example, the Moodle 3.3.6 release has the version number `2017051506.00`.\n * The branch date number for Moodle 3.3 is `20170515` (a {@link DateNumber}),\n * which is then followed by the two-digit form of the release number, `06`, and\n * an incremental change number of `00`.\n *\n * @typedef {string|number} VersionNumber\n * @example '2017051506.00'\n * @see DateNumber\n ",
+      "start": 949,
+      "end": 1589,
+      "loc": {
+        "start": {
+          "line": 26,
+          "column": 0
+        },
+        "end": {
+          "line": 40,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * A Moodle branch string. These are the human-friendly major-version numbers\n * used throught the official Moodle documentation. They take the form of two\n * digits separated by a period, e.g. `3.5`.\n * \n * @typedef {string} BranchString\n * @example '3.5'\n ",
+      "start": 1591,
+      "end": 1855,
+      "loc": {
+        "start": {
+          "line": 42,
+          "column": 0
+        },
+        "end": {
+          "line": 49,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * A Moodle branch number. These are used under-the-hood to represent Moodel\n * branches within the Moodle code. They take the form of a two-digit integer\n * number - the human-friendly branch without the period e.g. Moodle 3.5 has a\n * branch number of `35`.\n *\n * @typedef {number|string} BranchNumber\n * @see BranchString\n * @example 35\n ",
+      "start": 1857,
+      "end": 2204,
+      "loc": {
+        "start": {
+          "line": 51,
+          "column": 0
+        },
+        "end": {
+          "line": 60,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * A Moodle release string. These are the most detailed version numbers\n * displayed to users, consisting of the version string and a build number.\n *\n * The release string for Moodle 3.3.6 is `3.3.6 (Build: 20180517)`.\n *\n * @typedef {string} ReleaseString\n * @see VersionString\n * @example '3.3.6 (Build: 20180517)'\n ",
+      "start": 2206,
+      "end": 2531,
+      "loc": {
+        "start": {
+          "line": 62,
+          "column": 0
+        },
+        "end": {
+          "line": 71,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * An integer representing an offical Moodle release within a branch. The\n * initial release of any branch has the release number 0, subsequent offical\n * update releases then count up from there.\n * \n * @typedef {number|string} ReleaseNumber\n ",
+      "start": 2533,
+      "end": 2783,
+      "loc": {
+        "start": {
+          "line": 73,
+          "column": 0
+        },
+        "end": {
+          "line": 79,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * Each released moodle build, both the weeklys and the offical updates are\n * assigned a build number which takes the form of a {@link DateNumber}.\n * \n * @typedef {DateNumber} BuildNumber\n ",
+      "start": 2785,
+      "end": 2982,
+      "loc": {
+        "start": {
+          "line": 81,
+          "column": 0
+        },
+        "end": {
+          "line": 86,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * An 8-digit date representation used within a number of Moodle version\n * identifiers. The first four digits represent the year, the next two the\n * month and the last two the day of the month.\n *\n * For example, Christmas 2018 has the date number `20181225`.\n * \n * @typedef {string|number} DateNumber\n * @example '20181225'\n ",
+      "start": 2984,
+      "end": 3319,
+      "loc": {
+        "start": {
+          "line": 88,
+          "column": 0
+        },
+        "end": {
+          "line": 97,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * A mapping form branch numbers to branching date numbers.\n * \n * @type {Object}\n * @protected\n ",
+      "start": 3321,
+      "end": 3424,
+      "loc": {
+        "start": {
+          "line": 99,
+          "column": 0
+        },
+        "end": {
+          "line": 104,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * A list of LTS (Long-Term Support) branch numbers.\n *\n * @type {Array<number>}\n * @protected\n ",
+      "start": 3761,
+      "end": 3863,
+      "loc": {
+        "start": {
+          "line": 122,
+          "column": 0
+        },
+        "end": {
+          "line": 127,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * A lookup table to test if a given branch number is a long-term support (LTS)\n * branch. This lookup table is generated from {@link LTS_BNUMS}.\n *\n * @type {Object}\n * @protected\n * @see LTS_BNUMS\n ",
+      "start": 3897,
+      "end": 4103,
+      "loc": {
+        "start": {
+          "line": 130,
+          "column": 0
+        },
+        "end": {
+          "line": 137,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * A class for parsing and representing\n * [version information](https://docs.moodle.org/35/en/Moodle_version) for the\n * [Moodle VLE](http://moodle.org/).\n *\n * The class can parse both the human-friendly Moodle release strings like\n * `3.3.6 (Build: 20180517)`, and the underlying raw version numbers like\n * `2017051506`.\n *\n * Note that this class only reliably understands version information from\n * Moodle 2.2 up. The reason for this limitation is that this is the first\n * Moodle version which uses the now standard versioning conventions.\n *\n * @see https://docs.moodle.org/35/en/Moodle_version\n * @see https://docs.moodle.org/dev/Releases\n ",
+      "start": 4199,
+      "end": 4855,
+      "loc": {
+        "start": {
+          "line": 143,
+          "column": 0
+        },
+        "end": {
+          "line": 158,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n     * Constructor description.\n     ",
+      "start": 4897,
+      "end": 4940,
+      "loc": {
+        "start": {
+          "line": 160,
+          "column": 4
+        },
+        "end": {
+          "line": 162,
+          "column": 7
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n     * toString() description.\n     ",
+      "start": 4976,
+      "end": 5018,
+      "loc": {
+        "start": {
+          "line": 166,
+          "column": 4
+        },
+        "end": {
+          "line": 168,
+          "column": 7
+        }
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "type": {
+        "label": "import",
+        "keyword": "import",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "import",
+      "start": 0,
+      "end": 6,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 6
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "is",
+      "start": 7,
+      "end": 9,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 7
+        },
+        "end": {
+          "line": 1,
+          "column": 9
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "from",
+      "start": 10,
+      "end": 14,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 10
+        },
+        "end": {
+          "line": 1,
+          "column": 14
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "is_js",
+      "start": 15,
+      "end": 22,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 15
+        },
+        "end": {
+          "line": 1,
+          "column": 22
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ";",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 22,
+      "end": 23,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 22
+        },
+        "end": {
+          "line": 1,
+          "column": 23
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * A Moodle version string. These are the version numbers used on the\n * [Moodle download page](https://download.moodle.org/releases/latest/) and\n * displayed in the footer of the Moodle admin area.\n *\n * Moodle version strings generally consist of the branch string separated from\n * the release number by a period. The initial release for a given branch is\n * given the release number zero, which may be omitted. Alpha and Beta releases\n * have `dev` appended, and weekly releases have a plus symbol appended.\n *\n * For example, all the development releases of the Moodle 3.5 branch have the\n * version string `3.5dev`, the initial release is `3.5`, the\n * first update release is `3.5.1`, and all weekly releases between the\n * release of `3.5.1` and `3.5.2` share `3.5.1+`.\n *\n * @typedef {string} VersionString\n * @example '3.5dev'\n * @example '3.5'\n * @example '3.5+'\n * @example '3.5.1'\n * @example '3.5.1+'\n ",
+      "start": 25,
+      "end": 947,
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 0
+        },
+        "end": {
+          "line": 24,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * A moodle version number. These version numbers are used under-the-hood in\n * the Moodle source code. They consist of the branch's branch date number\n * followed by the release number, optionally followed by a period and an\n * incremental change number.\n *\n * For example, the Moodle 3.3.6 release has the version number `2017051506.00`.\n * The branch date number for Moodle 3.3 is `20170515` (a {@link DateNumber}),\n * which is then followed by the two-digit form of the release number, `06`, and\n * an incremental change number of `00`.\n *\n * @typedef {string|number} VersionNumber\n * @example '2017051506.00'\n * @see DateNumber\n ",
+      "start": 949,
+      "end": 1589,
+      "loc": {
+        "start": {
+          "line": 26,
+          "column": 0
+        },
+        "end": {
+          "line": 40,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * A Moodle branch string. These are the human-friendly major-version numbers\n * used throught the official Moodle documentation. They take the form of two\n * digits separated by a period, e.g. `3.5`.\n * \n * @typedef {string} BranchString\n * @example '3.5'\n ",
+      "start": 1591,
+      "end": 1855,
+      "loc": {
+        "start": {
+          "line": 42,
+          "column": 0
+        },
+        "end": {
+          "line": 49,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * A Moodle branch number. These are used under-the-hood to represent Moodel\n * branches within the Moodle code. They take the form of a two-digit integer\n * number - the human-friendly branch without the period e.g. Moodle 3.5 has a\n * branch number of `35`.\n *\n * @typedef {number|string} BranchNumber\n * @see BranchString\n * @example 35\n ",
+      "start": 1857,
+      "end": 2204,
+      "loc": {
+        "start": {
+          "line": 51,
+          "column": 0
+        },
+        "end": {
+          "line": 60,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * A Moodle release string. These are the most detailed version numbers\n * displayed to users, consisting of the version string and a build number.\n *\n * The release string for Moodle 3.3.6 is `3.3.6 (Build: 20180517)`.\n *\n * @typedef {string} ReleaseString\n * @see VersionString\n * @example '3.3.6 (Build: 20180517)'\n ",
+      "start": 2206,
+      "end": 2531,
+      "loc": {
+        "start": {
+          "line": 62,
+          "column": 0
+        },
+        "end": {
+          "line": 71,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * An integer representing an offical Moodle release within a branch. The\n * initial release of any branch has the release number 0, subsequent offical\n * update releases then count up from there.\n * \n * @typedef {number|string} ReleaseNumber\n ",
+      "start": 2533,
+      "end": 2783,
+      "loc": {
+        "start": {
+          "line": 73,
+          "column": 0
+        },
+        "end": {
+          "line": 79,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * Each released moodle build, both the weeklys and the offical updates are\n * assigned a build number which takes the form of a {@link DateNumber}.\n * \n * @typedef {DateNumber} BuildNumber\n ",
+      "start": 2785,
+      "end": 2982,
+      "loc": {
+        "start": {
+          "line": 81,
+          "column": 0
+        },
+        "end": {
+          "line": 86,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * An 8-digit date representation used within a number of Moodle version\n * identifiers. The first four digits represent the year, the next two the\n * month and the last two the day of the month.\n *\n * For example, Christmas 2018 has the date number `20181225`.\n * \n * @typedef {string|number} DateNumber\n * @example '20181225'\n ",
+      "start": 2984,
+      "end": 3319,
+      "loc": {
+        "start": {
+          "line": 88,
+          "column": 0
+        },
+        "end": {
+          "line": 97,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * A mapping form branch numbers to branching date numbers.\n * \n * @type {Object}\n * @protected\n ",
+      "start": 3321,
+      "end": 3424,
+      "loc": {
+        "start": {
+          "line": 99,
+          "column": 0
+        },
+        "end": {
+          "line": 104,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "const",
+        "keyword": "const",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "const",
+      "start": 3425,
+      "end": 3430,
+      "loc": {
+        "start": {
+          "line": 105,
+          "column": 0
+        },
+        "end": {
+          "line": 105,
+          "column": 5
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "BNUM_BDNUM_MAP",
+      "start": 3431,
+      "end": 3445,
+      "loc": {
+        "start": {
+          "line": 105,
+          "column": 6
+        },
+        "end": {
+          "line": 105,
+          "column": 20
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "=",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": true,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "=",
+      "start": 3446,
+      "end": 3447,
+      "loc": {
+        "start": {
+          "line": 105,
+          "column": 21
+        },
+        "end": {
+          "line": 105,
+          "column": 22
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "{",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 3448,
+      "end": 3449,
+      "loc": {
+        "start": {
+          "line": 105,
+          "column": 23
+        },
+        "end": {
+          "line": 105,
+          "column": 24
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "22",
+      "start": 3454,
+      "end": 3458,
+      "loc": {
+        "start": {
+          "line": 106,
+          "column": 4
+        },
+        "end": {
+          "line": 106,
+          "column": 8
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3458,
+      "end": 3459,
+      "loc": {
+        "start": {
+          "line": 106,
+          "column": 8
+        },
+        "end": {
+          "line": 106,
+          "column": 9
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "20111205",
+      "start": 3460,
+      "end": 3470,
+      "loc": {
+        "start": {
+          "line": 106,
+          "column": 10
+        },
+        "end": {
+          "line": 106,
+          "column": 20
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3470,
+      "end": 3471,
+      "loc": {
+        "start": {
+          "line": 106,
+          "column": 20
+        },
+        "end": {
+          "line": 106,
+          "column": 21
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "23",
+      "start": 3476,
+      "end": 3480,
+      "loc": {
+        "start": {
+          "line": 107,
+          "column": 4
+        },
+        "end": {
+          "line": 107,
+          "column": 8
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3480,
+      "end": 3481,
+      "loc": {
+        "start": {
+          "line": 107,
+          "column": 8
+        },
+        "end": {
+          "line": 107,
+          "column": 9
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "20120625",
+      "start": 3482,
+      "end": 3492,
+      "loc": {
+        "start": {
+          "line": 107,
+          "column": 10
+        },
+        "end": {
+          "line": 107,
+          "column": 20
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3492,
+      "end": 3493,
+      "loc": {
+        "start": {
+          "line": 107,
+          "column": 20
+        },
+        "end": {
+          "line": 107,
+          "column": 21
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "24",
+      "start": 3498,
+      "end": 3502,
+      "loc": {
+        "start": {
+          "line": 108,
+          "column": 4
+        },
+        "end": {
+          "line": 108,
+          "column": 8
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3502,
+      "end": 3503,
+      "loc": {
+        "start": {
+          "line": 108,
+          "column": 8
+        },
+        "end": {
+          "line": 108,
+          "column": 9
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "20121203",
+      "start": 3504,
+      "end": 3514,
+      "loc": {
+        "start": {
+          "line": 108,
+          "column": 10
+        },
+        "end": {
+          "line": 108,
+          "column": 20
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3514,
+      "end": 3515,
+      "loc": {
+        "start": {
+          "line": 108,
+          "column": 20
+        },
+        "end": {
+          "line": 108,
+          "column": 21
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "25",
+      "start": 3520,
+      "end": 3524,
+      "loc": {
+        "start": {
+          "line": 109,
+          "column": 4
+        },
+        "end": {
+          "line": 109,
+          "column": 8
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3524,
+      "end": 3525,
+      "loc": {
+        "start": {
+          "line": 109,
+          "column": 8
+        },
+        "end": {
+          "line": 109,
+          "column": 9
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "20130514",
+      "start": 3526,
+      "end": 3536,
+      "loc": {
+        "start": {
+          "line": 109,
+          "column": 10
+        },
+        "end": {
+          "line": 109,
+          "column": 20
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3536,
+      "end": 3537,
+      "loc": {
+        "start": {
+          "line": 109,
+          "column": 20
+        },
+        "end": {
+          "line": 109,
+          "column": 21
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "26",
+      "start": 3542,
+      "end": 3546,
+      "loc": {
+        "start": {
+          "line": 110,
+          "column": 4
+        },
+        "end": {
+          "line": 110,
+          "column": 8
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3546,
+      "end": 3547,
+      "loc": {
+        "start": {
+          "line": 110,
+          "column": 8
+        },
+        "end": {
+          "line": 110,
+          "column": 9
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "20131118",
+      "start": 3548,
+      "end": 3558,
+      "loc": {
+        "start": {
+          "line": 110,
+          "column": 10
+        },
+        "end": {
+          "line": 110,
+          "column": 20
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3558,
+      "end": 3559,
+      "loc": {
+        "start": {
+          "line": 110,
+          "column": 20
+        },
+        "end": {
+          "line": 110,
+          "column": 21
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "27",
+      "start": 3564,
+      "end": 3568,
+      "loc": {
+        "start": {
+          "line": 111,
+          "column": 4
+        },
+        "end": {
+          "line": 111,
+          "column": 8
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3568,
+      "end": 3569,
+      "loc": {
+        "start": {
+          "line": 111,
+          "column": 8
+        },
+        "end": {
+          "line": 111,
+          "column": 9
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "20140512",
+      "start": 3570,
+      "end": 3580,
+      "loc": {
+        "start": {
+          "line": 111,
+          "column": 10
+        },
+        "end": {
+          "line": 111,
+          "column": 20
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3580,
+      "end": 3581,
+      "loc": {
+        "start": {
+          "line": 111,
+          "column": 20
+        },
+        "end": {
+          "line": 111,
+          "column": 21
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "28",
+      "start": 3586,
+      "end": 3590,
+      "loc": {
+        "start": {
+          "line": 112,
+          "column": 4
+        },
+        "end": {
+          "line": 112,
+          "column": 8
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3590,
+      "end": 3591,
+      "loc": {
+        "start": {
+          "line": 112,
+          "column": 8
+        },
+        "end": {
+          "line": 112,
+          "column": 9
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "20141110",
+      "start": 3592,
+      "end": 3602,
+      "loc": {
+        "start": {
+          "line": 112,
+          "column": 10
+        },
+        "end": {
+          "line": 112,
+          "column": 20
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3602,
+      "end": 3603,
+      "loc": {
+        "start": {
+          "line": 112,
+          "column": 20
+        },
+        "end": {
+          "line": 112,
+          "column": 21
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "29",
+      "start": 3608,
+      "end": 3612,
+      "loc": {
+        "start": {
+          "line": 113,
+          "column": 4
+        },
+        "end": {
+          "line": 113,
+          "column": 8
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3612,
+      "end": 3613,
+      "loc": {
+        "start": {
+          "line": 113,
+          "column": 8
+        },
+        "end": {
+          "line": 113,
+          "column": 9
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "20150511",
+      "start": 3614,
+      "end": 3624,
+      "loc": {
+        "start": {
+          "line": 113,
+          "column": 10
+        },
+        "end": {
+          "line": 113,
+          "column": 20
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3624,
+      "end": 3625,
+      "loc": {
+        "start": {
+          "line": 113,
+          "column": 20
+        },
+        "end": {
+          "line": 113,
+          "column": 21
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "30",
+      "start": 3630,
+      "end": 3634,
+      "loc": {
+        "start": {
+          "line": 114,
+          "column": 4
+        },
+        "end": {
+          "line": 114,
+          "column": 8
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3634,
+      "end": 3635,
+      "loc": {
+        "start": {
+          "line": 114,
+          "column": 8
+        },
+        "end": {
+          "line": 114,
+          "column": 9
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "20151116",
+      "start": 3636,
+      "end": 3646,
+      "loc": {
+        "start": {
+          "line": 114,
+          "column": 10
+        },
+        "end": {
+          "line": 114,
+          "column": 20
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3646,
+      "end": 3647,
+      "loc": {
+        "start": {
+          "line": 114,
+          "column": 20
+        },
+        "end": {
+          "line": 114,
+          "column": 21
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "31",
+      "start": 3652,
+      "end": 3656,
+      "loc": {
+        "start": {
+          "line": 115,
+          "column": 4
+        },
+        "end": {
+          "line": 115,
+          "column": 8
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3656,
+      "end": 3657,
+      "loc": {
+        "start": {
+          "line": 115,
+          "column": 8
+        },
+        "end": {
+          "line": 115,
+          "column": 9
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "20160523",
+      "start": 3658,
+      "end": 3668,
+      "loc": {
+        "start": {
+          "line": 115,
+          "column": 10
+        },
+        "end": {
+          "line": 115,
+          "column": 20
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3668,
+      "end": 3669,
+      "loc": {
+        "start": {
+          "line": 115,
+          "column": 20
+        },
+        "end": {
+          "line": 115,
+          "column": 21
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "32",
+      "start": 3674,
+      "end": 3678,
+      "loc": {
+        "start": {
+          "line": 116,
+          "column": 4
+        },
+        "end": {
+          "line": 116,
+          "column": 8
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3678,
+      "end": 3679,
+      "loc": {
+        "start": {
+          "line": 116,
+          "column": 8
+        },
+        "end": {
+          "line": 116,
+          "column": 9
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "20161205",
+      "start": 3680,
+      "end": 3690,
+      "loc": {
+        "start": {
+          "line": 116,
+          "column": 10
+        },
+        "end": {
+          "line": 116,
+          "column": 20
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3690,
+      "end": 3691,
+      "loc": {
+        "start": {
+          "line": 116,
+          "column": 20
+        },
+        "end": {
+          "line": 116,
+          "column": 21
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "33",
+      "start": 3696,
+      "end": 3700,
+      "loc": {
+        "start": {
+          "line": 117,
+          "column": 4
+        },
+        "end": {
+          "line": 117,
+          "column": 8
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3700,
+      "end": 3701,
+      "loc": {
+        "start": {
+          "line": 117,
+          "column": 8
+        },
+        "end": {
+          "line": 117,
+          "column": 9
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "20170515",
+      "start": 3702,
+      "end": 3712,
+      "loc": {
+        "start": {
+          "line": 117,
+          "column": 10
+        },
+        "end": {
+          "line": 117,
+          "column": 20
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3712,
+      "end": 3713,
+      "loc": {
+        "start": {
+          "line": 117,
+          "column": 20
+        },
+        "end": {
+          "line": 117,
+          "column": 21
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "34",
+      "start": 3718,
+      "end": 3722,
+      "loc": {
+        "start": {
+          "line": 118,
+          "column": 4
+        },
+        "end": {
+          "line": 118,
+          "column": 8
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3722,
+      "end": 3723,
+      "loc": {
+        "start": {
+          "line": 118,
+          "column": 8
+        },
+        "end": {
+          "line": 118,
+          "column": 9
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "20171113",
+      "start": 3724,
+      "end": 3734,
+      "loc": {
+        "start": {
+          "line": 118,
+          "column": 10
+        },
+        "end": {
+          "line": 118,
+          "column": 20
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3734,
+      "end": 3735,
+      "loc": {
+        "start": {
+          "line": 118,
+          "column": 20
+        },
+        "end": {
+          "line": 118,
+          "column": 21
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "35",
+      "start": 3740,
+      "end": 3744,
+      "loc": {
+        "start": {
+          "line": 119,
+          "column": 4
+        },
+        "end": {
+          "line": 119,
+          "column": 8
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ":",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3744,
+      "end": 3745,
+      "loc": {
+        "start": {
+          "line": 119,
+          "column": 8
+        },
+        "end": {
+          "line": 119,
+          "column": 9
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "20180517",
+      "start": 3746,
+      "end": 3756,
+      "loc": {
+        "start": {
+          "line": 119,
+          "column": 10
+        },
+        "end": {
+          "line": 119,
+          "column": 20
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "}",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 3757,
+      "end": 3758,
+      "loc": {
+        "start": {
+          "line": 120,
+          "column": 0
+        },
+        "end": {
+          "line": 120,
+          "column": 1
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ";",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3758,
+      "end": 3759,
+      "loc": {
+        "start": {
+          "line": 120,
+          "column": 1
+        },
+        "end": {
+          "line": 120,
+          "column": 2
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * A list of LTS (Long-Term Support) branch numbers.\n *\n * @type {Array<number>}\n * @protected\n ",
+      "start": 3761,
+      "end": 3863,
+      "loc": {
+        "start": {
+          "line": 122,
+          "column": 0
+        },
+        "end": {
+          "line": 127,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "const",
+        "keyword": "const",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "const",
+      "start": 3864,
+      "end": 3869,
+      "loc": {
+        "start": {
+          "line": 128,
+          "column": 0
+        },
+        "end": {
+          "line": 128,
+          "column": 5
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "LTS_BNUMS",
+      "start": 3870,
+      "end": 3879,
+      "loc": {
+        "start": {
+          "line": 128,
+          "column": 6
+        },
+        "end": {
+          "line": 128,
+          "column": 15
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "=",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": true,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "=",
+      "start": 3880,
+      "end": 3881,
+      "loc": {
+        "start": {
+          "line": 128,
+          "column": 16
+        },
+        "end": {
+          "line": 128,
+          "column": 17
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "[",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3882,
+      "end": 3883,
+      "loc": {
+        "start": {
+          "line": 128,
+          "column": 18
+        },
+        "end": {
+          "line": 128,
+          "column": 19
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "num",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": 27,
+      "start": 3883,
+      "end": 3885,
+      "loc": {
+        "start": {
+          "line": 128,
+          "column": 19
+        },
+        "end": {
+          "line": 128,
+          "column": 21
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3885,
+      "end": 3886,
+      "loc": {
+        "start": {
+          "line": 128,
+          "column": 21
+        },
+        "end": {
+          "line": 128,
+          "column": 22
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "num",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": 31,
+      "start": 3887,
+      "end": 3889,
+      "loc": {
+        "start": {
+          "line": 128,
+          "column": 23
+        },
+        "end": {
+          "line": 128,
+          "column": 25
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ",",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3889,
+      "end": 3890,
+      "loc": {
+        "start": {
+          "line": 128,
+          "column": 25
+        },
+        "end": {
+          "line": 128,
+          "column": 26
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "num",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": 35,
+      "start": 3891,
+      "end": 3893,
+      "loc": {
+        "start": {
+          "line": 128,
+          "column": 27
+        },
+        "end": {
+          "line": 128,
+          "column": 29
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "]",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3893,
+      "end": 3894,
+      "loc": {
+        "start": {
+          "line": 128,
+          "column": 29
+        },
+        "end": {
+          "line": 128,
+          "column": 30
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ";",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 3894,
+      "end": 3895,
+      "loc": {
+        "start": {
+          "line": 128,
+          "column": 30
+        },
+        "end": {
+          "line": 128,
+          "column": 31
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * A lookup table to test if a given branch number is a long-term support (LTS)\n * branch. This lookup table is generated from {@link LTS_BNUMS}.\n *\n * @type {Object}\n * @protected\n * @see LTS_BNUMS\n ",
+      "start": 3897,
+      "end": 4103,
+      "loc": {
+        "start": {
+          "line": 130,
+          "column": 0
+        },
+        "end": {
+          "line": 137,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "const",
+        "keyword": "const",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "const",
+      "start": 4104,
+      "end": 4109,
+      "loc": {
+        "start": {
+          "line": 138,
+          "column": 0
+        },
+        "end": {
+          "line": 138,
+          "column": 5
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "BNUM_LTS_LOOKUP",
+      "start": 4110,
+      "end": 4125,
+      "loc": {
+        "start": {
+          "line": 138,
+          "column": 6
+        },
+        "end": {
+          "line": 138,
+          "column": 21
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "=",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": true,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "=",
+      "start": 4126,
+      "end": 4127,
+      "loc": {
+        "start": {
+          "line": 138,
+          "column": 22
+        },
+        "end": {
+          "line": 138,
+          "column": 23
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "{",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 4128,
+      "end": 4129,
+      "loc": {
+        "start": {
+          "line": 138,
+          "column": 24
+        },
+        "end": {
+          "line": 138,
+          "column": 25
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "}",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 4129,
+      "end": 4130,
+      "loc": {
+        "start": {
+          "line": 138,
+          "column": 25
+        },
+        "end": {
+          "line": 138,
+          "column": 26
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ";",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 4130,
+      "end": 4131,
+      "loc": {
+        "start": {
+          "line": 138,
+          "column": 26
+        },
+        "end": {
+          "line": 138,
+          "column": 27
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "for",
+        "keyword": "for",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": true,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "for",
+      "start": 4132,
+      "end": 4135,
+      "loc": {
+        "start": {
+          "line": 139,
+          "column": 0
+        },
+        "end": {
+          "line": 139,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "(",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 4135,
+      "end": 4136,
+      "loc": {
+        "start": {
+          "line": 139,
+          "column": 3
+        },
+        "end": {
+          "line": 139,
+          "column": 4
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "const",
+        "keyword": "const",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "const",
+      "start": 4136,
+      "end": 4141,
+      "loc": {
+        "start": {
+          "line": 139,
+          "column": 4
+        },
+        "end": {
+          "line": 139,
+          "column": 9
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "bnum",
+      "start": 4142,
+      "end": 4146,
+      "loc": {
+        "start": {
+          "line": 139,
+          "column": 10
+        },
+        "end": {
+          "line": 139,
+          "column": 14
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "of",
+      "start": 4147,
+      "end": 4149,
+      "loc": {
+        "start": {
+          "line": 139,
+          "column": 15
+        },
+        "end": {
+          "line": 139,
+          "column": 17
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "LTS_BNUMS",
+      "start": 4150,
+      "end": 4159,
+      "loc": {
+        "start": {
+          "line": 139,
+          "column": 18
+        },
+        "end": {
+          "line": 139,
+          "column": 27
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ")",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 4159,
+      "end": 4160,
+      "loc": {
+        "start": {
+          "line": 139,
+          "column": 27
+        },
+        "end": {
+          "line": 139,
+          "column": 28
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "{",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 4160,
+      "end": 4161,
+      "loc": {
+        "start": {
+          "line": 139,
+          "column": 28
+        },
+        "end": {
+          "line": 139,
+          "column": 29
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "BNUM_LTS_LOOKUP",
+      "start": 4166,
+      "end": 4181,
+      "loc": {
+        "start": {
+          "line": 140,
+          "column": 4
+        },
+        "end": {
+          "line": 140,
+          "column": 19
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "[",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 4181,
+      "end": 4182,
+      "loc": {
+        "start": {
+          "line": 140,
+          "column": 19
+        },
+        "end": {
+          "line": 140,
+          "column": 20
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "bnum",
+      "start": 4182,
+      "end": 4186,
+      "loc": {
+        "start": {
+          "line": 140,
+          "column": 20
+        },
+        "end": {
+          "line": 140,
+          "column": 24
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "]",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 4186,
+      "end": 4187,
+      "loc": {
+        "start": {
+          "line": 140,
+          "column": 24
+        },
+        "end": {
+          "line": 140,
+          "column": 25
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "=",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": true,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "=",
+      "start": 4188,
+      "end": 4189,
+      "loc": {
+        "start": {
+          "line": 140,
+          "column": 26
+        },
+        "end": {
+          "line": 140,
+          "column": 27
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "true",
+        "keyword": "true",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "true",
+      "start": 4190,
+      "end": 4194,
+      "loc": {
+        "start": {
+          "line": 140,
+          "column": 28
+        },
+        "end": {
+          "line": 140,
+          "column": 32
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ";",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 4194,
+      "end": 4195,
+      "loc": {
+        "start": {
+          "line": 140,
+          "column": 32
+        },
+        "end": {
+          "line": 140,
+          "column": 33
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "}",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 4196,
+      "end": 4197,
+      "loc": {
+        "start": {
+          "line": 141,
+          "column": 0
+        },
+        "end": {
+          "line": 141,
+          "column": 1
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n * A class for parsing and representing\n * [version information](https://docs.moodle.org/35/en/Moodle_version) for the\n * [Moodle VLE](http://moodle.org/).\n *\n * The class can parse both the human-friendly Moodle release strings like\n * `3.3.6 (Build: 20180517)`, and the underlying raw version numbers like\n * `2017051506`.\n *\n * Note that this class only reliably understands version information from\n * Moodle 2.2 up. The reason for this limitation is that this is the first\n * Moodle version which uses the now standard versioning conventions.\n *\n * @see https://docs.moodle.org/35/en/Moodle_version\n * @see https://docs.moodle.org/dev/Releases\n ",
+      "start": 4199,
+      "end": 4855,
+      "loc": {
+        "start": {
+          "line": 143,
+          "column": 0
+        },
+        "end": {
+          "line": 158,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "export",
+        "keyword": "export",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "export",
+      "start": 4856,
+      "end": 4862,
+      "loc": {
+        "start": {
+          "line": 159,
+          "column": 0
+        },
+        "end": {
+          "line": 159,
+          "column": 6
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "default",
+        "keyword": "default",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "default",
+      "start": 4863,
+      "end": 4870,
+      "loc": {
+        "start": {
+          "line": 159,
+          "column": 7
+        },
+        "end": {
+          "line": 159,
+          "column": 14
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "class",
+        "keyword": "class",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "class",
+      "start": 4871,
+      "end": 4876,
+      "loc": {
+        "start": {
+          "line": 159,
+          "column": 15
+        },
+        "end": {
+          "line": 159,
+          "column": 20
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "MoodleVersion",
+      "start": 4877,
+      "end": 4890,
+      "loc": {
+        "start": {
+          "line": 159,
+          "column": 21
+        },
+        "end": {
+          "line": 159,
+          "column": 34
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "{",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 4891,
+      "end": 4892,
+      "loc": {
+        "start": {
+          "line": 159,
+          "column": 35
+        },
+        "end": {
+          "line": 159,
+          "column": 36
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n     * Constructor description.\n     ",
+      "start": 4897,
+      "end": 4940,
+      "loc": {
+        "start": {
+          "line": 160,
+          "column": 4
+        },
+        "end": {
+          "line": 162,
+          "column": 7
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "constructor",
+      "start": 4945,
+      "end": 4956,
+      "loc": {
+        "start": {
+          "line": 163,
+          "column": 4
+        },
+        "end": {
+          "line": 163,
+          "column": 15
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "(",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 4956,
+      "end": 4957,
+      "loc": {
+        "start": {
+          "line": 163,
+          "column": 15
+        },
+        "end": {
+          "line": 163,
+          "column": 16
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ")",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 4957,
+      "end": 4958,
+      "loc": {
+        "start": {
+          "line": 163,
+          "column": 16
+        },
+        "end": {
+          "line": 163,
+          "column": 17
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "{",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 4959,
+      "end": 4960,
+      "loc": {
+        "start": {
+          "line": 163,
+          "column": 18
+        },
+        "end": {
+          "line": 163,
+          "column": 19
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "}",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 4965,
+      "end": 4966,
+      "loc": {
+        "start": {
+          "line": 164,
+          "column": 4
+        },
+        "end": {
+          "line": 164,
+          "column": 5
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\n     * toString() description.\n     ",
+      "start": 4976,
+      "end": 5018,
+      "loc": {
+        "start": {
+          "line": 166,
+          "column": 4
+        },
+        "end": {
+          "line": 168,
+          "column": 7
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "toString",
+      "start": 5023,
+      "end": 5031,
+      "loc": {
+        "start": {
+          "line": 169,
+          "column": 4
+        },
+        "end": {
+          "line": 169,
+          "column": 12
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "(",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 5031,
+      "end": 5032,
+      "loc": {
+        "start": {
+          "line": 169,
+          "column": 12
+        },
+        "end": {
+          "line": 169,
+          "column": 13
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ")",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 5032,
+      "end": 5033,
+      "loc": {
+        "start": {
+          "line": 169,
+          "column": 13
+        },
+        "end": {
+          "line": 169,
+          "column": 14
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "{",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 5033,
+      "end": 5034,
+      "loc": {
+        "start": {
+          "line": 169,
+          "column": 14
+        },
+        "end": {
+          "line": 169,
+          "column": 15
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "return",
+        "keyword": "return",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "return",
+      "start": 5043,
+      "end": 5049,
+      "loc": {
+        "start": {
+          "line": 170,
+          "column": 8
+        },
+        "end": {
+          "line": 170,
+          "column": 14
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "Some Moodle Version",
+      "start": 5050,
+      "end": 5071,
+      "loc": {
+        "start": {
+          "line": 170,
+          "column": 15
+        },
+        "end": {
+          "line": 170,
+          "column": 36
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ";",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 5071,
+      "end": 5072,
+      "loc": {
+        "start": {
+          "line": 170,
+          "column": 36
+        },
+        "end": {
+          "line": 170,
+          "column": 37
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "}",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 5077,
+      "end": 5078,
+      "loc": {
+        "start": {
+          "line": 171,
+          "column": 4
+        },
+        "end": {
+          "line": 171,
+          "column": 5
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "}",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 5079,
+      "end": 5080,
+      "loc": {
+        "start": {
+          "line": 172,
+          "column": 0
+        },
+        "end": {
+          "line": 172,
+          "column": 1
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ";",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 5080,
+      "end": 5081,
+      "loc": {
+        "start": {
+          "line": 172,
+          "column": 1
+        },
+        "end": {
+          "line": 172,
+          "column": 2
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "eof",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 5081,
+      "end": 5081,
+      "loc": {
+        "start": {
+          "line": 172,
+          "column": 2
+        },
+        "end": {
+          "line": 172,
+          "column": 2
+        }
+      }
+    }
+  ]
+}
