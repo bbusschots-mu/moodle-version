@@ -206,6 +206,70 @@ module.exports = class MoodleVersion {
      * Constructor description.
      */
     constructor() {
+        /**
+         * @type {number}
+         */
+        this._branchNumber = undefined;
+    }
+    
+    /**
+     * The version&apos;s branch number, if known. This is the two-digit number
+     * used internally within the Moodle code to identify a branch, or major
+     * release.
+     *
+     * For example, all Moodle 3.5.* releases will have the branch number `35`.
+     *
+     * @type {number|undefined}
+     */
+    get branchNumber(){
+        return this._branchNumber;
+    }
+    
+    /**
+     * The branch number must be a two-digit integer between 10 and 99.
+     *
+     * @type {BranchNumber|undefined}
+     * @throws {TypeError}
+     */
+    set branchNumber(bn){
+        if(is.undefined(bn)){
+            this._branchNumber = undefined;
+        }else if(!String(bn).match(/^[1-9]\d$/)){
+            throw new TypeError(&apos;Branch Numbers must be integers between 10 and 99&apos;);
+        }else{
+            this._branchNumber = parseInt(bn);
+        }        
+    }
+    
+    /**
+     * The major version part of the version number, officially known as the
+     * *branch*.
+     *
+     * For example, the branch for each of the 3.4, 3.4+, 3.4.1, and 3.4.1+
+     * releases is `&apos;3.4&apos;`.
+     *
+     * @type {BranchString|undefined}
+     */
+    get branch(){
+        if(is.undefined(this._branchNumber)) return undefined;
+        return String(this._branchNumber).split(&apos;&apos;).join(&apos;.&apos;);
+    }
+    
+    /**
+     * The branch (AKA major version) must be a string consisting of two
+     * digits separated by a period, e.g. `&apos;3.5&apos;`.
+     *
+     * @type {BranchString}
+     * @throws {TypeError}
+     */
+    set branch(b){
+        if(is.undefined(b)){
+            this._branchNumber = undefined;
+        }else if(!String(b).match(/^\d[.]\d$/)){
+            throw new TypeError(&apos;Branches must be strings consisting of a digit, a period, and another digit&apos;);
+        }else{
+            this._branchNumber = parseInt(String(bn).split(&apos;.&apos;).join());
+        }
     }
     
     /**

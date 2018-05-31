@@ -318,6 +318,30 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
+    "src/moodleversion.js~moodleversion#branch",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-branch",
+    "src/MoodleVersion.js~MoodleVersion#branch",
+    "member"
+  ],
+  [
+    "src/moodleversion.js~moodleversion#branch",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-branch",
+    "src/MoodleVersion.js~MoodleVersion#branch",
+    "member"
+  ],
+  [
+    "src/moodleversion.js~moodleversion#branchnumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-branchNumber",
+    "src/MoodleVersion.js~MoodleVersion#branchNumber",
+    "member"
+  ],
+  [
+    "src/moodleversion.js~moodleversion#branchnumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-branchNumber",
+    "src/MoodleVersion.js~MoodleVersion#branchNumber",
+    "member"
+  ],
+  [
     "src/moodleversion.js~moodleversion#constructor",
     "class/src/MoodleVersion.js~MoodleVersion.html#instance-constructor-constructor",
     "src/MoodleVersion.js~MoodleVersion#constructor",

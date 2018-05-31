@@ -161,6 +161,97 @@ module.exports = class MoodleVersion {
      * Constructor description.
      */
     constructor() {
+        /**
+         * @type {number}
+         */
+        this._branchNumber = undefined;
+    }
+    
+    /**
+     * Convert a branch number into a branch string, i.e. `35` to `'3.5'`.
+     *
+     * @param {BranchNumber} bn
+     * @return {BranchString|undefined} If the passed value can't be converted
+     * to a branch `undefined` is returned.
+     */
+    static branchFromBranchNumber(bn){
+        if(is.undefined(bn)) return undefined;
+        let bnStr = String(bn);
+        if(!bnStr.match(/^[1-9]\d$/)) return undefined;
+        return bnStr.split('').join('.');
+    }
+    
+    /**
+     * Convert a branch string into a branch number, i.e. `'3.5'` to `35`.
+     *
+     * @param {BranchString} b
+     * @return {number|undefined} If the passed value can't be converted
+     * to a branch number `undefined` is returned.
+     */
+    static branchNumberFromBranch(b){
+        if(is.undefined(b)) return undefined;
+        if(!(is.string(b) && b.match(/^[1-9][.]\d$/))) return undefined;
+        return parseInt(b.split(/[.]/).join());
+    }
+    
+    /**
+     * The version's branch number, if known. This is the two-digit number
+     * used internally within the Moodle code to identify a branch, or major
+     * release.
+     *
+     * For example, all Moodle 3.5.* releases will have the branch number `35`.
+     *
+     * @type {number|undefined}
+     */
+    get branchNumber(){
+        return this._branchNumber;
+    }
+    
+    /**
+     * The branch number must be a two-digit integer between 10 and 99.
+     *
+     * @type {BranchNumber|undefined}
+     * @throws {TypeError}
+     */
+    set branchNumber(bn){
+        if(is.undefined(bn)){
+            this._branchNumber = undefined;
+        }else if(!String(bn).match(/^[1-9]\d$/)){
+            throw new TypeError('Branch Numbers must be integers between 10 and 99');
+        }else{
+            this._branchNumber = parseInt(bn);
+        }        
+    }
+    
+    /**
+     * The major version part of the version number, officially known as the
+     * *branch*.
+     *
+     * For example, the branch for each of the 3.4, 3.4+, 3.4.1, and 3.4.1+
+     * releases is `'3.4'`.
+     *
+     * @type {BranchString|undefined}
+     */
+    get branch(){
+        if(is.undefined(this._branchNumber)) return undefined;
+        return MoodleVersion.branchFromBranchNumber(this._branchNumber);
+    }
+    
+    /**
+     * The branch (AKA major version) must be a string consisting of two
+     * digits separated by a period, e.g. `'3.5'`.
+     *
+     * @type {BranchString}
+     * @throws {TypeError}
+     */
+    set branch(b){
+        if(is.undefined(b)){
+            this._branchNumber = undefined;
+        }else if(!String(b).match(/^\d[.]\d$/)){
+            throw new TypeError('Branches must be strings consisting of a digit, a period, and another digit');
+        }else{
+            this._branchNumber = parseInt(String(bn).split('.').join());
+        }
     }
     
     /**
