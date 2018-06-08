@@ -94,8 +94,12 @@ const util = {
             },
             'number': {
                 'zero': ['the number zero', ['integer', 'falsy'], 0],
-                'integer': ['a positive integer', [], 42],
-                'integer.negative': ['a negative integer', [], -42],
+                'integer': ['a positive integer', [], 12345],
+                'integer.digit': ['a single-digit number', [], 7],
+                'integer.2digit': ['a 2-digit number', [], 42],
+                'integer.3digit': ['a 3-digit number', [], 123],
+                'integer.4digit': ['a 4-digit number', [], 1982],
+                'integer.negative': ['a negative integer', [], -12345],
                 'float': ['a positive floating point number', [], 3.14],
                 'float.negative': ['a negative floating point number', [], -3.14]
             },
@@ -105,8 +109,12 @@ const util = {
                 'line': ['a single-line string', [], 'boogers and snot'],
                 'multiline': ['a multi-line string', [''], 'boogers\nsnot\nbogeys'],
                 'zero': ['the digit 0', ['integer', 'numeric'], '0'],
-                'integer': ['a positive integer string', ['numeric'], '42'],
-                'integer.negative': ['a negative integer string', ['numeric'], '-42'],
+                'digit': ['a single-digit number', ['integer', 'numeric'], '7'],
+                'integer': ['a positive integer string', ['numeric'], '12345'],
+                'integer.2digit': ['a 2-digit number', ['numeric'], '42'],
+                'integer.3digit': ['a 3-digit number', ['numeric'], '123'],
+                'integer.4digit': ['a 4-digit number', ['numeric'], '1982'],
+                'integer.negative': ['a negative integer string', ['numeric'], '-12345'],
                 'float': ['a floating point numeric string', ['numeric'], '3.14'],
                 'float.negative': ['a negative floating point numeric string', ['numeric'], '-3.14']
             },
@@ -127,9 +135,9 @@ const util = {
             }
         };
         const ans = {};
-        for(const t in rawData){
+        for(const t of Object.keys(rawData)){
             ans[t] = {};
-            for(const tp in rawData[t]){
+            for(const tp of Object.keys(rawData[t])){
                 ans[t][tp] = new DummyData(
                     rawData[t][tp][0],
                     [...tp.split('.'), ...rawData[t][tp][1]],
@@ -184,7 +192,7 @@ const util = {
         }
         
         // deal with requests for a single piece of data
-        if(pathParts.length > 1) return this.allDummyData[reqType][pathParts.slice(1)];
+        if(pathParts.length > 1) return this.allDummyData[reqType][pathParts.slice(1).join('.')];
         
         // deal with requests for data for one or more types
         
@@ -195,7 +203,7 @@ const util = {
             if(is.array(opts.excludeTypes)){
                 for(const t of opts.excludeTypes) typeSkipLookup[t] = true;
             }
-            for(const t in this.allDummyData){
+            for(const t of Object.keys(this.allDummyData)){
                 if(!typeSkipLookup[t]) typesToFetch.push(t);
             }
         }else{
@@ -207,7 +215,7 @@ const util = {
         const doCheckTags = is.array(opts.excludeTags);
         for(const t of typesToFetch){
             processTypeDummyData:
-            for(const tp in this.allDummyData[t]){
+            for(const tp of Object.keys(this.allDummyData[t])){
                 if(doCheckTags){
                     for(const et of opts.excludeTags){
                         if(this.allDummyData[t][tp].hasTag(et)) continue processTypeDummyData;
@@ -285,11 +293,11 @@ util.refreshDummyData();
 //
 
 QUnit.module('Static Helpers', {}, function(){
-    QUnit.test('.branchFromBranchNumber()', function(a){
+    QUnit.test('branchFromBranchNumber()', function(a){
         const mustReturnUndefined = [
-            ...util.dummyDataExcept([], ['integer'])
+            ...util.dummyDataExcept([], ['2digit'])
         ];
-        a.expect(mustReturnUndefined.length + 7);
+        a.expect(mustReturnUndefined.length + 3);
         
         // make sure the function actually exists
         a.ok(is.function(MoodleVersion.branchFromBranchNumber), 'function exists');
@@ -298,13 +306,29 @@ QUnit.module('Static Helpers', {}, function(){
         for(const dd of mustReturnUndefined){
             a.ok(is.undefined(MoodleVersion.branchFromBranchNumber(dd.value)), `${dd.description} returns undefined`);
         }
-        a.ok(is.undefined(MoodleVersion.branchFromBranchNumber(4)), 'a single-digit integer returns undefined');
-        a.ok(is.undefined(MoodleVersion.branchFromBranchNumber('4')), 'a single-digit integer string returns undefined');
-        a.ok(is.undefined(MoodleVersion.branchFromBranchNumber(444)), 'a 3-digit integer returns undefined');
-        a.ok(is.undefined(MoodleVersion.branchFromBranchNumber('444')), 'a 3-digit integer string returns undefined');
         
         // make sure valid data returns as expected
-        a.strictEqual(MoodleVersion.branchFromBranchNumber(35), '3.5', "35 converted to '3.5'");
-        a.strictEqual(MoodleVersion.branchFromBranchNumber('35'), '3.5', "'35' converted to '3.5'");
+        a.strictEqual(MoodleVersion.branchFromBranchNumber(35), '3.5', "35 converts to '3.5'");
+        a.strictEqual(MoodleVersion.branchFromBranchNumber('35'), '3.5', "'35' converts to '3.5'");
+    });
+    
+    QUnit.test('branchNumberFromBranch()', function(a){
+        const mustReturnUndefined = [
+            ...util.dummyDataExcept(['string'], []),
+            ...util.dummyData('string', {excludeTags: ['float']}),
+            util.dummyData('string.float.negative')
+        ];
+        a.expect(mustReturnUndefined.length + 2);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.branchNumberFromBranch), 'function exists');
+        
+        // make sure the data that should return undefined does
+        for(const dd of mustReturnUndefined){
+            a.ok(is.undefined(MoodleVersion.branchNumberFromBranch(dd.value)), `${dd.description} returns undefined`);
+        }
+        
+        // make sure that values are converted as expected
+        a.strictEqual(MoodleVersion.branchNumberFromBranch('3.5'), 35, "'3.5' converts to 35");
     });
 });

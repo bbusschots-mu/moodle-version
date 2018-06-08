@@ -191,7 +191,7 @@ module.exports = class MoodleVersion {
     static branchNumberFromBranch(b){
         if(is.undefined(b)) return undefined;
         if(!(is.string(b) && b.match(/^[1-9][.]\d$/))) return undefined;
-        return parseInt(b.split(/[.]/).join());
+        return parseInt(b.split(/[.]/).join(''));
     }
     
     /**
