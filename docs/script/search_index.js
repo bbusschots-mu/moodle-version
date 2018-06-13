@@ -354,6 +354,30 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/moodleversion.js~moodleversion.branchfrombranchnumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-branchFromBranchNumber",
+    "src/MoodleVersion.js~MoodleVersion.branchFromBranchNumber",
+    "method"
+  ],
+  [
+    "src/moodleversion.js~moodleversion.branchnumberfrombranch",
+    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-branchNumberFromBranch",
+    "src/MoodleVersion.js~MoodleVersion.branchNumberFromBranch",
+    "method"
+  ],
+  [
+    "src/moodleversion.js~moodleversion.isbranch",
+    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-isBranch",
+    "src/MoodleVersion.js~MoodleVersion.isBranch",
+    "method"
+  ],
+  [
+    "src/moodleversion.js~moodleversion.isbranchnumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-isBranchNumber",
+    "src/MoodleVersion.js~MoodleVersion.isBranchNumber",
+    "method"
+  ],
+  [
     "src/moodleversion.js~releasenumber",
     "typedef/index.html#static-typedef-ReleaseNumber",
     "src/MoodleVersion.js~ReleaseNumber",

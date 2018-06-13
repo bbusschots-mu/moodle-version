@@ -168,6 +168,33 @@ module.exports = class MoodleVersion {
     }
     
     /**
+     * Test if a given value is a branch string, e.g. `'3.5'`.
+     *
+     * @param {*} val - the value to test.
+     * @return {boolean}
+     */
+    static isBranch(val){
+        return is.string(val) && val.match(/^[1-9][.]\d$/) ? true : false;
+    }
+    
+    /**
+     * Test if a given value is a branch number, e.g. `35` or `'35'`.
+     *
+     * @param {*} val - the value to test.
+     * @param {boolean} [strictTypeCheck=false] - whether or not to enable
+     * strict type checking. With strict type cheking enabled, string
+     * representation of otherwise valid values will return `false`.
+     * @return {boolean}
+     */
+    static isBranchNumber(val, strictTypeCheck = false){
+        if(is.not.number(val)){
+            if(strictTypeCheck) return false;
+            if(is.not.string(val)) return false;
+        }
+        return String(val).match(/^[1-9]\d$/) ? true : false;
+    }
+    
+    /**
      * Convert a branch number into a branch string, i.e. `35` to `'3.5'`.
      *
      * @param {BranchNumber} bn
@@ -176,9 +203,8 @@ module.exports = class MoodleVersion {
      */
     static branchFromBranchNumber(bn){
         if(is.undefined(bn)) return undefined;
-        let bnStr = String(bn);
-        if(!bnStr.match(/^[1-9]\d$/)) return undefined;
-        return bnStr.split('').join('.');
+        if(!MoodleVersion.isBranchNumber(bn, false)) return undefined;
+        return String(bn).split('').join('.');
     }
     
     /**
@@ -190,7 +216,7 @@ module.exports = class MoodleVersion {
      */
     static branchNumberFromBranch(b){
         if(is.undefined(b)) return undefined;
-        if(!(is.string(b) && b.match(/^[1-9][.]\d$/))) return undefined;
+        if(!MoodleVersion.isBranch(b)) return undefined;
         return parseInt(b.split(/[.]/).join(''));
     }
     
@@ -214,13 +240,19 @@ module.exports = class MoodleVersion {
      * @throws {TypeError}
      */
     set branchNumber(bn){
+        // short-circuit requests to set undefined
         if(is.undefined(bn)){
             this._branchNumber = undefined;
-        }else if(!String(bn).match(/^[1-9]\d$/)){
+            return;
+        }
+        
+        // check the validity of the branch number
+        if(!MoodleVersion.isBranchNumber(bn, false)){
             throw new TypeError('Branch Numbers must be integers between 10 and 99');
-        }else{
-            this._branchNumber = parseInt(bn);
-        }        
+        }
+        
+        // set the branch number
+        this._branchNumber = parseInt(bn);
     }
     
     /**
@@ -245,13 +277,20 @@ module.exports = class MoodleVersion {
      * @throws {TypeError}
      */
     set branch(b){
+        // short-circuit requests to set undefined
         if(is.undefined(b)){
             this._branchNumber = undefined;
-        }else if(!String(b).match(/^\d[.]\d$/)){
-            throw new TypeError('Branches must be strings consisting of a digit, a period, and another digit');
-        }else{
-            this._branchNumber = parseInt(String(bn).split('.').join());
+            return;
         }
+        
+        // try convery the branch to a branch number
+        let bn = MoodleVersion.branchNumberFromBranch(b);
+        if(is.not.number(bn)){
+            throw new TypeError('Branches must be strings consisting of a digit, a period, and another digit');
+        }
+        
+        // store the branch number
+        this._branchNumber = bn;
     }
     
     /**

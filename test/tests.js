@@ -293,6 +293,54 @@ util.refreshDummyData();
 //
 
 QUnit.module('Static Helpers', {}, function(){
+    QUnit.test('isBranch()', function(a){
+        const mustReturnFalse = [
+            ...util.dummyDataExcept(['string'], []),
+            util.dummyData('string.word'),
+            util.dummyData('string.multiline'),
+        ];
+        a.expect(mustReturnFalse.length + 4);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.isBranch), 'function exists');
+        
+        // make sure values that should return false do
+        for(const dd of mustReturnFalse){
+            a.strictEqual(MoodleVersion.isBranch(dd.value), false, `${dd.description} returns false`);
+        }
+        
+        // make sure subtly incorrect values return false
+        a.strictEqual(MoodleVersion.isBranch('0.1'), false, "'0.1' returns false");
+        a.strictEqual(MoodleVersion.isBranch('3.55'), false, "'3.55' returns false");
+        
+        // make sure valid values return true
+        a.strictEqual(MoodleVersion.isBranch('3.5'), true, "'3.5' returns true");
+    });
+    
+    QUnit.test('isBranchNumber()', function(a){
+        const mustAlwaysReturnFalse = [
+            ...util.dummyDataExcept([], ['2digit'])
+        ];
+        a.expect((mustAlwaysReturnFalse.length * 2) + 5);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.isBranchNumber), 'function exists');
+        
+        // make sure values that should always return false do so in both modes
+        for(const dd of mustAlwaysReturnFalse){
+            a.strictEqual(MoodleVersion.isBranchNumber(dd.value, false), false, `${dd.description} returns false without strict type checking`);
+            a.strictEqual(MoodleVersion.isBranchNumber(dd.value, true), false, `${dd.description} returns false with strict type checking`);
+        }
+        
+        // make sure values that are always correct return true in both modes
+        a.strictEqual(MoodleVersion.isBranchNumber(35, false), true, '35 returns true without strict type checking');
+        a.strictEqual(MoodleVersion.isBranchNumber(35, true), true, '35 returns true with strict type checking');
+        
+        // make sure valid strings are only accepted when strict mode is disabled
+        a.strictEqual(MoodleVersion.isBranchNumber('35', false), true, "'35' returns true without strict type checking");
+        a.strictEqual(MoodleVersion.isBranchNumber('35', true), false, "'35' returns false with strict type checking");
+    });
+    
     QUnit.test('branchFromBranchNumber()', function(a){
         const mustReturnUndefined = [
             ...util.dummyDataExcept([], ['2digit'])

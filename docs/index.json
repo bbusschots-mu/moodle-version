@@ -567,7 +567,7 @@
     "__docId__": 48,
     "kind": "file",
     "name": "src/MoodleVersion.js",
-    "content": "const is = require('is_js');\n\n/**\n * A Moodle version string. These are the version numbers used on the\n * [Moodle download page](https://download.moodle.org/releases/latest/) and\n * displayed in the footer of the Moodle admin area.\n *\n * Moodle version strings generally consist of the branch string separated from\n * the release number by a period. The initial release for a given branch is\n * given the release number zero, which may be omitted. Alpha and Beta releases\n * have `dev` appended, and weekly releases have a plus symbol appended.\n *\n * For example, all the development releases of the Moodle 3.5 branch have the\n * version string `3.5dev`, the initial release is `3.5`, the\n * first update release is `3.5.1`, and all weekly releases between the\n * release of `3.5.1` and `3.5.2` share `3.5.1+`.\n *\n * @typedef {string} VersionString\n * @example '3.5dev'\n * @example '3.5'\n * @example '3.5+'\n * @example '3.5.1'\n * @example '3.5.1+'\n */\n\n/**\n * A moodle version number. These version numbers are used under-the-hood in\n * the Moodle source code. They consist of the branch's branch date number\n * followed by the release number, optionally followed by a period and an\n * incremental change number.\n *\n * For example, the Moodle 3.3.6 release has the version number `2017051506.00`.\n * The branch date number for Moodle 3.3 is `20170515` (a {@link DateNumber}),\n * which is then followed by the two-digit form of the release number, `06`, and\n * an incremental change number of `00`.\n *\n * @typedef {string|number} VersionNumber\n * @example '2017051506.00'\n * @see DateNumber\n */\n\n/**\n * A Moodle branch string. These are the human-friendly major-version numbers\n * used throught the official Moodle documentation. They take the form of two\n * digits separated by a period, e.g. `3.5`.\n * \n * @typedef {string} BranchString\n * @example '3.5'\n */\n\n/**\n * A Moodle branch number. These are used under-the-hood to represent Moodel\n * branches within the Moodle code. They take the form of a two-digit integer\n * number - the human-friendly branch without the period e.g. Moodle 3.5 has a\n * branch number of `35`.\n *\n * @typedef {number|string} BranchNumber\n * @see BranchString\n * @example 35\n */\n\n/**\n * A Moodle release string. These are the most detailed version numbers\n * displayed to users, consisting of the version string and a build number.\n *\n * The release string for Moodle 3.3.6 is `3.3.6 (Build: 20180517)`.\n *\n * @typedef {string} ReleaseString\n * @see VersionString\n * @example '3.3.6 (Build: 20180517)'\n */\n\n/**\n * An integer representing an offical Moodle release within a branch. The\n * initial release of any branch has the release number 0, subsequent offical\n * update releases then count up from there.\n * \n * @typedef {number|string} ReleaseNumber\n */\n\n/**\n * Each released moodle build, both the weeklys and the offical updates are\n * assigned a build number which takes the form of a {@link DateNumber}.\n * \n * @typedef {DateNumber} BuildNumber\n */\n\n/**\n * An 8-digit date representation used within a number of Moodle version\n * identifiers. The first four digits represent the year, the next two the\n * month and the last two the day of the month.\n *\n * For example, Christmas 2018 has the date number `20181225`.\n * \n * @typedef {string|number} DateNumber\n * @example '20181225'\n */\n\n/**\n * A mapping form branch numbers to branching date numbers.\n * \n * @type {Object}\n * @protected\n */\nconst BNUM_BDNUM_MAP = {\n    '22': '20111205',\n    '23': '20120625',\n    '24': '20121203',\n    '25': '20130514',\n    '26': '20131118',\n    '27': '20140512',\n    '28': '20141110',\n    '29': '20150511',\n    '30': '20151116',\n    '31': '20160523',\n    '32': '20161205',\n    '33': '20170515',\n    '34': '20171113',\n    '35': '20180517'\n};\n\n/**\n * A list of LTS (Long-Term Support) branch numbers.\n *\n * @type {Array<number>}\n * @protected\n */\nconst LTS_BNUMS = [27, 31, 35];\n\n/**\n * A lookup table to test if a given branch number is a long-term support (LTS)\n * branch. This lookup table is generated from {@link LTS_BNUMS}.\n *\n * @type {Object}\n * @protected\n * @see LTS_BNUMS\n */\nconst BNUM_LTS_LOOKUP = {};\nfor(const bnum of LTS_BNUMS){\n    BNUM_LTS_LOOKUP[bnum] = true;\n}\n\n/**\n * A class for parsing and representing\n * [version information](https://docs.moodle.org/35/en/Moodle_version) for the\n * [Moodle VLE](http://moodle.org/).\n *\n * The class can parse both the human-friendly Moodle release strings like\n * `3.3.6 (Build: 20180517)`, and the underlying raw version numbers like\n * `2017051506`.\n *\n * Note that this class only reliably understands version information from\n * Moodle 2.2 up. The reason for this limitation is that this is the first\n * Moodle version which uses the now standard versioning conventions.\n *\n * @see https://docs.moodle.org/35/en/Moodle_version\n * @see https://docs.moodle.org/dev/Releases\n */\nmodule.exports = class MoodleVersion {\n    /**\n     * Constructor description.\n     */\n    constructor() {\n        /**\n         * @type {number}\n         */\n        this._branchNumber = undefined;\n    }\n    \n    /**\n     * The version's branch number, if known. This is the two-digit number\n     * used internally within the Moodle code to identify a branch, or major\n     * release.\n     *\n     * For example, all Moodle 3.5.* releases will have the branch number `35`.\n     *\n     * @type {number|undefined}\n     */\n    get branchNumber(){\n        return this._branchNumber;\n    }\n    \n    /**\n     * The branch number must be a two-digit integer between 10 and 99.\n     *\n     * @type {BranchNumber|undefined}\n     * @throws {TypeError}\n     */\n    set branchNumber(bn){\n        if(is.undefined(bn)){\n            this._branchNumber = undefined;\n        }else if(!String(bn).match(/^[1-9]\\d$/)){\n            throw new TypeError('Branch Numbers must be integers between 10 and 99');\n        }else{\n            this._branchNumber = parseInt(bn);\n        }        \n    }\n    \n    /**\n     * The major version part of the version number, officially known as the\n     * *branch*.\n     *\n     * For example, the branch for each of the 3.4, 3.4+, 3.4.1, and 3.4.1+\n     * releases is `'3.4'`.\n     *\n     * @type {BranchString|undefined}\n     */\n    get branch(){\n        if(is.undefined(this._branchNumber)) return undefined;\n        return String(this._branchNumber).split('').join('.');\n    }\n    \n    /**\n     * The branch (AKA major version) must be a string consisting of two\n     * digits separated by a period, e.g. `'3.5'`.\n     *\n     * @type {BranchString}\n     * @throws {TypeError}\n     */\n    set branch(b){\n        if(is.undefined(b)){\n            this._branchNumber = undefined;\n        }else if(!String(b).match(/^\\d[.]\\d$/)){\n            throw new TypeError('Branches must be strings consisting of a digit, a period, and another digit');\n        }else{\n            this._branchNumber = parseInt(String(bn).split('.').join());\n        }\n    }\n    \n    /**\n     * toString() description.\n     */\n    toString(){\n        return 'Some Moodle Version';\n    }\n};",
+    "content": "const is = require('is_js');\n\n/**\n * A Moodle version string. These are the version numbers used on the\n * [Moodle download page](https://download.moodle.org/releases/latest/) and\n * displayed in the footer of the Moodle admin area.\n *\n * Moodle version strings generally consist of the branch string separated from\n * the release number by a period. The initial release for a given branch is\n * given the release number zero, which may be omitted. Alpha and Beta releases\n * have `dev` appended, and weekly releases have a plus symbol appended.\n *\n * For example, all the development releases of the Moodle 3.5 branch have the\n * version string `3.5dev`, the initial release is `3.5`, the\n * first update release is `3.5.1`, and all weekly releases between the\n * release of `3.5.1` and `3.5.2` share `3.5.1+`.\n *\n * @typedef {string} VersionString\n * @example '3.5dev'\n * @example '3.5'\n * @example '3.5+'\n * @example '3.5.1'\n * @example '3.5.1+'\n */\n\n/**\n * A moodle version number. These version numbers are used under-the-hood in\n * the Moodle source code. They consist of the branch's branch date number\n * followed by the release number, optionally followed by a period and an\n * incremental change number.\n *\n * For example, the Moodle 3.3.6 release has the version number `2017051506.00`.\n * The branch date number for Moodle 3.3 is `20170515` (a {@link DateNumber}),\n * which is then followed by the two-digit form of the release number, `06`, and\n * an incremental change number of `00`.\n *\n * @typedef {string|number} VersionNumber\n * @example '2017051506.00'\n * @see DateNumber\n */\n\n/**\n * A Moodle branch string. These are the human-friendly major-version numbers\n * used throught the official Moodle documentation. They take the form of two\n * digits separated by a period, e.g. `3.5`.\n * \n * @typedef {string} BranchString\n * @example '3.5'\n */\n\n/**\n * A Moodle branch number. These are used under-the-hood to represent Moodel\n * branches within the Moodle code. They take the form of a two-digit integer\n * number - the human-friendly branch without the period e.g. Moodle 3.5 has a\n * branch number of `35`.\n *\n * @typedef {number|string} BranchNumber\n * @see BranchString\n * @example 35\n */\n\n/**\n * A Moodle release string. These are the most detailed version numbers\n * displayed to users, consisting of the version string and a build number.\n *\n * The release string for Moodle 3.3.6 is `3.3.6 (Build: 20180517)`.\n *\n * @typedef {string} ReleaseString\n * @see VersionString\n * @example '3.3.6 (Build: 20180517)'\n */\n\n/**\n * An integer representing an offical Moodle release within a branch. The\n * initial release of any branch has the release number 0, subsequent offical\n * update releases then count up from there.\n * \n * @typedef {number|string} ReleaseNumber\n */\n\n/**\n * Each released moodle build, both the weeklys and the offical updates are\n * assigned a build number which takes the form of a {@link DateNumber}.\n * \n * @typedef {DateNumber} BuildNumber\n */\n\n/**\n * An 8-digit date representation used within a number of Moodle version\n * identifiers. The first four digits represent the year, the next two the\n * month and the last two the day of the month.\n *\n * For example, Christmas 2018 has the date number `20181225`.\n * \n * @typedef {string|number} DateNumber\n * @example '20181225'\n */\n\n/**\n * A mapping form branch numbers to branching date numbers.\n * \n * @type {Object}\n * @protected\n */\nconst BNUM_BDNUM_MAP = {\n    '22': '20111205',\n    '23': '20120625',\n    '24': '20121203',\n    '25': '20130514',\n    '26': '20131118',\n    '27': '20140512',\n    '28': '20141110',\n    '29': '20150511',\n    '30': '20151116',\n    '31': '20160523',\n    '32': '20161205',\n    '33': '20170515',\n    '34': '20171113',\n    '35': '20180517'\n};\n\n/**\n * A list of LTS (Long-Term Support) branch numbers.\n *\n * @type {Array<number>}\n * @protected\n */\nconst LTS_BNUMS = [27, 31, 35];\n\n/**\n * A lookup table to test if a given branch number is a long-term support (LTS)\n * branch. This lookup table is generated from {@link LTS_BNUMS}.\n *\n * @type {Object}\n * @protected\n * @see LTS_BNUMS\n */\nconst BNUM_LTS_LOOKUP = {};\nfor(const bnum of LTS_BNUMS){\n    BNUM_LTS_LOOKUP[bnum] = true;\n}\n\n/**\n * A class for parsing and representing\n * [version information](https://docs.moodle.org/35/en/Moodle_version) for the\n * [Moodle VLE](http://moodle.org/).\n *\n * The class can parse both the human-friendly Moodle release strings like\n * `3.3.6 (Build: 20180517)`, and the underlying raw version numbers like\n * `2017051506`.\n *\n * Note that this class only reliably understands version information from\n * Moodle 2.2 up. The reason for this limitation is that this is the first\n * Moodle version which uses the now standard versioning conventions.\n *\n * @see https://docs.moodle.org/35/en/Moodle_version\n * @see https://docs.moodle.org/dev/Releases\n */\nmodule.exports = class MoodleVersion {\n    /**\n     * Constructor description.\n     */\n    constructor() {\n        /**\n         * @type {number}\n         */\n        this._branchNumber = undefined;\n    }\n    \n    /**\n     * Test if a given value is a branch string, e.g. `'3.5'`.\n     *\n     * @param {*} val - the value to test.\n     * @return {boolean}\n     */\n    static isBranch(val){\n        return is.string(val) && val.match(/^[1-9][.]\\d$/) ? true : false;\n    }\n    \n    /**\n     * Test if a given value is a branch number, e.g. `35` or `'35'`.\n     *\n     * @param {*} val - the value to test.\n     * @param {boolean} [strictTypeCheck=false] - whether or not to enable strict type\n     * checking. With strict type cheking enabled, string representation of\n     * otherwise valid values will return `false`.\n     * @return {boolean}\n     */\n    static isBranchNumber(val, strictTypeCheck = false){\n        if(is.not.number(val)){\n            if(strictTypeCheck) return false;\n            if(is.not.string(val)) return false;\n        }\n        return String(val).match(/^[1-9]\\d$/) ? true : false;\n    }\n    \n    /**\n     * Convert a branch number into a branch string, i.e. `35` to `'3.5'`.\n     *\n     * @param {BranchNumber} bn\n     * @return {BranchString|undefined} If the passed value can't be converted\n     * to a branch `undefined` is returned.\n     */\n    static branchFromBranchNumber(bn){\n        if(is.undefined(bn)) return undefined;\n        let bnStr = String(bn);\n        if(!bnStr.match(/^[1-9]\\d$/)) return undefined;\n        return bnStr.split('').join('.');\n    }\n    \n    /**\n     * Convert a branch string into a branch number, i.e. `'3.5'` to `35`.\n     *\n     * @param {BranchString} b\n     * @return {number|undefined} If the passed value can't be converted\n     * to a branch number `undefined` is returned.\n     */\n    static branchNumberFromBranch(b){\n        if(is.undefined(b)) return undefined;\n        if(!(is.string(b) && b.match(/^[1-9][.]\\d$/))) return undefined;\n        return parseInt(b.split(/[.]/).join(''));\n    }\n    \n    /**\n     * The version's branch number, if known. This is the two-digit number\n     * used internally within the Moodle code to identify a branch, or major\n     * release.\n     *\n     * For example, all Moodle 3.5.* releases will have the branch number `35`.\n     *\n     * @type {number|undefined}\n     */\n    get branchNumber(){\n        return this._branchNumber;\n    }\n    \n    /**\n     * The branch number must be a two-digit integer between 10 and 99.\n     *\n     * @type {BranchNumber|undefined}\n     * @throws {TypeError}\n     */\n    set branchNumber(bn){\n        // short-circuit requests to set undefined\n        if(is.undefined(bn)){\n            this._branchNumber = undefined;\n            return;\n        }\n        \n        // check the valididy of the branch number\n        \n        \n        if(is.undefined(bn)){\n            this._branchNumber = undefined;\n        }else if(!String(bn).match(/^[1-9]\\d$/)){\n            throw new TypeError('Branch Numbers must be integers between 10 and 99');\n        }else{\n            this._branchNumber = parseInt(bn);\n        }        \n    }\n    \n    /**\n     * The major version part of the version number, officially known as the\n     * *branch*.\n     *\n     * For example, the branch for each of the 3.4, 3.4+, 3.4.1, and 3.4.1+\n     * releases is `'3.4'`.\n     *\n     * @type {BranchString|undefined}\n     */\n    get branch(){\n        if(is.undefined(this._branchNumber)) return undefined;\n        return MoodleVersion.branchFromBranchNumber(this._branchNumber);\n    }\n    \n    /**\n     * The branch (AKA major version) must be a string consisting of two\n     * digits separated by a period, e.g. `'3.5'`.\n     *\n     * @type {BranchString}\n     * @throws {TypeError}\n     */\n    set branch(b){\n        if(is.undefined(b)){\n            this._branchNumber = undefined;\n        }else if(!String(b).match(/^\\d[.]\\d$/)){\n            throw new TypeError('Branches must be strings consisting of a digit, a period, and another digit');\n        }else{\n            this._branchNumber = parseInt(String(bn).split('.').join());\n        }\n    }\n    \n    /**\n     * toString() description.\n     */\n    toString(){\n        return 'Some Moodle Version';\n    }\n};",
     "static": true,
     "longname": "/Users/bart/Documents/Temp/fromGitHub/moodle-version/src/MoodleVersion.js",
     "access": "public",
@@ -871,6 +871,152 @@
   },
   {
     "__docId__": 63,
+    "kind": "method",
+    "name": "isBranch",
+    "memberof": "src/MoodleVersion.js~MoodleVersion",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/MoodleVersion.js~MoodleVersion.isBranch",
+    "access": "public",
+    "description": "Test if a given value is a branch string, e.g. `'3.5'`.",
+    "lineNumber": 176,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "val",
+        "description": "the value to test."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 64,
+    "kind": "method",
+    "name": "isBranchNumber",
+    "memberof": "src/MoodleVersion.js~MoodleVersion",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/MoodleVersion.js~MoodleVersion.isBranchNumber",
+    "access": "public",
+    "description": "Test if a given value is a branch number, e.g. `35` or `'35'`.",
+    "lineNumber": 189,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "val",
+        "description": "the value to test."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "boolean"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "false",
+        "defaultRaw": false,
+        "name": "strictTypeCheck",
+        "description": "whether or not to enable strict type\nchecking. With strict type cheking enabled, string representation of\notherwise valid values will return `false`."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 65,
+    "kind": "method",
+    "name": "branchFromBranchNumber",
+    "memberof": "src/MoodleVersion.js~MoodleVersion",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/MoodleVersion.js~MoodleVersion.branchFromBranchNumber",
+    "access": "public",
+    "description": "Convert a branch number into a branch string, i.e. `35` to `'3.5'`.",
+    "lineNumber": 204,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "BranchNumber"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "bn",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "BranchString",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "If the passed value can't be converted\nto a branch `undefined` is returned."
+    }
+  },
+  {
+    "__docId__": 66,
+    "kind": "method",
+    "name": "branchNumberFromBranch",
+    "memberof": "src/MoodleVersion.js~MoodleVersion",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/MoodleVersion.js~MoodleVersion.branchNumberFromBranch",
+    "access": "public",
+    "description": "Convert a branch string into a branch number, i.e. `'3.5'` to `35`.",
+    "lineNumber": 218,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "BranchString"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "b",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "number",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "If the passed value can't be converted\nto a branch number `undefined` is returned."
+    }
+  },
+  {
+    "__docId__": 67,
     "kind": "get",
     "name": "branchNumber",
     "memberof": "src/MoodleVersion.js~MoodleVersion",
@@ -880,7 +1026,7 @@
     "longname": "src/MoodleVersion.js~MoodleVersion#branchNumber",
     "access": "public",
     "description": "The version's branch number, if known. This is the two-digit number\nused internally within the Moodle code to identify a branch, or major\nrelease.\n\nFor example, all Moodle 3.5.* releases will have the branch number `35`.",
-    "lineNumber": 179,
+    "lineNumber": 233,
     "type": {
       "nullable": null,
       "types": [
@@ -892,7 +1038,7 @@
     }
   },
   {
-    "__docId__": 64,
+    "__docId__": 68,
     "kind": "set",
     "name": "branchNumber",
     "memberof": "src/MoodleVersion.js~MoodleVersion",
@@ -902,7 +1048,7 @@
     "longname": "src/MoodleVersion.js~MoodleVersion#branchNumber",
     "access": "public",
     "description": "The branch number must be a two-digit integer between 10 and 99.",
-    "lineNumber": 189,
+    "lineNumber": 243,
     "type": {
       "nullable": null,
       "types": [
@@ -922,7 +1068,7 @@
     ]
   },
   {
-    "__docId__": 67,
+    "__docId__": 72,
     "kind": "get",
     "name": "branch",
     "memberof": "src/MoodleVersion.js~MoodleVersion",
@@ -932,7 +1078,7 @@
     "longname": "src/MoodleVersion.js~MoodleVersion#branch",
     "access": "public",
     "description": "The major version part of the version number, officially known as the\n*branch*.\n\nFor example, the branch for each of the 3.4, 3.4+, 3.4.1, and 3.4.1+\nreleases is `'3.4'`.",
-    "lineNumber": 208,
+    "lineNumber": 271,
     "type": {
       "nullable": null,
       "types": [
@@ -944,7 +1090,7 @@
     }
   },
   {
-    "__docId__": 68,
+    "__docId__": 73,
     "kind": "set",
     "name": "branch",
     "memberof": "src/MoodleVersion.js~MoodleVersion",
@@ -954,7 +1100,7 @@
     "longname": "src/MoodleVersion.js~MoodleVersion#branch",
     "access": "public",
     "description": "The branch (AKA major version) must be a string consisting of two\ndigits separated by a period, e.g. `'3.5'`.",
-    "lineNumber": 220,
+    "lineNumber": 283,
     "type": {
       "nullable": null,
       "types": [
@@ -973,7 +1119,7 @@
     ]
   },
   {
-    "__docId__": 71,
+    "__docId__": 76,
     "kind": "method",
     "name": "toString",
     "memberof": "src/MoodleVersion.js~MoodleVersion",
@@ -983,7 +1129,7 @@
     "longname": "src/MoodleVersion.js~MoodleVersion#toString",
     "access": "public",
     "description": "toString() description.",
-    "lineNumber": 233,
+    "lineNumber": 296,
     "params": [],
     "return": {
       "types": [
@@ -1001,7 +1147,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n  \"name\": \"@maynoothuniversity/moodle-version\",\n  \"version\": \"0.1.1\",\n  \"description\": \"A parser for Moodle version strings\",\n  \"main\": \"src/lib.js\",\n  \"scripts\": {\n    \"build\": \"./node_modules/.bin/urequire config ./urequire.json\",\n    \"docs\": \"./node_modules/.bin/esdoc -c ./esdoc.json\",\n    \"docs-dev\": \"./node_modules/.bin/esdoc -c ./esdoc-dev.json\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/bbusschots-mu/moodle-version.git\"\n  },\n  \"keywords\": [\n    \"Moodle\"\n  ],\n  \"author\": \"Bart Busschots\",\n  \"license\": \"MIT\",\n  \"bugs\": {\n    \"url\": \"https://github.com/bbusschots-mu/moodle-version/issues\"\n  },\n  \"homepage\": \"https://github.com/bbusschots-mu/moodle-version#readme\",\n  \"dependencies\": {\n    \"esdoc-external-nodejs-plugin\": \"^1.0.0\",\n    \"esdoc-member-plugin\": \"^1.0.0\",\n    \"esdoc-node-plugin\": \"^0.2.1\",\n    \"esdoc-plugin-external-links\": \"0.0.1\",\n    \"esdoc-var-plugin\": \"^0.1.0\",\n    \"is_js\": \"^0.9.0\",\n    \"urequire\": \"^0.7.0-beta.33\"\n  },\n  \"devDependencies\": {\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-node\": \"^1.0.3\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"urequire-cli\": \"^0.7.5\"\n  }\n}\n",
+    "content": "{\n  \"name\": \"@maynoothuniversity/moodle-version\",\n  \"version\": \"0.1.1\",\n  \"description\": \"A parser for Moodle version strings\",\n  \"main\": \"src/lib.js\",\n  \"scripts\": {\n    \"build\": \"./node_modules/.bin/urequire config ./urequire.json\",\n    \"docs\": \"./node_modules/.bin/esdoc -c ./esdoc.json\",\n    \"docs-dev\": \"./node_modules/.bin/esdoc -c ./esdoc-dev.json\",\n    \"test\": \"./node_modules/.bin/qunit -c MoodleVersion:./src/MoodleVersion.js -d is:./node_modules/is_js -t ./test/tests.js\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/bbusschots-mu/moodle-version.git\"\n  },\n  \"keywords\": [\n    \"Moodle\"\n  ],\n  \"author\": \"Bart Busschots\",\n  \"license\": \"MIT\",\n  \"bugs\": {\n    \"url\": \"https://github.com/bbusschots-mu/moodle-version/issues\"\n  },\n  \"homepage\": \"https://github.com/bbusschots-mu/moodle-version#readme\",\n  \"dependencies\": {\n    \"esdoc-external-nodejs-plugin\": \"^1.0.0\",\n    \"esdoc-member-plugin\": \"^1.0.0\",\n    \"esdoc-node-plugin\": \"^0.2.1\",\n    \"esdoc-plugin-external-links\": \"0.0.1\",\n    \"esdoc-var-plugin\": \"^0.1.0\",\n    \"is_js\": \"^0.9.0\",\n    \"urequire\": \"^0.7.0-beta.33\"\n  },\n  \"devDependencies\": {\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-node\": \"^1.0.3\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"node-qunit\": \"^1.0.0\",\n    \"urequire-cli\": \"^0.7.5\"\n  }\n}\n",
     "longname": "/Users/bart/Documents/Temp/fromGitHub/moodle-version/package.json",
     "name": "package.json",
     "static": true,
