@@ -99,25 +99,36 @@ const is = require('is_js');
 /**
  * A mapping form branch numbers to branching date numbers.
  * 
- * @type {Object}
+ * @type {Map<BranchNumber, DateNumber>}
  * @protected
  */
 const BNUM_BDNUM_MAP = {
-    '22': '20111205',
-    '23': '20120625',
-    '24': '20121203',
-    '25': '20130514',
-    '26': '20131118',
-    '27': '20140512',
-    '28': '20141110',
-    '29': '20150511',
-    '30': '20151116',
-    '31': '20160523',
-    '32': '20161205',
-    '33': '20170515',
-    '34': '20171113',
-    '35': '20180517'
+    '22': 20111205,
+    '23': 20120625,
+    '24': 20121203,
+    '25': 20130514,
+    '26': 20131118,
+    '27': 20140512,
+    '28': 20141110,
+    '29': 20150511,
+    '30': 20151116,
+    '31': 20160523,
+    '32': 20161205,
+    '33': 20170515,
+    '34': 20171113,
+    '35': 20180517
 };
+
+/**
+ * A mapping form branching date numbers to branch numbers.
+ * 
+ * @type {Map<DateNumber, BranchNumber>}
+ * @protected
+ */
+const BDNUM_BNUM_MAP = {};
+for(const bn of Object.keys(BNUM_BDNUM_MAP)){
+    BDNUM_BNUM_MAP[BNUM_BDNUM_MAP[bn]] = parseInt(bn);
+}
 
 /**
  * A list of LTS (Long-Term Support) branch numbers.
@@ -162,9 +173,32 @@ module.exports = class MoodleVersion {
      */
     constructor() {
         /**
-         * @type {number}
+         * @type {BranchNumber}
          */
         this._branchNumber = undefined;
+        
+        /**
+         * @type {ReleaseNumber}
+         */
+        this._releaseNumber = undefined;
+    }
+    
+    /**
+     * Test if a given value is a date number, i.e. an 8-digit number of the
+     * form `YYYYMMDD`.
+     *
+     * @param {*} val - the value to test.
+     * @param {boolean} [strictTypeCheck=false] - whether or not to enable
+     * strict type checking. With strict type cheking enabled, string
+     * representation of otherwise valid values will return `false`.
+     * @return {boolean}
+     */
+    static isDateNumber(val, strictTypeCheck){
+        if(is.not.number(val)){
+            if(strictTypeCheck) return false;
+            if(is.not.string(val)) return false;
+        }
+        return String(val).match(/^[12]\d{3}[01]\d[0123]\d$/) ? true : false;
     }
     
     /**
@@ -195,6 +229,27 @@ module.exports = class MoodleVersion {
     }
     
     /**
+     * Test if a given value is a release number.
+     *
+     * Note that if strict type checking is not enabled, the empty string is
+     * considered a valid release number, being synonymous with zero in
+     * Moodle release strings.
+     *
+     * @param {*} val - the value to test.
+     * @param {boolean} [strictTypeCheck=false] - whether or not to enable
+     * strict type checking. With strict type cheking enabled, string
+     * representation of otherwise valid values will return `false`.
+     * @return {boolean}
+     */
+    static isReleaseNumber(val, strictTypeCheck = false){
+        if(is.not.number(val)){
+            if(strictTypeCheck) return false;
+            if(is.not.string(val)) return false;
+        }
+        return val === '' || String(val).match(/^\d+$/) ? true : false;
+    }
+    
+    /**
      * Convert a branch number into a branch string, i.e. `35` to `'3.5'`.
      *
      * @param {BranchNumber} bn
@@ -208,6 +263,21 @@ module.exports = class MoodleVersion {
     }
     
     /**
+     * Convert a branching date number to a branch, e.g. `20180517` to
+     * `'3.5'`.
+     *
+     * @param {DateNumber} bdn
+     * @return {BranchString|undefined}
+     */
+    static branchFromBranchingDate(bdn){
+        if(is.undefined(bdn)) return undefined;
+        if(!MoodleVersion.isDateNumber(bdn, false)) return undefined;
+        let bn = BDNUM_BNUM_MAP[bdn];
+        if(is.undefined(bn)) return undefined;
+        return MoodleVersion.branchFromBranchNumber(bn);
+    }
+    
+    /**
      * Convert a branch string into a branch number, i.e. `'3.5'` to `35`.
      *
      * @param {BranchString} b
@@ -218,6 +288,43 @@ module.exports = class MoodleVersion {
         if(is.undefined(b)) return undefined;
         if(!MoodleVersion.isBranch(b)) return undefined;
         return parseInt(b.split(/[.]/).join(''));
+    }
+    
+    /**
+     * Convert a branching date number to a branch number, e.g. `20180517` to
+     * `35`.
+     *
+     * @param {DateNumber} bdn
+     * @return {number|undefined}
+     */
+    static branchNumberFromBranchingDate(bdn){
+        if(is.undefined(bdn)) return undefined;
+        if(!MoodleVersion.isDateNumber(bdn, false)) return undefined;
+        return BDNUM_BNUM_MAP[bdn] ? BDNUM_BNUM_MAP[bdn] : undefined;
+    }
+    
+    /**
+     * Convert a branch to a branching date number, e.g. `'3.5'` to `20180517`.
+     *
+     * @param {BranchString} b
+     * @return {number|undefined}
+     */
+    static branchingDateFromBranch(b){ // LEFT OFF HERE - NEEDS TESTING
+        if(is.undefined(b)) return undefined;
+        const bn = MoodleVersion.branchNumberFromBranch(b);
+        if(is.undefined(bn)) return undefined;
+        return BNUM_BDNUM_MAP[bn] ? BNUM_BDNUM_MAP[bn] : undefined;
+    }
+    
+    /**
+     * Convert a branch number to a branching date number, e.g. `35` to `20180517`.
+     *
+     * @param {BranchNumber} bn
+     * @return {number|undefined}
+     */
+    static branchingDateFromBranchNumber(bn){ // TO DO - NEEDS TESTING
+        if(is.undefined(bn)) return undefined;
+        return BNUM_BDNUM_MAP[bn] ? BNUM_BDNUM_MAP[bn] : undefined;
     }
     
     /**
@@ -294,9 +401,40 @@ module.exports = class MoodleVersion {
     }
     
     /**
+     * The release number part of the version number.
+     *
+     * @type {ReleaseNumber|undefined}
+     */
+    get releaseNumber(){
+        return this._releaseNumber;
+    }
+    
+    /**
+     * The release number must be an integer greater than or equal to zero.
+     *
+     * @type {ReleaseNumber|undefined}
+     * @throws {TypeError}
+     */
+    set releaseNumber(rn){
+        // short-circuit requests to set undefined
+        if(is.undefined(rn)){
+            this._releaseNumber = undefined;
+            return;
+        }
+        
+        // check the validity of the release number
+        if(!MoodleVersion.isReleaseNumber(rn, false)){
+            throw new TypeError('Release Numbers must be integers greater than or equal to zero');
+        }
+        
+        // set the branch number (coercing the empty string to 0)
+        this._releaseNumber = rn === '' ? 0 : parseInt(rn);
+    }
+    
+    /**
      * toString() description.
      */
     toString(){
-        return 'Some Moodle Version';
+        return `${this.branch}.${this.releaseNumber}`;
     }
 };

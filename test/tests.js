@@ -89,12 +89,12 @@ const util = {
          */
         const rawData = {
             'boolean': {
-                'true': ['true', [], true],
+                'true': ['true', ['basic'], true],
                 'false': ['false', ['falsy'], false]
             },
             'number': {
                 'zero': ['the number zero', ['integer', 'falsy'], 0],
-                'integer': ['a positive integer', [], 12345],
+                'integer': ['a positive integer', ['basic'], 12345],
                 'integer.digit': ['a single-digit number', [], 7],
                 'integer.2digit': ['a 2-digit number', [], 42],
                 'integer.3digit': ['a 3-digit number', [], 123],
@@ -105,7 +105,7 @@ const util = {
             },
             'string': {
                 'empty': ['an empty string', ['falsy'], ''],
-                'word': ['a single-word string', [], 'boogers'],
+                'word': ['a single-word string', ['basic'], 'boogers'],
                 'line': ['a single-line string', [], 'boogers and snot'],
                 'multiline': ['a multi-line string', [''], 'boogers\nsnot\nbogeys'],
                 'zero': ['the digit 0', ['integer', 'numeric'], '0'],
@@ -120,18 +120,18 @@ const util = {
             },
             'array': {
                 'empty': ['an empty array', [], []],
-                'basic': ['an array of primitives', [], [true, 42, 'boogers']]
+                'basic': ['an array of primitives', ['basic'], [true, 42, 'boogers']]
             },
             'object': {
-                'null': ['null', ['empty', 'falsy'], null],
+                'null': ['null', ['empty', 'falsy', 'basic'], null],
                 'empty': ['empty object', ['plain'], {}],
-                'plain': ['a plain object', [], {a: 'b', c: 42, d: true}]
+                'plain': ['a plain object', ['basic'], {a: 'b', c: 42, d: true}]
             },
             'function': {
-                'void': ['a void function', [], function(){}]
+                'void': ['a void function', ['basic'], function(){}]
             },
             'other': {
-                "undefined": ['undefined', ['empty', 'falsy'], undefined]
+                "undefined": ['undefined', ['empty', 'falsy', 'basic'], undefined]
             }
         };
         const ans = {};
@@ -168,11 +168,13 @@ const util = {
      *
      * @param {string} path - a type, or, a type and tag path as a single
      * period-separated string, or the special value `'*'`.
-     * @param {object?} opts - an optional options object.
-     * @param {string[]?} opts.excludeTypes - a list of types to exclude when
+     * @param {object} [opts] - an optional options object.
+     * @param {string[]} [opts.excludeTypes] - a list of types to exclude when
      * requesting all dummy data (`path` is `'*'`).
-     * @param {string[]?} opts.excludeTags - a list of tags to exclude when
+     * @param {string[]} [opts.excludeTags] - a list of tags to exclude when
      * requesting all dummy data, or the dummy data for a given type.
+     * @param {string[]} [opts.excludeDefinitions] - a list of individual data
+     * definitions to exclude as period-separated type and tag path strings.
      * @return {DummyData[]|DummyData|undefined} Returns all the dummy data
      * for a given type, or a single piece of dummy data for a type with tag
      * path. If only a type is passed and that type does not exist an empty
@@ -210,6 +212,12 @@ const util = {
             typesToFetch.push(reqType);
         }
         
+        // figure out which individual definitions to skip
+        const defSkipLookup = {};
+        if(is.array(opts.excludeDefinitions)){
+            for(const dp of opts.excludeDefinitions) defSkipLookup[dp] = true;
+        }
+        
         // process all the requested types
         const ans = [];
         const doCheckTags = is.array(opts.excludeTags);
@@ -221,7 +229,7 @@ const util = {
                         if(this.allDummyData[t][tp].hasTag(et)) continue processTypeDummyData;
                     }
                 }
-                ans.push(this.allDummyData[t][tp]);
+                if(!defSkipLookup[`${t}.${tp}`]) ans.push(this.allDummyData[t][tp]);
             }
         }
         return ans;
@@ -231,17 +239,43 @@ const util = {
      * A function to return all dummy data except those for the given
      * types and those matching the given tags tags.
      *
-     * This is a shortcut for
-     * `.dummyData('*', {excludeTypes: arguments[0], excludeTags: arguments[1]})`
+     * This is a shortcut for:
+     * 
+     * ```
+     * .dummyData(
+     *     '*',
+     *     {
+     *         excludeTypes: arguments[0],
+     *         excludeTags: arguments[1],
+     *         excludeDefinitions: arguments[2]
+     *     }
+     * )
+     * ```
      *
-     * @param {string[]?} excludeTypes
-     * @param {string[]?} excludeTags
+     * @param {string[]} [excludeTypes]
+     * @param {string[]} [excludeTags]
+     * @param {string[]} [excludeDefinitions]
      * @return DummyData[]
      */
-    dummyDataExcept: function(excludeTypes, excludeTags){
+    dummyDataExcept: function(excludeTypes, excludeTags, excludeDefinitions){
         if(is.not.array(excludeTypes)) excludeTypes = [];
         if(is.not.array(excludeTags)) excludeTags = [];
-        return this.dummyData('*', {excludeTypes, excludeTags});
+        if(is.not.array(excludeDefinitions)) excludeDefinitions = [];
+        return this.dummyData('*', {excludeTypes, excludeTags, excludeDefinitions});
+    },
+    
+    /**
+     * A function to return all basic dummy data except those for zero or more
+     * given types.
+     *
+     * This is a shortcut for
+     * `dummyData('*', {excludeTypes: [...arguments]}); `.
+     *
+     * @param {...string} excludeTypes
+     * @return DummyData[]
+     */
+    dummyBasicDataExcept: function(...excludeTypes){
+        return this.dummyData('*', {excludeTypes});
     },
     
     /**
@@ -293,6 +327,33 @@ util.refreshDummyData();
 //
 
 QUnit.module('Static Helpers', {}, function(){
+    QUnit.test('isDateNumber()', function(a){
+        const mustAlwaysReturnFalse = [
+            ...util.dummyDataExcept([], ['integer']),
+            util.dummyData('number.integer.negative'),
+            util.dummyData('string.integer.negative')
+            
+        ];
+        a.expect((mustAlwaysReturnFalse.length * 2) + 5);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.isDateNumber), 'function exists');
+        
+        // make sure values that should always return false do so in both modes
+        for(const dd of mustAlwaysReturnFalse){
+            a.strictEqual(MoodleVersion.isDateNumber(dd.value, false), false, `${dd.description} returns false without strict type checking`);
+            a.strictEqual(MoodleVersion.isDateNumber(dd.value, true), false, `${dd.description} returns false with strict type checking`);
+        }
+        
+        // make sure values that are always correct return true in both modes
+        a.strictEqual(MoodleVersion.isDateNumber(20180517, false), true, '20180517 returns true without strict type checking');
+        a.strictEqual(MoodleVersion.isDateNumber(20180517, true), true, '20180517 returns true with strict type checking');
+        
+        // make sure valid strings are only accepted when strict mode is disabled
+        a.strictEqual(MoodleVersion.isReleaseNumber('20180517', false), true, "'20180517' returns true without strict type checking");
+        a.strictEqual(MoodleVersion.isReleaseNumber('20180517', true), false, "'20180517' returns false with strict type checking");
+    });
+    
     QUnit.test('isBranch()', function(a){
         const mustReturnFalse = [
             ...util.dummyDataExcept(['string'], []),
@@ -341,6 +402,41 @@ QUnit.module('Static Helpers', {}, function(){
         a.strictEqual(MoodleVersion.isBranchNumber('35', true), false, "'35' returns false with strict type checking");
     });
     
+    QUnit.test('isReleaseNumber()', function(a){
+        const mustAlwaysReturnFalse = [
+            ...util.dummyDataExcept([], ['integer'], ['string.empty']),
+            util.dummyData('number.integer.negative'),
+            util.dummyData('string.integer.negative')
+            
+        ];
+        a.expect((mustAlwaysReturnFalse.length * 2) + 11);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.isReleaseNumber), 'function exists');
+        
+        // make sure values that should always return false do so in both modes
+        for(const dd of mustAlwaysReturnFalse){
+            a.strictEqual(MoodleVersion.isReleaseNumber(dd.value, false), false, `${dd.description} returns false without strict type checking`);
+            a.strictEqual(MoodleVersion.isReleaseNumber(dd.value, true), false, `${dd.description} returns false with strict type checking`);
+        }
+        
+        // make sure values that are always correct return true in both modes
+        a.strictEqual(MoodleVersion.isReleaseNumber(0, false), true, '0 returns true without strict type checking');
+        a.strictEqual(MoodleVersion.isReleaseNumber(0, true), true, '0 returns true with strict type checking');
+        a.strictEqual(MoodleVersion.isReleaseNumber(3, false), true, '3 returns true without strict type checking');
+        a.strictEqual(MoodleVersion.isReleaseNumber(3, true), true, '3 returns true with strict type checking');
+        a.strictEqual(MoodleVersion.isReleaseNumber(33, false), true, '33 returns true without strict type checking');
+        a.strictEqual(MoodleVersion.isReleaseNumber(33, true), true, '33 returns true with strict type checking');
+        
+        // make sure valid strings are only accepted when strict mode is disabled
+        a.strictEqual(MoodleVersion.isReleaseNumber('3', false), true, "'3' returns true without strict type checking");
+        a.strictEqual(MoodleVersion.isReleaseNumber('3', true), false, "'3' returns false with strict type checking");
+        
+        // make sure both the digit zero and the empty string are accepted when strict mode is disabled
+        a.strictEqual(MoodleVersion.isReleaseNumber('0', false), true, "'0' returns true without strict type checking");
+        a.strictEqual(MoodleVersion.isReleaseNumber('', false), true, "the empty string returns true without strict type checking");
+    });
+    
     QUnit.test('branchFromBranchNumber()', function(a){
         const mustReturnUndefined = [
             ...util.dummyDataExcept([], ['2digit'])
@@ -358,6 +454,27 @@ QUnit.module('Static Helpers', {}, function(){
         // make sure valid data returns as expected
         a.strictEqual(MoodleVersion.branchFromBranchNumber(35), '3.5', "35 converts to '3.5'");
         a.strictEqual(MoodleVersion.branchFromBranchNumber('35'), '3.5', "'35' converts to '3.5'");
+    });
+    
+    QUnit.test('branchFromBranchingDate()', function(a){
+        const mustReturnUndefined = [
+            ...util.dummyBasicDataExcept('number')
+        ];
+        a.expect(mustReturnUndefined.length + 5);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.branchFromBranchingDate), 'function exists');
+        
+        // make sure the data that should return undefined does
+        for(const dd of mustReturnUndefined){
+            a.ok(is.undefined(MoodleVersion.branchFromBranchingDate(dd.value)), `${dd.description} returns undefined`);
+        }
+        
+        // make sure valid data returns as expected
+        a.strictEqual(MoodleVersion.branchFromBranchingDate(20180517), '3.5', "20180517 converts to '3.5'");
+        a.strictEqual(MoodleVersion.branchFromBranchingDate('20180517'), '3.5', "'20180517' converts to '3.5'");
+        a.ok(is.undefined(MoodleVersion.branchFromBranchingDate(20180513)), '20180513 converts to undefined (no such mapping)');
+        a.ok(is.undefined(MoodleVersion.branchFromBranchingDate('20180513')),"'20180513' converts to undefined (no such mapping)");
     });
     
     QUnit.test('branchNumberFromBranch()', function(a){
@@ -378,5 +495,26 @@ QUnit.module('Static Helpers', {}, function(){
         
         // make sure that values are converted as expected
         a.strictEqual(MoodleVersion.branchNumberFromBranch('3.5'), 35, "'3.5' converts to 35");
+    });
+    
+    QUnit.test('branchNumberFromBranchingDate()', function(a){
+        const mustReturnUndefined = [
+            ...util.dummyBasicDataExcept('number')
+        ];
+        a.expect(mustReturnUndefined.length + 5);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.branchNumberFromBranchingDate), 'function exists');
+        
+        // make sure the data that should return undefined does
+        for(const dd of mustReturnUndefined){
+            a.ok(is.undefined(MoodleVersion.branchNumberFromBranchingDate(dd.value)), `${dd.description} returns undefined`);
+        }
+        
+        // make sure valid data returns as expected
+        a.strictEqual(MoodleVersion.branchNumberFromBranchingDate(20180517), 35, '20180517 converts to 35');
+        a.strictEqual(MoodleVersion.branchNumberFromBranchingDate('20180517'), 35, "'20180517' converts to 35");
+        a.ok(is.undefined(MoodleVersion.branchNumberFromBranchingDate(20180513)), '20180513 converts to undefined (no such mapping)');
+        a.ok(is.undefined(MoodleVersion.branchNumberFromBranchingDate('20180513')),"'20180513' converts to undefined (no such mapping)");
     });
 });
