@@ -36,6 +36,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-DateNumber">DateNumber</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ReleaseNumber">ReleaseNumber</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ReleaseString">ReleaseString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ReleaseSuffix">ReleaseSuffix</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ReleaseType">ReleaseType</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-VersionNumber">VersionNumber</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-VersionString">VersionString</a></span></span></li>
 </ul>
@@ -124,6 +126,30 @@
  */
 
 /**
+ * Moodle releases are categoriesed into one of three types:
+ *
+ * 1. Development releases, both betas and alphas.
+ * 2. Official stable releases.
+ * 3. Weekly updates to official stable releases.
+ *
+ * These three values are represented as `&apos;development&apos;`, `&apos;official&apos;`, and
+ * `&apos;weekly&apos;`.
+ *
+ * @typedef {string} ReleaseType
+ */
+
+/**
+ * A release suffix is used to indicate the release type in some Moodle version
+ * strings. Possible values are:
+ *
+ * * `&apos;dev&apos;` for development releases.
+ * * `&apos;&apos;` (an empty string) for official stable releases.
+ * * `+` for weekly updates to official stable releases.
+ * 
+ * @typedef {string} ReleaseSuffix
+ */
+
+/**
  * Each released moodle build, both the weeklys and the offical updates are
  * assigned a build number which takes the form of a {@link DateNumber}.
  * 
@@ -144,25 +170,36 @@
 /**
  * A mapping form branch numbers to branching date numbers.
  * 
- * @type {Object}
+ * @type {Map&lt;BranchNumber, DateNumber&gt;}
  * @protected
  */
 const BNUM_BDNUM_MAP = {
-    &apos;22&apos;: &apos;20111205&apos;,
-    &apos;23&apos;: &apos;20120625&apos;,
-    &apos;24&apos;: &apos;20121203&apos;,
-    &apos;25&apos;: &apos;20130514&apos;,
-    &apos;26&apos;: &apos;20131118&apos;,
-    &apos;27&apos;: &apos;20140512&apos;,
-    &apos;28&apos;: &apos;20141110&apos;,
-    &apos;29&apos;: &apos;20150511&apos;,
-    &apos;30&apos;: &apos;20151116&apos;,
-    &apos;31&apos;: &apos;20160523&apos;,
-    &apos;32&apos;: &apos;20161205&apos;,
-    &apos;33&apos;: &apos;20170515&apos;,
-    &apos;34&apos;: &apos;20171113&apos;,
-    &apos;35&apos;: &apos;20180517&apos;
+    &apos;22&apos;: 20111205,
+    &apos;23&apos;: 20120625,
+    &apos;24&apos;: 20121203,
+    &apos;25&apos;: 20130514,
+    &apos;26&apos;: 20131118,
+    &apos;27&apos;: 20140512,
+    &apos;28&apos;: 20141110,
+    &apos;29&apos;: 20150511,
+    &apos;30&apos;: 20151116,
+    &apos;31&apos;: 20160523,
+    &apos;32&apos;: 20161205,
+    &apos;33&apos;: 20170515,
+    &apos;34&apos;: 20171113,
+    &apos;35&apos;: 20180517
 };
+
+/**
+ * A mapping form branching date numbers to branch numbers.
+ * 
+ * @type {Map&lt;DateNumber, BranchNumber&gt;}
+ * @protected
+ */
+const BDNUM_BNUM_MAP = {};
+for(const bn of Object.keys(BNUM_BDNUM_MAP)){
+    BDNUM_BNUM_MAP[BNUM_BDNUM_MAP[bn]] = parseInt(bn);
+}
 
 /**
  * A list of LTS (Long-Term Support) branch numbers.
@@ -207,9 +244,45 @@ module.exports = class MoodleVersion {
      */
     constructor() {
         /**
-         * @type {number}
+         * @type {BranchNumber}
          */
         this._branchNumber = undefined;
+        
+        /**
+         * @type {ReleaseNumber}
+         */
+        this._releaseNumber = undefined;
+        
+        /**
+         * The release suffix. Can only be one of:
+         *
+         * * `&apos;dev&apos;` for alpha and beta releases
+         * * `&apos;&apos;` (an empty string) for official releases
+         * * `&apos;+&apos;` for weekly updates to the official releases
+         * 
+         * Defaults to an empty string.
+         *
+         * @type {string}
+         */
+        this._releaseSuffix = &apos;&apos;;
+    }
+    
+    /**
+     * Test if a given value is a date number, i.e. an 8-digit number of the
+     * form `YYYYMMDD`.
+     *
+     * @param {*} val - the value to test.
+     * @param {boolean} [strictTypeCheck=false] - whether or not to enable
+     * strict type checking. With strict type cheking enabled, string
+     * representation of otherwise valid values will return `false`.
+     * @return {boolean}
+     */
+    static isDateNumber(val, strictTypeCheck){
+        if(is.not.number(val)){
+            if(strictTypeCheck) return false;
+            if(is.not.string(val)) return false;
+        }
+        return String(val).match(/^[12]\d{3}[01]\d[0123]\d$/) ? true : false;
     }
     
     /**
@@ -226,9 +299,9 @@ module.exports = class MoodleVersion {
      * Test if a given value is a branch number, e.g. `35` or `&apos;35&apos;`.
      *
      * @param {*} val - the value to test.
-     * @param {boolean} [strictTypeCheck=false] - whether or not to enable strict type
-     * checking. With strict type cheking enabled, string representation of
-     * otherwise valid values will return `false`.
+     * @param {boolean} [strictTypeCheck=false] - whether or not to enable
+     * strict type checking. With strict type cheking enabled, string
+     * representation of otherwise valid values will return `false`.
      * @return {boolean}
      */
     static isBranchNumber(val, strictTypeCheck = false){
@@ -240,6 +313,49 @@ module.exports = class MoodleVersion {
     }
     
     /**
+     * Test if a given value is a release number.
+     *
+     * Note that if strict type checking is not enabled, the empty string is
+     * considered a valid release number, being synonymous with zero in
+     * Moodle release strings.
+     *
+     * @param {*} val - the value to test.
+     * @param {boolean} [strictTypeCheck=false] - whether or not to enable
+     * strict type checking. With strict type cheking enabled, string
+     * representation of otherwise valid values will return `false`.
+     * @return {boolean}
+     */
+    static isReleaseNumber(val, strictTypeCheck = false){
+        if(is.not.number(val)){
+            if(strictTypeCheck) return false;
+            if(is.not.string(val)) return false;
+        }
+        return val === &apos;&apos; || String(val).match(/^\d+$/) ? true : false;
+    }
+    
+    /**
+     * Test if a given value is a valid release type.
+     *
+     * @param {*} val - the value to test.
+     * @return {boolean}
+     * @see ReleaseType
+     */
+    static isReleaseType(val){
+        return val === &apos;development&apos; || val === &apos;official&apos; || val === &apos;weekly&apos; ? true : false;
+    }
+    
+    /**
+     * Test if a given value is a valid release suffix.
+     *
+     * @param {*} val - the value to test.
+     * @return {boolean}
+     * @see ReleaseSuffix
+     */
+    static isReleaseSuffix(val){ // TO DO - needs testing
+        return val === &apos;dev&apos; || val === &apos;&apos; || val === &apos;+&apos; ? true : false;
+    }
+    
+    /**
      * Convert a branch number into a branch string, i.e. `35` to `&apos;3.5&apos;`.
      *
      * @param {BranchNumber} bn
@@ -248,9 +364,23 @@ module.exports = class MoodleVersion {
      */
     static branchFromBranchNumber(bn){
         if(is.undefined(bn)) return undefined;
-        let bnStr = String(bn);
-        if(!bnStr.match(/^[1-9]\d$/)) return undefined;
-        return bnStr.split(&apos;&apos;).join(&apos;.&apos;);
+        if(!MoodleVersion.isBranchNumber(bn, false)) return undefined;
+        return String(bn).split(&apos;&apos;).join(&apos;.&apos;);
+    }
+    
+    /**
+     * Convert a branching date number to a branch, e.g. `20180517` to
+     * `&apos;3.5&apos;`.
+     *
+     * @param {DateNumber} bdn
+     * @return {BranchString|undefined}
+     */
+    static branchFromBranchingDate(bdn){
+        if(is.undefined(bdn)) return undefined;
+        if(!MoodleVersion.isDateNumber(bdn, false)) return undefined;
+        let bn = BDNUM_BNUM_MAP[bdn];
+        if(is.undefined(bn)) return undefined;
+        return MoodleVersion.branchFromBranchNumber(bn);
     }
     
     /**
@@ -262,8 +392,83 @@ module.exports = class MoodleVersion {
      */
     static branchNumberFromBranch(b){
         if(is.undefined(b)) return undefined;
-        if(!(is.string(b) &amp;&amp; b.match(/^[1-9][.]\d$/))) return undefined;
+        if(!MoodleVersion.isBranch(b)) return undefined;
         return parseInt(b.split(/[.]/).join(&apos;&apos;));
+    }
+    
+    /**
+     * Convert a branching date number to a branch number, e.g. `20180517` to
+     * `35`.
+     *
+     * @param {DateNumber} bdn
+     * @return {number|undefined}
+     */
+    static branchNumberFromBranchingDate(bdn){
+        if(is.undefined(bdn)) return undefined;
+        if(!MoodleVersion.isDateNumber(bdn, false)) return undefined;
+        return BDNUM_BNUM_MAP[bdn] ? BDNUM_BNUM_MAP[bdn] : undefined;
+    }
+    
+    /**
+     * Convert a branch to a branching date number, e.g. `&apos;3.5&apos;` to `20180517`.
+     *
+     * @param {BranchString} b
+     * @return {number|undefined}
+     */
+    static branchingDateFromBranch(b){
+        if(is.undefined(b)) return undefined;
+        const bn = MoodleVersion.branchNumberFromBranch(b);
+        if(is.undefined(bn)) return undefined;
+        return BNUM_BDNUM_MAP[bn] ? BNUM_BDNUM_MAP[bn] : undefined;
+    }
+    
+    /**
+     * Convert a branch number to a branching date number, e.g. `35` to `20180517`.
+     *
+     * @param {BranchNumber} bn
+     * @return {number|undefined}
+     */
+    static branchingDateFromBranchNumber(bn){
+        if(is.undefined(bn)) return undefined;
+        return BNUM_BDNUM_MAP[bn] ? BNUM_BDNUM_MAP[bn] : undefined;
+    }
+    
+    /**
+     * Convert a release type to a release suffix, e.g. `&apos;weekly&apos;` to `&apos;+&apos;`.
+     *
+     * @param {ReleaseType} rt
+     * @return {ReleaseSuffix|undefined}
+     */
+    static releaseSuffixFromReleaseType(rt){ // TO DO - test
+        if(is.not.string(rt)) return undefined;
+        switch(rt.toLowerCase()){
+            case &apos;development&apos;:
+                return &apos;dev&apos;;
+            case &apos;official&apos;:
+                return &apos;&apos;;
+            case &apos;weekly&apos;:
+                return &apos;+&apos;;
+        }
+        return undefined;
+    }
+    
+    /**
+     * Convert a relase suffix to a release type, e.g. `&apos;+&apos;` to `&apos;weekly&apos;`.
+     *
+     * @param {ReleaseSuffix} rs
+     * @return {ReleaseType|undefined}
+     */
+    static releaseTypeFromReleaseSuffix(rs){ // TO DO - test
+        if(is.not.string(rs)) return undefined;
+        switch(rs.toLowerCase()){
+            case &apos;dev&apos;:
+                return &apos;development&apos;;
+            case &apos;&apos;:
+                return &apos;official&apos;;
+            case &apos;+&apos;:
+                return &apos;weekly&apos;;
+        }
+        return undefined;
     }
     
     /**
@@ -292,16 +497,13 @@ module.exports = class MoodleVersion {
             return;
         }
         
-        // check the valididy of the branch number
-        
-        
-        if(is.undefined(bn)){
-            this._branchNumber = undefined;
-        }else if(!String(bn).match(/^[1-9]\d$/)){
+        // check the validity of the branch number
+        if(!MoodleVersion.isBranchNumber(bn, false)){
             throw new TypeError(&apos;Branch Numbers must be integers between 10 and 99&apos;);
-        }else{
-            this._branchNumber = parseInt(bn);
-        }        
+        }
+        
+        // set the branch number
+        this._branchNumber = parseInt(bn);
     }
     
     /**
@@ -326,20 +528,77 @@ module.exports = class MoodleVersion {
      * @throws {TypeError}
      */
     set branch(b){
+        // short-circuit requests to set undefined
         if(is.undefined(b)){
             this._branchNumber = undefined;
-        }else if(!String(b).match(/^\d[.]\d$/)){
-            throw new TypeError(&apos;Branches must be strings consisting of a digit, a period, and another digit&apos;);
-        }else{
-            this._branchNumber = parseInt(String(bn).split(&apos;.&apos;).join());
+            return;
         }
+        
+        // try convery the branch to a branch number
+        let bn = MoodleVersion.branchNumberFromBranch(b);
+        if(is.not.number(bn)){
+            throw new TypeError(&apos;Branches must be strings consisting of a digit, a period, and another digit&apos;);
+        }
+        
+        // store the branch number
+        this._branchNumber = bn;
     }
+    
+    /**
+     * The release number part of the version number.
+     *
+     * @type {ReleaseNumber|undefined}
+     */
+    get releaseNumber(){
+        return this._releaseNumber;
+    }
+    
+    /**
+     * The release number must be an integer greater than or equal to zero.
+     *
+     * @type {ReleaseNumber|undefined}
+     * @throws {TypeError}
+     */
+    set releaseNumber(rn){
+        // short-circuit requests to set undefined
+        if(is.undefined(rn)){
+            this._releaseNumber = undefined;
+            return;
+        }
+        
+        // check the validity of the release number
+        if(!MoodleVersion.isReleaseNumber(rn, false)){
+            throw new TypeError(&apos;Release Numbers must be integers greater than or equal to zero&apos;);
+        }
+        
+        // set the branch number (coercing the empty string to 0)
+        this._releaseNumber = rn === &apos;&apos; ? 0 : parseInt(rn);
+    }
+    
+    /**
+     * The release suffix. Possible values are:
+     *
+     * * `&apos;dev&apos;` for development releases (both alpha and beta releases).
+     * * `&apos;&apos;` (an empty string) for official releases.
+     * * `&apos;+&apos;` for weekly updates to official releases.
+     *
+     * @type {string}
+     */
+    get releaseSuffix(){
+        return this._releaseSuffix;
+    }
+    
+    /**
+     * The suffix must be one of `&apos;dev&apos;`, `&apos;&apos;`, or `&apos;+&apos;`.
+     *
+     * 
+     */
     
     /**
      * toString() description.
      */
     toString(){
-        return &apos;Some Moodle Version&apos;;
+        return `${this.branch}.${this.releaseNumber}`;
     }
 };</code></pre>
 

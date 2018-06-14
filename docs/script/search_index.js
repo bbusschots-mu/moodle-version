@@ -348,6 +348,24 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/moodleversion.js~moodleversion#releasenumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-releaseNumber",
+    "src/MoodleVersion.js~MoodleVersion#releaseNumber",
+    "member"
+  ],
+  [
+    "src/moodleversion.js~moodleversion#releasenumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-releaseNumber",
+    "src/MoodleVersion.js~MoodleVersion#releaseNumber",
+    "member"
+  ],
+  [
+    "src/moodleversion.js~moodleversion#releasesuffix",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-releaseSuffix",
+    "src/MoodleVersion.js~MoodleVersion#releaseSuffix",
+    "member"
+  ],
+  [
     "src/moodleversion.js~moodleversion#tostring",
     "class/src/MoodleVersion.js~MoodleVersion.html#instance-method-toString",
     "src/MoodleVersion.js~MoodleVersion#toString",
@@ -360,9 +378,33 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/moodleversion.js~moodleversion.branchfrombranchingdate",
+    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-branchFromBranchingDate",
+    "src/MoodleVersion.js~MoodleVersion.branchFromBranchingDate",
+    "method"
+  ],
+  [
     "src/moodleversion.js~moodleversion.branchnumberfrombranch",
     "class/src/MoodleVersion.js~MoodleVersion.html#static-method-branchNumberFromBranch",
     "src/MoodleVersion.js~MoodleVersion.branchNumberFromBranch",
+    "method"
+  ],
+  [
+    "src/moodleversion.js~moodleversion.branchnumberfrombranchingdate",
+    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-branchNumberFromBranchingDate",
+    "src/MoodleVersion.js~MoodleVersion.branchNumberFromBranchingDate",
+    "method"
+  ],
+  [
+    "src/moodleversion.js~moodleversion.branchingdatefrombranch",
+    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-branchingDateFromBranch",
+    "src/MoodleVersion.js~MoodleVersion.branchingDateFromBranch",
+    "method"
+  ],
+  [
+    "src/moodleversion.js~moodleversion.branchingdatefrombranchnumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-branchingDateFromBranchNumber",
+    "src/MoodleVersion.js~MoodleVersion.branchingDateFromBranchNumber",
     "method"
   ],
   [
@@ -378,6 +420,42 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/moodleversion.js~moodleversion.isdatenumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-isDateNumber",
+    "src/MoodleVersion.js~MoodleVersion.isDateNumber",
+    "method"
+  ],
+  [
+    "src/moodleversion.js~moodleversion.isreleasenumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-isReleaseNumber",
+    "src/MoodleVersion.js~MoodleVersion.isReleaseNumber",
+    "method"
+  ],
+  [
+    "src/moodleversion.js~moodleversion.isreleasesuffix",
+    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-isReleaseSuffix",
+    "src/MoodleVersion.js~MoodleVersion.isReleaseSuffix",
+    "method"
+  ],
+  [
+    "src/moodleversion.js~moodleversion.isreleasetype",
+    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-isReleaseType",
+    "src/MoodleVersion.js~MoodleVersion.isReleaseType",
+    "method"
+  ],
+  [
+    "src/moodleversion.js~moodleversion.releasesuffixfromreleasetype",
+    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-releaseSuffixFromReleaseType",
+    "src/MoodleVersion.js~MoodleVersion.releaseSuffixFromReleaseType",
+    "method"
+  ],
+  [
+    "src/moodleversion.js~moodleversion.releasetypefromreleasesuffix",
+    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-releaseTypeFromReleaseSuffix",
+    "src/MoodleVersion.js~MoodleVersion.releaseTypeFromReleaseSuffix",
+    "method"
+  ],
+  [
     "src/moodleversion.js~releasenumber",
     "typedef/index.html#static-typedef-ReleaseNumber",
     "src/MoodleVersion.js~ReleaseNumber",
@@ -387,6 +465,18 @@ window.esdocSearchIndex = [
     "src/moodleversion.js~releasestring",
     "typedef/index.html#static-typedef-ReleaseString",
     "src/MoodleVersion.js~ReleaseString",
+    "typedef"
+  ],
+  [
+    "src/moodleversion.js~releasesuffix",
+    "typedef/index.html#static-typedef-ReleaseSuffix",
+    "src/MoodleVersion.js~ReleaseSuffix",
+    "typedef"
+  ],
+  [
+    "src/moodleversion.js~releasetype",
+    "typedef/index.html#static-typedef-ReleaseType",
+    "src/MoodleVersion.js~ReleaseType",
     "typedef"
   ],
   [

@@ -79,6 +79,30 @@ const is = require('is_js');
  */
 
 /**
+ * Moodle releases are categoriesed into one of three types:
+ *
+ * 1. Development releases, both betas and alphas.
+ * 2. Official stable releases.
+ * 3. Weekly updates to official stable releases.
+ *
+ * These three values are represented as `'development'`, `'official'`, and
+ * `'weekly'`.
+ *
+ * @typedef {string} ReleaseType
+ */
+
+/**
+ * A release suffix is used to indicate the release type in some Moodle version
+ * strings. Possible values are:
+ *
+ * * `'dev'` for development releases.
+ * * `''` (an empty string) for official stable releases.
+ * * `+` for weekly updates to official stable releases.
+ * 
+ * @typedef {string} ReleaseSuffix
+ */
+
+/**
  * Each released moodle build, both the weeklys and the offical updates are
  * assigned a build number which takes the form of a {@link DateNumber}.
  * 
@@ -173,14 +197,19 @@ module.exports = class MoodleVersion {
      */
     constructor() {
         /**
-         * @type {BranchNumber}
+         * @type {BranchNumber|undefined}
          */
         this._branchNumber = undefined;
         
         /**
-         * @type {ReleaseNumber}
+         * @type {ReleaseNumber|undefined}
          */
         this._releaseNumber = undefined;
+        
+        /**
+         * @type {ReleaseType|undefined}
+         */
+        this._releaseType = undefined;
     }
     
     /**
@@ -250,6 +279,28 @@ module.exports = class MoodleVersion {
     }
     
     /**
+     * Test if a given value is a valid release type.
+     *
+     * @param {*} val - the value to test.
+     * @return {boolean}
+     * @see ReleaseType
+     */
+    static isReleaseType(val){
+        return val === 'development' || val === 'official' || val === 'weekly' ? true : false;
+    }
+    
+    /**
+     * Test if a given value is a valid release suffix.
+     *
+     * @param {*} val - the value to test.
+     * @return {boolean}
+     * @see ReleaseSuffix
+     */
+    static isReleaseSuffix(val){ // TO DO - needs testing
+        return val === 'dev' || val === '' || val === '+' ? true : false;
+    }
+    
+    /**
      * Convert a branch number into a branch string, i.e. `35` to `'3.5'`.
      *
      * @param {BranchNumber} bn
@@ -309,7 +360,7 @@ module.exports = class MoodleVersion {
      * @param {BranchString} b
      * @return {number|undefined}
      */
-    static branchingDateFromBranch(b){ // LEFT OFF HERE - NEEDS TESTING
+    static branchingDateFromBranch(b){
         if(is.undefined(b)) return undefined;
         const bn = MoodleVersion.branchNumberFromBranch(b);
         if(is.undefined(bn)) return undefined;
@@ -322,9 +373,47 @@ module.exports = class MoodleVersion {
      * @param {BranchNumber} bn
      * @return {number|undefined}
      */
-    static branchingDateFromBranchNumber(bn){ // TO DO - NEEDS TESTING
+    static branchingDateFromBranchNumber(bn){
         if(is.undefined(bn)) return undefined;
         return BNUM_BDNUM_MAP[bn] ? BNUM_BDNUM_MAP[bn] : undefined;
+    }
+    
+    /**
+     * Convert a release type to a release suffix, e.g. `'weekly'` to `'+'`.
+     *
+     * @param {ReleaseType} rt
+     * @return {ReleaseSuffix|undefined}
+     */
+    static releaseSuffixFromReleaseType(rt){
+        if(is.not.string(rt)) return undefined;
+        switch(rt.toLowerCase()){
+            case 'development':
+                return 'dev';
+            case 'official':
+                return '';
+            case 'weekly':
+                return '+';
+        }
+        return undefined;
+    }
+    
+    /**
+     * Convert a relase suffix to a release type, e.g. `'+'` to `'weekly'`.
+     *
+     * @param {ReleaseSuffix} rs
+     * @return {ReleaseType|undefined}
+     */
+    static releaseTypeFromReleaseSuffix(rs){
+        if(is.not.string(rs)) return undefined;
+        switch(rs.toLowerCase()){
+            case 'dev':
+                return 'development';
+            case '':
+                return 'official';
+            case '+':
+                return 'weekly';
+        }
+        return undefined;
     }
     
     /**
@@ -430,6 +519,8 @@ module.exports = class MoodleVersion {
         // set the branch number (coercing the empty string to 0)
         this._releaseNumber = rn === '' ? 0 : parseInt(rn);
     }
+    
+    // LEFT OFF HERE - add accessors for release type directly and via suffix
     
     /**
      * toString() description.

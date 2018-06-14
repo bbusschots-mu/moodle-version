@@ -255,7 +255,7 @@ const util = {
      * @param {string[]} [excludeTypes]
      * @param {string[]} [excludeTags]
      * @param {string[]} [excludeDefinitions]
-     * @return DummyData[]
+     * @return {DummyData[]}
      */
     dummyDataExcept: function(excludeTypes, excludeTags, excludeDefinitions){
         if(is.not.array(excludeTypes)) excludeTypes = [];
@@ -265,17 +265,34 @@ const util = {
     },
     
     /**
+     * A function to return all basic dummy data, i.e. all dummy data tagged
+     * `basic`.
+     *
+     * This is a shortcut for `dummyDataByTag('basic')`.
+     *
+     * @return {DummyData[]}
+     */
+    dummyBasicData: function(){
+        return this.dummyDataByTag('basic');
+    },
+    
+    /**
      * A function to return all basic dummy data except those for zero or more
      * given types.
      *
-     * This is a shortcut for
-     * `dummyData('*', {excludeTypes: [...arguments]}); `.
-     *
      * @param {...string} excludeTypes
-     * @return DummyData[]
+     * @return {DummyData[]}
      */
     dummyBasicDataExcept: function(...excludeTypes){
-        return this.dummyData('*', {excludeTypes});
+        const excludeLookup = {};
+        for(const et of excludeTypes) excludeLookup[et] = true;
+        const ans = [];
+        for(const dd of this.dummyBasicData()){
+            if(!excludeLookup[dd.type]){
+                ans.push(dd);
+            }
+        }
+        return ans;
     },
     
     /**
@@ -326,7 +343,7 @@ util.refreshDummyData();
 //=== The Tests ================================================================
 //
 
-QUnit.module('Static Helpers', {}, function(){
+QUnit.module('Static Validation Functions', {}, function(){
     QUnit.test('isDateNumber()', function(a){
         const mustAlwaysReturnFalse = [
             ...util.dummyDataExcept([], ['integer']),
@@ -437,6 +454,50 @@ QUnit.module('Static Helpers', {}, function(){
         a.strictEqual(MoodleVersion.isReleaseNumber('', false), true, "the empty string returns true without strict type checking");
     });
     
+    QUnit.test('isReleaseType()', function(a){
+        const mustReturnFalse = [
+            ...util.dummyBasicData()
+        ];
+        
+        a.expect(mustReturnFalse.length + 4);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.isReleaseType), 'function exists');
+        
+        // make sure values that should return false do
+        for(const dd of mustReturnFalse){
+            a.strictEqual(MoodleVersion.isReleaseType(dd.value), false, `${dd.description} returns false`);
+        }
+        
+        // make sure all three valid values return true
+        a.strictEqual(MoodleVersion.isReleaseType('development'), true, "'development' returns true");
+        a.strictEqual(MoodleVersion.isReleaseType('official'), true, "'official' returns true");
+        a.strictEqual(MoodleVersion.isReleaseType('weekly'), true, "'weekly' returns true");
+    });
+    
+    QUnit.test('isReleaseSuffix()', function(a){
+        const mustReturnFalse = [
+            ...util.dummyBasicData()
+        ];
+        
+        a.expect(mustReturnFalse.length + 4);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.isReleaseSuffix), 'function exists');
+        
+        // make sure values that should return false do
+        for(const dd of mustReturnFalse){
+            a.strictEqual(MoodleVersion.isReleaseSuffix(dd.value), false, `${dd.description} returns false`);
+        }
+        
+        // make sure all three valid values return true
+        a.strictEqual(MoodleVersion.isReleaseSuffix('dev'), true, "'dev' returns true");
+        a.strictEqual(MoodleVersion.isReleaseSuffix(''), true, 'an empty string returns true');
+        a.strictEqual(MoodleVersion.isReleaseSuffix('+'), true, "'+' returns true");
+    });
+});
+
+QUnit.module('Static Conversion Functions', {}, function(){    
     QUnit.test('branchFromBranchNumber()', function(a){
         const mustReturnUndefined = [
             ...util.dummyDataExcept([], ['2digit'])
@@ -516,5 +577,89 @@ QUnit.module('Static Helpers', {}, function(){
         a.strictEqual(MoodleVersion.branchNumberFromBranchingDate('20180517'), 35, "'20180517' converts to 35");
         a.ok(is.undefined(MoodleVersion.branchNumberFromBranchingDate(20180513)), '20180513 converts to undefined (no such mapping)');
         a.ok(is.undefined(MoodleVersion.branchNumberFromBranchingDate('20180513')),"'20180513' converts to undefined (no such mapping)");
+    });
+    
+    QUnit.test('branchingDateFromBranch()', function(a){
+        const mustReturnUndefined = [
+            ...util.dummyBasicDataExcept('string')
+        ];
+        a.expect(mustReturnUndefined.length + 3);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.branchingDateFromBranch), 'function exists');
+        
+        // make sure the data that should return undefined does
+        for(const dd of mustReturnUndefined){
+            a.ok(is.undefined(MoodleVersion.branchingDateFromBranch(dd.value)), `${dd.description} returns undefined`);
+        }
+        
+        // make sure valid data returns as expected
+        a.strictEqual(MoodleVersion.branchingDateFromBranch('3.5'), 20180517, "'3.5' converts to 20180517");
+        a.ok(is.undefined(MoodleVersion.branchingDateFromBranch('9.9')), "'9.9' converts to undefined (no such mapping)");
+    });
+    
+    QUnit.test('branchingDateFromBranchNumber()', function(a){
+        const mustReturnUndefined = [
+            ...util.dummyBasicDataExcept('number')
+        ];
+        a.expect(mustReturnUndefined.length + 5);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.branchingDateFromBranchNumber), 'function exists');
+        
+        // make sure the data that should return undefined does
+        for(const dd of mustReturnUndefined){
+            a.ok(is.undefined(MoodleVersion.branchingDateFromBranchNumber(dd.value)), `${dd.description} returns undefined`);
+        }
+        
+        // make sure valid data returns as expected
+        a.strictEqual(MoodleVersion.branchingDateFromBranchNumber(35), 20180517, '35 converts to 20180517');
+        a.strictEqual(MoodleVersion.branchingDateFromBranchNumber('35'), 20180517, "'35' converts to 20180517");
+        a.ok(is.undefined(MoodleVersion.branchingDateFromBranchNumber(99)), '99 converts to undefined (no such mapping)');
+        a.ok(is.undefined(MoodleVersion.branchingDateFromBranchNumber('99')),"'99' converts to undefined (no such mapping)");
+    });
+    
+    QUnit.test('releaseSuffixFromReleaseType()', function(a){
+        const mustReturnUndefined = [
+            ...util.dummyBasicData()
+        ];
+        a.expect(mustReturnUndefined.length + 7);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.releaseSuffixFromReleaseType), 'function exists');
+        
+        // make sure that values that should return undefined do
+        for(const dd of mustReturnUndefined){
+            a.ok(is.undefined(MoodleVersion.releaseSuffixFromReleaseType(dd.value)), `${dd.description} returns undefined`);
+        }
+        
+        // make sure the three valid values convert correctly, regardless of case
+        a.strictEqual(MoodleVersion.releaseSuffixFromReleaseType('development'), 'dev', "'development' converts to 'dev'");
+        a.strictEqual(MoodleVersion.releaseSuffixFromReleaseType('DEVELOPMENT'), 'dev', "'DEVELOPMENT' converts to 'dev'");
+        a.strictEqual(MoodleVersion.releaseSuffixFromReleaseType('official'), '', "'official' converts to ''");
+        a.strictEqual(MoodleVersion.releaseSuffixFromReleaseType('OFFICIAL'), '', "'OFFICIAL' converts to ''");
+        a.strictEqual(MoodleVersion.releaseSuffixFromReleaseType('weekly'), '+', "'weekly' converts to '+'");
+        a.strictEqual(MoodleVersion.releaseSuffixFromReleaseType('WEEKLY'), '+', "'WEEKLY' converts to '+'");
+    });
+    
+    QUnit.test('releaseTypeFromReleaseSuffix()', function(a){
+        const mustReturnUndefined = [
+            ...util.dummyBasicData()
+        ];
+        a.expect(mustReturnUndefined.length + 5);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.releaseTypeFromReleaseSuffix), 'function exists');
+        
+        // make sure that values that should return undefined do
+        for(const dd of mustReturnUndefined){
+            a.ok(is.undefined(MoodleVersion.releaseTypeFromReleaseSuffix(dd.value)), `${dd.description} returns undefined`);
+        }
+        
+        // make sure the three valid values convert correctly, regardless of case
+        a.strictEqual(MoodleVersion.releaseTypeFromReleaseSuffix('dev'), 'development', "'dev' converts to 'development'");
+        a.strictEqual(MoodleVersion.releaseTypeFromReleaseSuffix('DEV'), 'development', "'DEV' converts to 'development'");
+        a.strictEqual(MoodleVersion.releaseTypeFromReleaseSuffix(''), 'official', "'' converts to 'official'");
+        a.strictEqual(MoodleVersion.releaseTypeFromReleaseSuffix('+'), 'weekly', "'+' converts to 'weekly'");
     });
 });
