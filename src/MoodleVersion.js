@@ -416,6 +416,8 @@ module.exports = class MoodleVersion {
         return undefined;
     }
     
+    // TO DO - Test all the accessors
+    
     /**
      * The version's branch number, if known. This is the two-digit number
      * used internally within the Moodle code to identify a branch, or major
@@ -520,7 +522,56 @@ module.exports = class MoodleVersion {
         this._releaseNumber = rn === '' ? 0 : parseInt(rn);
     }
     
-    // LEFT OFF HERE - add accessors for release type directly and via suffix
+    /**
+     * The release's type, e.g. `'development'`.
+     *
+     * @type {ReleaseType|undefined}
+     */
+    get releaseType(){
+        return this._releaseType;
+    }
+    
+    /**
+     * The release type must be one of `'development'`, `'official'`, or
+     * `'weekly'`. The value will get automatically cast to lower case before
+     * validation is applied.
+     *
+     * @type {ReleaseType|undefined}
+     * @throws {TypeError}
+     */
+    set releaseType(rt){
+        const errMsg = "release type must be one of 'development', 'official', or 'weekly'";
+        if(is.not.string(rt)) throw new TypeError(errMsg);
+        rt = rt.toLowerCase();
+        if(!MoodleVersion.isReleaseType(rt)) throw new TypeError(errMsg);
+        this._releaseType = rt;
+    }
+    
+    /**
+     * The release suffix for the release's type, e.g. `'+'` for weekly
+     * updates to the official releases.
+     *
+     * @type {ReleaseSuffix|undefined}
+     */
+    get releaseSuffix(){
+        return MoodleVersion.releaseSuffixFromReleaseType(this._releaseType);
+    }
+    
+    /**
+     * The release suffix must be one of `'dev'`, an empty string, or `'+'`. The
+     * value will get automatically cast to lower case before validation is
+     * applied.
+     *
+     * @type {ReleaseSuffix|undefined}
+     * @throws {TypeError}
+     */
+    set releaseSuffix(rs){
+        const errMsg = "release suffix must be one of 'dev', '', or '+'";
+        if(is.not.string(rs)) throw new TypeErrpr(errMsg);
+        rs = rs.toLowerCase();
+        if(!MoodleVersion.isReleaseSuffix(rs)) throw new TypeError(errMsg);
+        this._releaseType = MoodleVersion.releaseTypeFromReleaseSuffix(rs);
+    }
     
     /**
      * toString() description.
