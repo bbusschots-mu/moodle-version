@@ -215,6 +215,11 @@ module.exports = class MoodleVersion {
          * @type {ReleaseType|undefined}
          */
         this._releaseType = undefined;
+        
+        /**
+         * @type {BuildNumber|undefined}
+         */
+        this._buildNumber = undefined;
     }
     
     /**
@@ -452,6 +457,80 @@ module.exports = class MoodleVersion {
         return undefined;
     }
     
+    /**
+     * A factory method for producing a Moodle Version object given all its
+     * properties.
+     *
+     * This function can be used to create version objects which contain
+     * unknown mappings between Moodle branches and branching dates.
+     *
+     * @param {Object} obj - an object defining zero or more of the following
+     * keys:
+     *
+     * * `branch` (e.g. `'3.5'`) or `branchNumber` (e.g. `35`) - if both are
+     *   specified `branchNumber` takes precedence.
+     * * `branchingDate` or `branchingDateNumber` - if both are specified
+     *   `branchingDateNumber` takes precedence.
+     * * `releaseNumber`
+     * * `releaseType` (e.g. `'weekly'`) or `releaseSuffix` (e.g. `'+'`) - if
+     *   both are specified, `releaseSuffix` takes precedence
+     * * `buildNumber`
+     * @throws {TypeError} A type error is thrown if an object is not passed,
+     * or, if any of the keys within that object map to an invalid value.
+     */
+    static fromObject(obj){
+        if(is.not.object(obj)) throw new TypeError('object required');
+        
+        const ans = new MoodleVersion();
+        
+        // set the branch if passed
+        if(is.propertyDefined(obj, 'branch') || is.propertyDefined(obj, 'branchNumber')){
+            if(is.propertyDefined(obj, 'branchNumber')){
+                if(!MoodleVersion.isBranchNumber(obj.branchNumber)) throw new TypeError('invalid branch number');
+                ans._branchNumber = parseInt(obj.branchNumber);
+            }else{
+                if(!MoodleVersion.isBranch(obj.branch)) throw new TypeError('invalid branch');
+                ans._branchNumber = MoodleVersion.branchFromBranchNumber(obj.branch);
+            }
+        }
+        
+        // set the branching date if passed
+        if(is.propertyDefined(obj, 'branchingDate') || is.propertyDefined(obj, 'branchingDateNumber')){
+            if(is.propertyDefined(obj, 'branchingDateNumber')){
+                if(!MoodleVersion.isDateNumber(obj.branchingDateNumber)) throw new TypeError('invalid branching date number');
+                ans._branchindDateNumber = parseInt(obj.branchingDateNumber);
+            }else{
+                if(is.not.date(obj.branchingDate)) throw new TypeError('invalid branching date');
+                ans._branchindDateNumber = MoodleVersion.dateNumberFromDate(obj.branchingDate);
+            }
+        }
+        
+        // set the release number if passed
+        if(is.propertyDefined(obj, 'releaseNumber')){
+            if(!MoodleVersion.isReleaseNumber(obj.releaseNumber)) throw new TypeError('invalid release number');
+            ans._releaseNumber = parseInt(obj.releaseNumber);
+        }
+        
+        // set the release type if passed
+        if(is.propertyDefined(obj, 'releaseType') || is.propertyDefined(obj, 'releaseSuffix')){
+            if(is.propertyDefined(obj, 'releaseSuffix')){
+                if(!MoodleVersion.isReleaseSuffix(obj.releaseSuffix)) throw new TypeError('invalid release suffix');
+                ans._releaseType = MoodleVersion.releaseTypeFromReleaseSuffix(obj.releaseSuffix);
+            }else{
+                if(!MoodleVersion.isReleaseType(obj.releaseType)) throw new TypeError('invalid release type');
+                ans._releaseType = obj.releaseType.toLowerCase();
+            }
+        }
+        
+        // set the build number if passed
+        if(is.propertyDefined(obj, 'buildNumber')){
+            if(!MoodleVersion.isDateNumber(obj.buildNumber)) throw new TypeError('invalid build number');
+            ans._buildNumber = parseInt(obj.buildNumber);
+        }
+        
+        return ans;
+    }
+    
     // TO DO - Test all the accessors
     
     /**
@@ -471,6 +550,9 @@ module.exports = class MoodleVersion {
      * The branch number must be a two-digit integer between 10 and 99.
      *
      * Setting the branch number will also update the branching date to match.
+     *
+     * To create an object with an un-known combination of branch and branching
+     * date, use the {@link MoodleVersion.fromObject} factory method.
      *
      * @type {BranchNumber|undefined}
      * @throws {TypeError}
@@ -521,6 +603,9 @@ module.exports = class MoodleVersion {
      *
      * Setting the branch will also update the branching date to match.
      *
+     * To create an object with an un-known combination of branch and branching
+     * date, use the {@link MoodleVersion.fromObject} factory method.
+     *
      * @type {BranchString}
      * @throws {TypeError}
      * @throws {RangeError} A range error is thrown if the branch does not have
@@ -564,6 +649,9 @@ module.exports = class MoodleVersion {
     /**
      * Setting the branching date will update the branch to match.
      *
+     * To create an object with an un-known combination of branch and branching
+     * date, use the {@link MoodleVersion.fromObject} factory method.
+     *
      * @type{Date|undefined}
      * @throws {TypeError}
      * @throws {RangeError} A range error is thrown if the branching date does
@@ -605,6 +693,9 @@ module.exports = class MoodleVersion {
     
     /**
      * Setting the branching date will update the branch to match.
+     *
+     * To create an object with an un-known combination of branch and branching
+     * date, use the {@link MoodleVersion.fromObject} factory method.
      *
      * @type{DateNumber|undefined}
      * @throws {TypeError}
@@ -769,6 +860,37 @@ module.exports = class MoodleVersion {
         if(!MoodleVersion.isReleaseSuffix(rs)) throw new TypeError(errMsg);
         this._releaseType = MoodleVersion.releaseTypeFromReleaseSuffix(rs);
     }
+    
+    /**
+     * The build number.
+     *
+     * @type {BuildNumber|undefined}
+     */
+    get buildNumber(){
+        return this._buildNumber;
+    }
+    
+    /**
+     * Build numbers must be valid date numbers, i.e. of the form `YYYYMMDD`.
+     *
+     * @type {ReleaseSuffix|undefined}
+     * @throws {TypeError}
+     */
+    set buildNumber(bn){
+        // short-circuit setting to undefined
+        if(is.undefined(bn)){
+            this._buildNumber = undefined;
+            return;
+        }
+        
+        // make sure we got valid data
+        if(!MoodleVersion.isDateNumber(bn)) throw new TypeError('build number must be of the form YYYYMMDD');
+        
+        // store the build number
+        this._buildNumber = parseInt(bn);
+    }
+    
+    // LEFT OFF HERE - TO DO NEXT - add static fromString() function
     
     /**
      * toString() description.

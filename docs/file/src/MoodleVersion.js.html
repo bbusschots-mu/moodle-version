@@ -244,27 +244,29 @@ module.exports = class MoodleVersion {
      */
     constructor() {
         /**
-         * @type {BranchNumber}
+         * @type {BranchNumber|undefined}
          */
         this._branchNumber = undefined;
         
         /**
-         * @type {ReleaseNumber}
+         * @type {DateNumber|undefined}
+         */
+        this._branchingDateNumber = undefined;
+        
+        /**
+         * @type {ReleaseNumber|undefined}
          */
         this._releaseNumber = undefined;
         
         /**
-         * The release suffix. Can only be one of:
-         *
-         * * `&apos;dev&apos;` for alpha and beta releases
-         * * `&apos;&apos;` (an empty string) for official releases
-         * * `&apos;+&apos;` for weekly updates to the official releases
-         * 
-         * Defaults to an empty string.
-         *
-         * @type {string}
+         * @type {ReleaseType|undefined}
          */
-        this._releaseSuffix = &apos;&apos;;
+        this._releaseType = undefined;
+        
+        /**
+         * @type {BuildNumber|undefined}
+         */
+        this._buildNumber = undefined;
     }
     
     /**
@@ -375,7 +377,7 @@ module.exports = class MoodleVersion {
      * @param {DateNumber} bdn
      * @return {BranchString|undefined}
      */
-    static branchFromBranchingDate(bdn){
+    static branchFromBranchingDateNumber(bdn){
         if(is.undefined(bdn)) return undefined;
         if(!MoodleVersion.isDateNumber(bdn, false)) return undefined;
         let bn = BDNUM_BNUM_MAP[bdn];
@@ -403,7 +405,7 @@ module.exports = class MoodleVersion {
      * @param {DateNumber} bdn
      * @return {number|undefined}
      */
-    static branchNumberFromBranchingDate(bdn){
+    static branchNumberFromBranchingDateNumber(bdn){
         if(is.undefined(bdn)) return undefined;
         if(!MoodleVersion.isDateNumber(bdn, false)) return undefined;
         return BDNUM_BNUM_MAP[bdn] ? BDNUM_BNUM_MAP[bdn] : undefined;
@@ -415,7 +417,7 @@ module.exports = class MoodleVersion {
      * @param {BranchString} b
      * @return {number|undefined}
      */
-    static branchingDateFromBranch(b){
+    static branchingDateNumberFromBranch(b){
         if(is.undefined(b)) return undefined;
         const bn = MoodleVersion.branchNumberFromBranch(b);
         if(is.undefined(bn)) return undefined;
@@ -428,9 +430,40 @@ module.exports = class MoodleVersion {
      * @param {BranchNumber} bn
      * @return {number|undefined}
      */
-    static branchingDateFromBranchNumber(bn){
+    static branchingDateNumberFromBranchNumber(bn){
         if(is.undefined(bn)) return undefined;
         return BNUM_BDNUM_MAP[bn] ? BNUM_BDNUM_MAP[bn] : undefined;
+    }
+    
+    /**
+     * Convert a date number to a date object. The date object will represent
+     * midnight UTC on the given date.
+     *
+     * @param {DateNumber} dn
+     * @return {Date}
+     * @throws {TypeError}
+     */
+    static dateFromDateNumber(dn){
+        if(!MoodleVersion.isDateNumber(dn)) throw new TypeError(&apos;date number must of the form YYYYMMDD&apos;);
+        const parts = String(dn).match(/^(\d{4})(\d{2})(\d{2})$/);
+        return new Date(`${parts[1]}-${parts[2]}-${parts[3]}T00:00:00.000Z`);
+    }
+    
+    /**
+     * Convert a date object to a date number. The date will be interpreted as
+     * UTC.
+     *
+     * @param {Date} d
+     * @return {DateNumber}
+     * @throws {TypeError}
+     */
+    static dateNumberFromDate(d){
+        if(is.not.date(d)) throw new TypeError(&apos;date object required&apos;);
+        let m = d.getUTCMonth() + 1;
+        let mm = `${m &lt; 10 ? &apos;0&apos; : &apos;&apos;}${m}`;
+        let day = d.getUTCDate();
+        let dd = `${day &lt; 10 ? &apos;0&apos; : &apos;&apos;}${day}`;
+        return parseInt(`${d.getUTCFullYear()}${mm}${dd}`);
     }
     
     /**
@@ -439,7 +472,7 @@ module.exports = class MoodleVersion {
      * @param {ReleaseType} rt
      * @return {ReleaseSuffix|undefined}
      */
-    static releaseSuffixFromReleaseType(rt){ // TO DO - test
+    static releaseSuffixFromReleaseType(rt){
         if(is.not.string(rt)) return undefined;
         switch(rt.toLowerCase()){
             case &apos;development&apos;:
@@ -458,7 +491,7 @@ module.exports = class MoodleVersion {
      * @param {ReleaseSuffix} rs
      * @return {ReleaseType|undefined}
      */
-    static releaseTypeFromReleaseSuffix(rs){ // TO DO - test
+    static releaseTypeFromReleaseSuffix(rs){
         if(is.not.string(rs)) return undefined;
         switch(rs.toLowerCase()){
             case &apos;dev&apos;:
@@ -470,6 +503,82 @@ module.exports = class MoodleVersion {
         }
         return undefined;
     }
+    
+    /**
+     * A factory method for producing a Moodle Version object given all its
+     * properties.
+     *
+     * This function can be used to create version objects which contain
+     * unknown mappings between Moodle branches and branching dates.
+     *
+     * @param {Object} obj - an object defining zero or more of the following
+     * keys:
+     *
+     * * `branch` (e.g. `&apos;3.5&apos;`) or `branchNumber` (e.g. `35`) - if both are
+     *   specified `branchNumber` takes precedence.
+     * * `branchingDate` or `branchingDateNumber` - if both are specified
+     *   `branchingDateNumber` takes precedence.
+     * * `releaseNumber`
+     * * `releaseType` (e.g. `&apos;weekly&apos;`) or `releaseSuffix` (e.g. `&apos;+&apos;`) - if
+     *   both are specified, `releaseSuffix` takes precedence
+     * * `buildNumber`
+     * @throws {TypeError} A type error is thrown if an object is not passed,
+     * or, if any of the keys within that object map to an invalid value.
+     */
+    static fromObject(obj){
+        if(is.not.object(obj)) throw new TypeError(&apos;object required&apos;);
+        
+        const ans = new MoodleVersion();
+        
+        // set the branch if passed
+        if(is.propertyDefined(obj, &apos;branch&apos;) || is.propertyDefined(obj, &apos;branchNumber&apos;)){
+            if(is.propertyDefined(obj, &apos;branchNumber&apos;)){
+                if(!MoodleVersion.isBranchNumber(obj.branchNumber)) throw new TypeError(&apos;invalid branch number&apos;);
+                ans._branchNumber = parseInt(obj.branchNumber);
+            }else{
+                if(!MoodleVersion.isBranch(obj.branch)) throw new TypeError(&apos;invalid branch&apos;);
+                ans._branchNumber = MoodleVersion.branchFromBranchNumber(obj.branch);
+            }
+        }
+        
+        // set the branching date if passed
+        if(is.propertyDefined(obj, &apos;branchingDate&apos;) || is.propertyDefined(obj, &apos;branchingDateNumber&apos;)){
+            if(is.propertyDefined(obj, &apos;branchingDateNumber&apos;)){
+                if(!MoodleVersion.isDateNumber(obj.branchingDateNumber)) throw new TypeError(&apos;invalid branching date number&apos;);
+                ans._branchindDateNumber = parseInt(obj.branchingDateNumber);
+            }else{
+                if(is.not.date(obj.branchingDate)) throw new TypeError(&apos;invalid branching date&apos;);
+                ans._branchindDateNumber = MoodleVersion.dateNumberFromDate(obj.branchingDate);
+            }
+        }
+        
+        // set the release number if passed
+        if(is.propertyDefined(obj, &apos;releaseNumber&apos;)){
+            if(!MoodleVersion.isReleaseNumber(obj.releaseNumber)) throw new TypeError(&apos;invalid release number&apos;);
+            ans._releaseNumber = parseInt(obj.releaseNumber);
+        }
+        
+        // set the release type if passed
+        if(is.propertyDefined(obj, &apos;releaseType&apos;) || is.propertyDefined(obj, &apos;releaseSuffix&apos;)){
+            if(is.propertyDefined(obj, &apos;releaseSuffix&apos;)){
+                if(!MoodleVersion.isReleaseSuffix(obj.releaseSuffix)) throw new TypeError(&apos;invalid release suffix&apos;);
+                ans._releaseType = MoodleVersion.releaseTypeFromReleaseSuffix(obj.releaseSuffix);
+            }else{
+                if(!MoodleVersion.isReleaseType(obj.releaseType)) throw new TypeError(&apos;invalid release type&apos;);
+                ans._releaseType = obj.releaseType.toLowerCase();
+            }
+        }
+        
+        // set the build number if passed
+        if(is.propertyDefined(obj, &apos;buildNumber&apos;)){
+            if(!MoodleVersion.isDateNumber(obj.buildNumber)) throw new TypeError(&apos;invalid build number&apos;);
+            ans._buildNumber = parseInt(obj.buildNumber);
+        }
+        
+        return ans;
+    }
+    
+    // TO DO - Test all the accessors
     
     /**
      * The version&apos;s branch number, if known. This is the two-digit number
@@ -487,13 +596,21 @@ module.exports = class MoodleVersion {
     /**
      * The branch number must be a two-digit integer between 10 and 99.
      *
+     * Setting the branch number will also update the branching date to match.
+     *
+     * To create an object with an un-known combination of branch and branching
+     * date, use the {@link MoodleVersion.fromObject} factory method.
+     *
      * @type {BranchNumber|undefined}
      * @throws {TypeError}
+     * @throws {RangeError} A range error is thrown if the branch does not have
+     * a known mapping to a branching date.
      */
     set branchNumber(bn){
         // short-circuit requests to set undefined
         if(is.undefined(bn)){
             this._branchNumber = undefined;
+            this._branchingDateNumber = undefined;
             return;
         }
         
@@ -502,8 +619,15 @@ module.exports = class MoodleVersion {
             throw new TypeError(&apos;Branch Numbers must be integers between 10 and 99&apos;);
         }
         
-        // set the branch number
+        //test if we have a mapping to a branching date
+        let bdn = MoodleVersion.branchingDateNumberFromBranchNumber(bn);
+        if(is.undefined(bdn)){
+            throw new RangeError(`the branch number ${bn} does not have a known mapping to a branching date`);
+        }
+        
+        // set the branch number and branching date
         this._branchNumber = parseInt(bn);
+        this._branchingDateNumber = bdn;
     }
     
     /**
@@ -524,24 +648,173 @@ module.exports = class MoodleVersion {
      * The branch (AKA major version) must be a string consisting of two
      * digits separated by a period, e.g. `&apos;3.5&apos;`.
      *
+     * Setting the branch will also update the branching date to match.
+     *
      * @type {BranchString}
      * @throws {TypeError}
+     * @throws {RangeError} A range error is thrown if the branch does not have
+     * a known mapping to a branching date.
      */
     set branch(b){
         // short-circuit requests to set undefined
         if(is.undefined(b)){
             this._branchNumber = undefined;
+            this._branchingDateNumber = undefined;
             return;
         }
         
-        // try convery the branch to a branch number
+        // try convert the branch to a branch number
         let bn = MoodleVersion.branchNumberFromBranch(b);
         if(is.not.number(bn)){
-            throw new TypeError(&apos;Branches must be strings consisting of a digit, a period, and another digit&apos;);
+            throw new TypeError(&apos;branches must be strings consisting of a digit, a period, and another digit&apos;);
         }
         
-        // store the branch number
+        // test if we have a mapping to a branching date
+        let bdn = MoodleVersion.branchingDateNumberFromBranchNumber(bn);
+        if(is.undefined(bdn)){
+            throw new RangeError(`the branch ${b} does not have a known mapping to a branching date`);
+        }
+        
+        // store the branch number &amp; branching date
         this._branchNumber = bn;
+        this._branchingDateNumber = bdn;
+    }
+    
+    /**
+     * The branching date as a date object.
+     *
+     * @type {Date|undefined}
+     */
+    get branchingDate(){
+        if(is.undefined(this._branchingDateNumber)) return undefined;
+        return MoodleVersion.dateFromDateNumber(this._branchingDateNumber);
+    }
+    
+    /**
+     * Setting the branching date will update the branch to match.
+     *
+     * @type{Date|undefined}
+     * @throws {TypeError}
+     * @throws {RangeError} A range error is thrown if the branching date does
+     * not have a known mapping to a branch.
+     */
+    set branchingDate(bd){
+        // deal with un-setting
+        if(is.undefined(bd)){
+            this._branchNumber = undefined;
+            this._branchingDateNumber = undefined;
+            return;
+        }
+        
+        // make sure we got valid data
+        if(is.not.date(bd)) throw new TypeError(&apos;the branching date must be a Date object&apos;);
+        
+        // convert the date to a date number
+        let bdn = MoodleVesion.dateNumberFromDate(bd);
+        
+        // test if there&apos;s a known mapping to a branch
+        let bn = MoodleVersion.branchNumberFromBranchingDateNumber(bdn);
+        if(is.undefined(bn)){
+            throw new RangeError(`the branching date ${bd.toISOString()} does not have a known mapping to a Moodle branch`);
+        }
+        
+        // set the new values
+        this._branchNumber = bn;
+        this._branchingDateNumber = bdn;
+    }
+    
+    /**
+     * The branching date as a {@link DateNumber}.
+     *
+     * @type {DateNumber|undefined}
+     */
+    get branchingDateNumber(){
+        return this._branchingDateNumber;
+    }
+    
+    /**
+     * Setting the branching date will update the branch to match.
+     *
+     * @type{DateNumber|undefined}
+     * @throws {TypeError}
+     * @throws {RangeError} A range error is thrown if the branching date does
+     * not have a known mapping to a branch.
+     */
+    set branchingDateNumber(bdn){
+        // deal with un-setting
+        if(is.undefined(bdn)){
+            this._branchNumber = undefined;
+            this._branchingDateNumber = undefined;
+            return;
+        }
+        
+        // make sure we got valid data
+        if(!MoodleVersion.isDateNumber(bdn)) throw new TypeError(&apos;the branching date number must be of the form YYYYMMDD&apos;);
+        bdn = parseInt(bdn); // force the date number to a number
+        
+        // test if there&apos;s a known mapping to a branch
+        let bn = MoodleVersion.branchNumberFromBranchingDateNumber(bdn);
+        if(is.undefined(bn)){
+            throw new RangeError(`the branching date number ${bdn} does not have a known mapping to a Moodle branch`);
+        }
+        
+        // set the new values
+        this._branchNumber = bn;
+        this._branchingDateNumber = bdn;
+    }
+    
+    /**
+     * The known mappings between Moodle braches and branching date numbers.
+     *
+     * @type{Map&lt;Branch, DateNumber&gt;}
+     */
+    get branchingDateNumbersByBranch(){
+        const ans = {};
+        for(const bn of Object.keys(BNUM_BDNUM_MAP)){
+            ans[MoodleVersion.branchFromBranchNumber(bn)] = BNUM_BDNUM_MAP[bn];
+        }
+        return ans;
+    }
+    
+    /**
+     * The known mappings between Moodle brache numberss and branching date
+     * numbers.
+     *
+     * @type{Map&lt;BranchNumber, DateNumber&gt;}
+     */
+    get branchingDateNumbersByBranchNumber(){
+        const ans = {};
+        for(const bn of Object.keys(BNUM_BDNUM_MAP)){
+            ans[bn] = BNUM_BDNUM_MAP[bn];
+        }
+        return ans;
+    }
+    
+    /**
+     * The known mappings between branching date numbers and Moodle branches.
+     *
+     * @type{Map&lt;DateNumber, Branch&gt;}
+     */
+    get branchesByBranchingDateNumber(){
+        const ans = {};
+        for(const bdn of Object.keys(BDNUM_BNUM_MAP)){
+            ans[bdn] = MoodleVersion.branchFromBranchNumber(BDNUM_BNUM_MAP[bdn]);
+        }
+        return ans;
+    }
+    
+    /**
+     * The known mappings between branching date numbers and Moodle branch
+     * numbers.
+     *
+     * @type{Map&lt;DateNumber, BranchNumber&gt;}
+     */
+    get brancheNumbersByBranchingDateNumber(){
+        const ans = {};
+        for(const bdn of Object.keys(BDNUM_BNUM_MAP)){
+            ans[bdn] = BDNUM_BNUM_MAP[bdn];
+        }
+        return ans;
     }
     
     /**
@@ -576,23 +849,86 @@ module.exports = class MoodleVersion {
     }
     
     /**
-     * The release suffix. Possible values are:
+     * The release&apos;s type, e.g. `&apos;development&apos;`.
      *
-     * * `&apos;dev&apos;` for development releases (both alpha and beta releases).
-     * * `&apos;&apos;` (an empty string) for official releases.
-     * * `&apos;+&apos;` for weekly updates to official releases.
-     *
-     * @type {string}
+     * @type {ReleaseType|undefined}
      */
-    get releaseSuffix(){
-        return this._releaseSuffix;
+    get releaseType(){
+        return this._releaseType;
     }
     
     /**
-     * The suffix must be one of `&apos;dev&apos;`, `&apos;&apos;`, or `&apos;+&apos;`.
+     * The release type must be one of `&apos;development&apos;`, `&apos;official&apos;`, or
+     * `&apos;weekly&apos;`. The value will get automatically cast to lower case before
+     * validation is applied.
      *
-     * 
+     * @type {ReleaseType|undefined}
+     * @throws {TypeError}
      */
+    set releaseType(rt){
+        const errMsg = &quot;release type must be one of &apos;development&apos;, &apos;official&apos;, or &apos;weekly&apos;&quot;;
+        if(is.not.string(rt)) throw new TypeError(errMsg);
+        rt = rt.toLowerCase();
+        if(!MoodleVersion.isReleaseType(rt)) throw new TypeError(errMsg);
+        this._releaseType = rt;
+    }
+    
+    /**
+     * The release suffix for the release&apos;s type, e.g. `&apos;+&apos;` for weekly
+     * updates to the official releases.
+     *
+     * @type {ReleaseSuffix|undefined}
+     */
+    get releaseSuffix(){
+        return MoodleVersion.releaseSuffixFromReleaseType(this._releaseType);
+    }
+    
+    /**
+     * The release suffix must be one of `&apos;dev&apos;`, an empty string, or `&apos;+&apos;`. The
+     * value will get automatically cast to lower case before validation is
+     * applied.
+     *
+     * @type {ReleaseSuffix|undefined}
+     * @throws {TypeError}
+     */
+    set releaseSuffix(rs){
+        const errMsg = &quot;release suffix must be one of &apos;dev&apos;, &apos;&apos;, or &apos;+&apos;&quot;;
+        if(is.not.string(rs)) throw new TypeErrpr(errMsg);
+        rs = rs.toLowerCase();
+        if(!MoodleVersion.isReleaseSuffix(rs)) throw new TypeError(errMsg);
+        this._releaseType = MoodleVersion.releaseTypeFromReleaseSuffix(rs);
+    }
+    
+    /**
+     * The build number.
+     *
+     * @type {BuildNumber|undefined}
+     */
+    get buildNumber(){
+        return this._buildNumber;
+    }
+    
+    /**
+     * Build numbers must be valid date numbers, i.e. of the form `YYYYMMDD`.
+     *
+     * @type {ReleaseSuffix|undefined}
+     * @throws {TypeError}
+     */
+    set buildNumber(bn){
+        // short-circuit setting to undefined
+        if(is.undefined(bn)){
+            this._buildNumber = undefined;
+            return;
+        }
+        
+        // make sure we got valid data
+        if(!MoodleVersion.isDateNumber(bn)) throw new TypeError(&apos;build number must be of the form YYYYMMDD&apos;);
+        
+        // store the build number
+        this._buildNumber = parseInt(bn);
+    }
+    
+    // LEFT OFF HERE - TO DO NEXT, add function for setting unknown branch and branching date combos
     
     /**
      * toString() description.

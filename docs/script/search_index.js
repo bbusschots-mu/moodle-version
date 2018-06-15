@@ -319,14 +319,20 @@ window.esdocSearchIndex = [
   ],
   [
     "src/moodleversion.js~moodleversion#branch",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-branch",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-branch",
     "src/MoodleVersion.js~MoodleVersion#branch",
     "member"
   ],
   [
     "src/moodleversion.js~moodleversion#branch",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-branch",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-branch",
     "src/MoodleVersion.js~MoodleVersion#branch",
+    "member"
+  ],
+  [
+    "src/moodleversion.js~moodleversion#branchnumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-branchNumber",
+    "src/MoodleVersion.js~MoodleVersion#branchNumber",
     "member"
   ],
   [
@@ -336,9 +342,63 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#branchnumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-branchNumber",
-    "src/MoodleVersion.js~MoodleVersion#branchNumber",
+    "src/moodleversion.js~moodleversion#branchenumbersbybranchingdatenumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-brancheNumbersByBranchingDateNumber",
+    "src/MoodleVersion.js~MoodleVersion#brancheNumbersByBranchingDateNumber",
+    "member"
+  ],
+  [
+    "src/moodleversion.js~moodleversion#branchesbybranchingdatenumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-branchesByBranchingDateNumber",
+    "src/MoodleVersion.js~MoodleVersion#branchesByBranchingDateNumber",
+    "member"
+  ],
+  [
+    "src/moodleversion.js~moodleversion#branchingdate",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-branchingDate",
+    "src/MoodleVersion.js~MoodleVersion#branchingDate",
+    "member"
+  ],
+  [
+    "src/moodleversion.js~moodleversion#branchingdate",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-branchingDate",
+    "src/MoodleVersion.js~MoodleVersion#branchingDate",
+    "member"
+  ],
+  [
+    "src/moodleversion.js~moodleversion#branchingdatenumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-branchingDateNumber",
+    "src/MoodleVersion.js~MoodleVersion#branchingDateNumber",
+    "member"
+  ],
+  [
+    "src/moodleversion.js~moodleversion#branchingdatenumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-branchingDateNumber",
+    "src/MoodleVersion.js~MoodleVersion#branchingDateNumber",
+    "member"
+  ],
+  [
+    "src/moodleversion.js~moodleversion#branchingdatenumbersbybranch",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-branchingDateNumbersByBranch",
+    "src/MoodleVersion.js~MoodleVersion#branchingDateNumbersByBranch",
+    "member"
+  ],
+  [
+    "src/moodleversion.js~moodleversion#branchingdatenumbersbybranchnumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-branchingDateNumbersByBranchNumber",
+    "src/MoodleVersion.js~MoodleVersion#branchingDateNumbersByBranchNumber",
+    "member"
+  ],
+  [
+    "src/moodleversion.js~moodleversion#buildnumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-buildNumber",
+    "src/MoodleVersion.js~MoodleVersion#buildNumber",
+    "member"
+  ],
+  [
+    "src/moodleversion.js~moodleversion#buildnumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-buildNumber",
+    "src/MoodleVersion.js~MoodleVersion#buildNumber",
     "member"
   ],
   [
@@ -349,20 +409,38 @@ window.esdocSearchIndex = [
   ],
   [
     "src/moodleversion.js~moodleversion#releasenumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-releaseNumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-releaseNumber",
     "src/MoodleVersion.js~MoodleVersion#releaseNumber",
     "member"
   ],
   [
     "src/moodleversion.js~moodleversion#releasenumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-releaseNumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-releaseNumber",
     "src/MoodleVersion.js~MoodleVersion#releaseNumber",
+    "member"
+  ],
+  [
+    "src/moodleversion.js~moodleversion#releasesuffix",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-releaseSuffix",
+    "src/MoodleVersion.js~MoodleVersion#releaseSuffix",
     "member"
   ],
   [
     "src/moodleversion.js~moodleversion#releasesuffix",
     "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-releaseSuffix",
     "src/MoodleVersion.js~MoodleVersion#releaseSuffix",
+    "member"
+  ],
+  [
+    "src/moodleversion.js~moodleversion#releasetype",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-releaseType",
+    "src/MoodleVersion.js~MoodleVersion#releaseType",
+    "member"
+  ],
+  [
+    "src/moodleversion.js~moodleversion#releasetype",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-releaseType",
+    "src/MoodleVersion.js~MoodleVersion#releaseType",
     "member"
   ],
   [
@@ -378,9 +456,9 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.branchfrombranchingdate",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-branchFromBranchingDate",
-    "src/MoodleVersion.js~MoodleVersion.branchFromBranchingDate",
+    "src/moodleversion.js~moodleversion.branchfrombranchingdatenumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-branchFromBranchingDateNumber",
+    "src/MoodleVersion.js~MoodleVersion.branchFromBranchingDateNumber",
     "method"
   ],
   [
@@ -390,21 +468,39 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.branchnumberfrombranchingdate",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-branchNumberFromBranchingDate",
-    "src/MoodleVersion.js~MoodleVersion.branchNumberFromBranchingDate",
+    "src/moodleversion.js~moodleversion.branchnumberfrombranchingdatenumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-branchNumberFromBranchingDateNumber",
+    "src/MoodleVersion.js~MoodleVersion.branchNumberFromBranchingDateNumber",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.branchingdatefrombranch",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-branchingDateFromBranch",
-    "src/MoodleVersion.js~MoodleVersion.branchingDateFromBranch",
+    "src/moodleversion.js~moodleversion.branchingdatenumberfrombranch",
+    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-branchingDateNumberFromBranch",
+    "src/MoodleVersion.js~MoodleVersion.branchingDateNumberFromBranch",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.branchingdatefrombranchnumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-branchingDateFromBranchNumber",
-    "src/MoodleVersion.js~MoodleVersion.branchingDateFromBranchNumber",
+    "src/moodleversion.js~moodleversion.branchingdatenumberfrombranchnumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-branchingDateNumberFromBranchNumber",
+    "src/MoodleVersion.js~MoodleVersion.branchingDateNumberFromBranchNumber",
+    "method"
+  ],
+  [
+    "src/moodleversion.js~moodleversion.datefromdatenumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-dateFromDateNumber",
+    "src/MoodleVersion.js~MoodleVersion.dateFromDateNumber",
+    "method"
+  ],
+  [
+    "src/moodleversion.js~moodleversion.datenumberfromdate",
+    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-dateNumberFromDate",
+    "src/MoodleVersion.js~MoodleVersion.dateNumberFromDate",
+    "method"
+  ],
+  [
+    "src/moodleversion.js~moodleversion.fromobject",
+    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-fromObject",
+    "src/MoodleVersion.js~MoodleVersion.fromObject",
     "method"
   ],
   [
