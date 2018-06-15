@@ -202,6 +202,11 @@ module.exports = class MoodleVersion {
         this._branchNumber = undefined;
         
         /**
+         * @type {DateNumber|undefined}
+         */
+        this._branchingDateNumber = undefined;
+        
+        /**
          * @type {ReleaseNumber|undefined}
          */
         this._releaseNumber = undefined;
@@ -320,7 +325,7 @@ module.exports = class MoodleVersion {
      * @param {DateNumber} bdn
      * @return {BranchString|undefined}
      */
-    static branchFromBranchingDate(bdn){
+    static branchFromBranchingDateNumber(bdn){
         if(is.undefined(bdn)) return undefined;
         if(!MoodleVersion.isDateNumber(bdn, false)) return undefined;
         let bn = BDNUM_BNUM_MAP[bdn];
@@ -348,7 +353,7 @@ module.exports = class MoodleVersion {
      * @param {DateNumber} bdn
      * @return {number|undefined}
      */
-    static branchNumberFromBranchingDate(bdn){
+    static branchNumberFromBranchingDateNumber(bdn){
         if(is.undefined(bdn)) return undefined;
         if(!MoodleVersion.isDateNumber(bdn, false)) return undefined;
         return BDNUM_BNUM_MAP[bdn] ? BDNUM_BNUM_MAP[bdn] : undefined;
@@ -360,7 +365,7 @@ module.exports = class MoodleVersion {
      * @param {BranchString} b
      * @return {number|undefined}
      */
-    static branchingDateFromBranch(b){
+    static branchingDateNumberFromBranch(b){
         if(is.undefined(b)) return undefined;
         const bn = MoodleVersion.branchNumberFromBranch(b);
         if(is.undefined(bn)) return undefined;
@@ -373,9 +378,40 @@ module.exports = class MoodleVersion {
      * @param {BranchNumber} bn
      * @return {number|undefined}
      */
-    static branchingDateFromBranchNumber(bn){
+    static branchingDateNumberFromBranchNumber(bn){
         if(is.undefined(bn)) return undefined;
         return BNUM_BDNUM_MAP[bn] ? BNUM_BDNUM_MAP[bn] : undefined;
+    }
+    
+    /**
+     * Convert a date number to a date object. The date object will represent
+     * midnight UTC on the given date.
+     *
+     * @param {DateNumber} dn
+     * @return {Date}
+     * @throws {TypeError}
+     */
+    static dateFromDateNumber(dn){
+        if(!MoodleVersion.isDateNumber(dn)) throw new TypeError('date number must of the form YYYYMMDD');
+        const parts = String(dn).match(/^(\d{4})(\d{2})(\d{2})$/);
+        return new Date(`${parts[1]}-${parts[2]}-${parts[3]}T00:00:00.000Z`);
+    }
+    
+    /**
+     * Convert a date object to a date number. The date will be interpreted as
+     * UTC.
+     *
+     * @param {Date} d
+     * @return {DateNumber}
+     * @throws {TypeError}
+     */
+    static dateNumberFromDate(d){
+        if(is.not.date(d)) throw new TypeError('date object required');
+        let m = d.getUTCMonth() + 1;
+        let mm = `${m < 10 ? '0' : ''}${m}`;
+        let day = d.getUTCDate();
+        let dd = `${day < 10 ? '0' : ''}${day}`;
+        return parseInt(`${d.getUTCFullYear()}${mm}${dd}`);
     }
     
     /**
@@ -434,13 +470,18 @@ module.exports = class MoodleVersion {
     /**
      * The branch number must be a two-digit integer between 10 and 99.
      *
+     * Setting the branch number will also update the branching date to match.
+     *
      * @type {BranchNumber|undefined}
      * @throws {TypeError}
+     * @throws {RangeError} A range error is thrown if the branch does not have
+     * a known mapping to a branching date.
      */
     set branchNumber(bn){
         // short-circuit requests to set undefined
         if(is.undefined(bn)){
             this._branchNumber = undefined;
+            this._branchingDateNumber = undefined;
             return;
         }
         
@@ -449,8 +490,15 @@ module.exports = class MoodleVersion {
             throw new TypeError('Branch Numbers must be integers between 10 and 99');
         }
         
-        // set the branch number
+        //test if we have a mapping to a branching date
+        let bdn = MoodleVersion.branchingDateNumberFromBranchNumber(bn);
+        if(is.undefined(bdn)){
+            throw new RangeError(`the branch number ${bn} does not have a known mapping to a branching date`);
+        }
+        
+        // set the branch number and branching date
         this._branchNumber = parseInt(bn);
+        this._branchingDateNumber = bdn;
     }
     
     /**
@@ -471,24 +519,173 @@ module.exports = class MoodleVersion {
      * The branch (AKA major version) must be a string consisting of two
      * digits separated by a period, e.g. `'3.5'`.
      *
+     * Setting the branch will also update the branching date to match.
+     *
      * @type {BranchString}
      * @throws {TypeError}
+     * @throws {RangeError} A range error is thrown if the branch does not have
+     * a known mapping to a branching date.
      */
     set branch(b){
         // short-circuit requests to set undefined
         if(is.undefined(b)){
             this._branchNumber = undefined;
+            this._branchingDateNumber = undefined;
             return;
         }
         
-        // try convery the branch to a branch number
+        // try convert the branch to a branch number
         let bn = MoodleVersion.branchNumberFromBranch(b);
         if(is.not.number(bn)){
-            throw new TypeError('Branches must be strings consisting of a digit, a period, and another digit');
+            throw new TypeError('branches must be strings consisting of a digit, a period, and another digit');
         }
         
-        // store the branch number
+        // test if we have a mapping to a branching date
+        let bdn = MoodleVersion.branchingDateNumberFromBranchNumber(bn);
+        if(is.undefined(bdn)){
+            throw new RangeError(`the branch ${b} does not have a known mapping to a branching date`);
+        }
+        
+        // store the branch number & branching date
         this._branchNumber = bn;
+        this._branchingDateNumber = bdn;
+    }
+    
+    /**
+     * The branching date as a date object.
+     *
+     * @type {Date|undefined}
+     */
+    get branchingDate(){
+        if(is.undefined(this._branchingDateNumber)) return undefined;
+        return MoodleVersion.dateFromDateNumber(this._branchingDateNumber);
+    }
+    
+    /**
+     * Setting the branching date will update the branch to match.
+     *
+     * @type{Date|undefined}
+     * @throws {TypeError}
+     * @throws {RangeError} A range error is thrown if the branching date does
+     * not have a known mapping to a branch.
+     */
+    set branchingDate(bd){
+        // deal with un-setting
+        if(is.undefined(bd)){
+            this._branchNumber = undefined;
+            this._branchingDateNumber = undefined;
+            return;
+        }
+        
+        // make sure we got valid data
+        if(is.not.date(bd)) throw new TypeError('the branching date must be a Date object');
+        
+        // convert the date to a date number
+        let bdn = MoodleVesion.dateNumberFromDate(bd);
+        
+        // test if there's a known mapping to a branch
+        let bn = MoodleVersion.branchNumberFromBranchingDateNumber(bdn);
+        if(is.undefined(bn)){
+            throw new RangeError(`the branching date ${bd.toISOString()} does not have a known mapping to a Moodle branch`);
+        }
+        
+        // set the new values
+        this._branchNumber = bn;
+        this._branchingDateNumber = bdn;
+    }
+    
+    /**
+     * The branching date as a {@link DateNumber}.
+     *
+     * @type {DateNumber|undefined}
+     */
+    get branchingDateNumber(){
+        return this._branchingDateNumber;
+    }
+    
+    /**
+     * Setting the branching date will update the branch to match.
+     *
+     * @type{DateNumber|undefined}
+     * @throws {TypeError}
+     * @throws {RangeError} A range error is thrown if the branching date does
+     * not have a known mapping to a branch.
+     */
+    set branchingDateNumber(bdn){
+        // deal with un-setting
+        if(is.undefined(bdn)){
+            this._branchNumber = undefined;
+            this._branchingDateNumber = undefined;
+            return;
+        }
+        
+        // make sure we got valid data
+        if(!MoodleVersion.isDateNumber(bdn)) throw new TypeError('the branching date number must be of the form YYYYMMDD');
+        bdn = parseInt(bdn); // force the date number to a number
+        
+        // test if there's a known mapping to a branch
+        let bn = MoodleVersion.branchNumberFromBranchingDateNumber(bdn);
+        if(is.undefined(bn)){
+            throw new RangeError(`the branching date number ${bdn} does not have a known mapping to a Moodle branch`);
+        }
+        
+        // set the new values
+        this._branchNumber = bn;
+        this._branchingDateNumber = bdn;
+    }
+    
+    /**
+     * The known mappings between Moodle braches and branching date numbers.
+     *
+     * @type{Map<Branch, DateNumber>}
+     */
+    get branchingDateNumbersByBranch(){
+        const ans = {};
+        for(const bn of Object.keys(BNUM_BDNUM_MAP)){
+            ans[MoodleVersion.branchFromBranchNumber(bn)] = BNUM_BDNUM_MAP[bn];
+        }
+        return ans;
+    }
+    
+    /**
+     * The known mappings between Moodle brache numberss and branching date
+     * numbers.
+     *
+     * @type{Map<BranchNumber, DateNumber>}
+     */
+    get branchingDateNumbersByBranchNumber(){
+        const ans = {};
+        for(const bn of Object.keys(BNUM_BDNUM_MAP)){
+            ans[bn] = BNUM_BDNUM_MAP[bn];
+        }
+        return ans;
+    }
+    
+    /**
+     * The known mappings between branching date numbers and Moodle branches.
+     *
+     * @type{Map<DateNumber, Branch>}
+     */
+    get branchesByBranchingDateNumber(){
+        const ans = {};
+        for(const bdn of Object.keys(BDNUM_BNUM_MAP)){
+            ans[bdn] = MoodleVersion.branchFromBranchNumber(BDNUM_BNUM_MAP[bdn]);
+        }
+        return ans;
+    }
+    
+    /**
+     * The known mappings between branching date numbers and Moodle branch
+     * numbers.
+     *
+     * @type{Map<DateNumber, BranchNumber>}
+     */
+    get brancheNumbersByBranchingDateNumber(){
+        const ans = {};
+        for(const bdn of Object.keys(BDNUM_BNUM_MAP)){
+            ans[bdn] = BDNUM_BNUM_MAP[bdn];
+        }
+        return ans;
     }
     
     /**

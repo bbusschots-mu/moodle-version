@@ -125,7 +125,8 @@ const util = {
             'object': {
                 'null': ['null', ['empty', 'falsy', 'basic'], null],
                 'empty': ['empty object', ['plain'], {}],
-                'plain': ['a plain object', ['basic'], {a: 'b', c: 42, d: true}]
+                'plain': ['a plain object', ['basic'], {a: 'b', c: 42, d: true}],
+                'date': ['a date object', [], new Date()]
             },
             'function': {
                 'void': ['a void function', ['basic'], function(){}]
@@ -517,25 +518,25 @@ QUnit.module('Static Conversion Functions', {}, function(){
         a.strictEqual(MoodleVersion.branchFromBranchNumber('35'), '3.5', "'35' converts to '3.5'");
     });
     
-    QUnit.test('branchFromBranchingDate()', function(a){
+    QUnit.test('branchFromBranchingDateNumber()', function(a){
         const mustReturnUndefined = [
             ...util.dummyBasicDataExcept('number')
         ];
         a.expect(mustReturnUndefined.length + 5);
         
         // make sure the function actually exists
-        a.ok(is.function(MoodleVersion.branchFromBranchingDate), 'function exists');
+        a.ok(is.function(MoodleVersion.branchFromBranchingDateNumber), 'function exists');
         
         // make sure the data that should return undefined does
         for(const dd of mustReturnUndefined){
-            a.ok(is.undefined(MoodleVersion.branchFromBranchingDate(dd.value)), `${dd.description} returns undefined`);
+            a.ok(is.undefined(MoodleVersion.branchFromBranchingDateNumber(dd.value)), `${dd.description} returns undefined`);
         }
         
         // make sure valid data returns as expected
-        a.strictEqual(MoodleVersion.branchFromBranchingDate(20180517), '3.5', "20180517 converts to '3.5'");
-        a.strictEqual(MoodleVersion.branchFromBranchingDate('20180517'), '3.5', "'20180517' converts to '3.5'");
-        a.ok(is.undefined(MoodleVersion.branchFromBranchingDate(20180513)), '20180513 converts to undefined (no such mapping)');
-        a.ok(is.undefined(MoodleVersion.branchFromBranchingDate('20180513')),"'20180513' converts to undefined (no such mapping)");
+        a.strictEqual(MoodleVersion.branchFromBranchingDateNumber(20180517), '3.5', "20180517 converts to '3.5'");
+        a.strictEqual(MoodleVersion.branchFromBranchingDateNumber('20180517'), '3.5', "'20180517' converts to '3.5'");
+        a.ok(is.undefined(MoodleVersion.branchFromBranchingDateNumber(20180513)), '20180513 converts to undefined (no such mapping)');
+        a.ok(is.undefined(MoodleVersion.branchFromBranchingDateNumber('20180513')),"'20180513' converts to undefined (no such mapping)");
     });
     
     QUnit.test('branchNumberFromBranch()', function(a){
@@ -558,65 +559,115 @@ QUnit.module('Static Conversion Functions', {}, function(){
         a.strictEqual(MoodleVersion.branchNumberFromBranch('3.5'), 35, "'3.5' converts to 35");
     });
     
-    QUnit.test('branchNumberFromBranchingDate()', function(a){
+    QUnit.test('branchNumberFromBranchingDateNumber()', function(a){
         const mustReturnUndefined = [
             ...util.dummyBasicDataExcept('number')
         ];
         a.expect(mustReturnUndefined.length + 5);
         
         // make sure the function actually exists
-        a.ok(is.function(MoodleVersion.branchNumberFromBranchingDate), 'function exists');
+        a.ok(is.function(MoodleVersion.branchNumberFromBranchingDateNumber), 'function exists');
         
         // make sure the data that should return undefined does
         for(const dd of mustReturnUndefined){
-            a.ok(is.undefined(MoodleVersion.branchNumberFromBranchingDate(dd.value)), `${dd.description} returns undefined`);
+            a.ok(is.undefined(MoodleVersion.branchNumberFromBranchingDateNumber(dd.value)), `${dd.description} returns undefined`);
         }
         
         // make sure valid data returns as expected
-        a.strictEqual(MoodleVersion.branchNumberFromBranchingDate(20180517), 35, '20180517 converts to 35');
-        a.strictEqual(MoodleVersion.branchNumberFromBranchingDate('20180517'), 35, "'20180517' converts to 35");
-        a.ok(is.undefined(MoodleVersion.branchNumberFromBranchingDate(20180513)), '20180513 converts to undefined (no such mapping)');
-        a.ok(is.undefined(MoodleVersion.branchNumberFromBranchingDate('20180513')),"'20180513' converts to undefined (no such mapping)");
+        a.strictEqual(MoodleVersion.branchNumberFromBranchingDateNumber(20180517), 35, '20180517 converts to 35');
+        a.strictEqual(MoodleVersion.branchNumberFromBranchingDateNumber('20180517'), 35, "'20180517' converts to 35");
+        a.ok(is.undefined(MoodleVersion.branchNumberFromBranchingDateNumber(20180513)), '20180513 converts to undefined (no such mapping)');
+        a.ok(is.undefined(MoodleVersion.branchNumberFromBranchingDateNumber('20180513')),"'20180513' converts to undefined (no such mapping)");
     });
     
-    QUnit.test('branchingDateFromBranch()', function(a){
+    QUnit.test('branchingDateNumberFromBranch()', function(a){
         const mustReturnUndefined = [
             ...util.dummyBasicDataExcept('string')
         ];
         a.expect(mustReturnUndefined.length + 3);
         
         // make sure the function actually exists
-        a.ok(is.function(MoodleVersion.branchingDateFromBranch), 'function exists');
+        a.ok(is.function(MoodleVersion.branchingDateNumberFromBranch), 'function exists');
         
         // make sure the data that should return undefined does
         for(const dd of mustReturnUndefined){
-            a.ok(is.undefined(MoodleVersion.branchingDateFromBranch(dd.value)), `${dd.description} returns undefined`);
+            a.ok(is.undefined(MoodleVersion.branchingDateNumberFromBranch(dd.value)), `${dd.description} returns undefined`);
         }
         
         // make sure valid data returns as expected
-        a.strictEqual(MoodleVersion.branchingDateFromBranch('3.5'), 20180517, "'3.5' converts to 20180517");
-        a.ok(is.undefined(MoodleVersion.branchingDateFromBranch('9.9')), "'9.9' converts to undefined (no such mapping)");
+        a.strictEqual(MoodleVersion.branchingDateNumberFromBranch('3.5'), 20180517, "'3.5' converts to 20180517");
+        a.ok(is.undefined(MoodleVersion.branchingDateNumberFromBranch('9.9')), "'9.9' converts to undefined (no such mapping)");
     });
     
-    QUnit.test('branchingDateFromBranchNumber()', function(a){
+    QUnit.test('branchingDateNumberFromBranchNumber()', function(a){
         const mustReturnUndefined = [
             ...util.dummyBasicDataExcept('number')
         ];
         a.expect(mustReturnUndefined.length + 5);
         
         // make sure the function actually exists
-        a.ok(is.function(MoodleVersion.branchingDateFromBranchNumber), 'function exists');
+        a.ok(is.function(MoodleVersion.branchingDateNumberFromBranchNumber), 'function exists');
         
         // make sure the data that should return undefined does
         for(const dd of mustReturnUndefined){
-            a.ok(is.undefined(MoodleVersion.branchingDateFromBranchNumber(dd.value)), `${dd.description} returns undefined`);
+            a.ok(is.undefined(MoodleVersion.branchingDateNumberFromBranchNumber(dd.value)), `${dd.description} returns undefined`);
         }
         
         // make sure valid data returns as expected
-        a.strictEqual(MoodleVersion.branchingDateFromBranchNumber(35), 20180517, '35 converts to 20180517');
-        a.strictEqual(MoodleVersion.branchingDateFromBranchNumber('35'), 20180517, "'35' converts to 20180517");
-        a.ok(is.undefined(MoodleVersion.branchingDateFromBranchNumber(99)), '99 converts to undefined (no such mapping)');
-        a.ok(is.undefined(MoodleVersion.branchingDateFromBranchNumber('99')),"'99' converts to undefined (no such mapping)");
+        a.strictEqual(MoodleVersion.branchingDateNumberFromBranchNumber(35), 20180517, '35 converts to 20180517');
+        a.strictEqual(MoodleVersion.branchingDateNumberFromBranchNumber('35'), 20180517, "'35' converts to 20180517");
+        a.ok(is.undefined(MoodleVersion.branchingDateNumberFromBranchNumber(99)), '99 converts to undefined (no such mapping)');
+        a.ok(is.undefined(MoodleVersion.branchingDateNumberFromBranchNumber('99')),"'99' converts to undefined (no such mapping)");
+    });
+    
+    QUnit.test('dateFromDateNumber()', function(a){
+        const mustThrow = [
+            ...util.dummyDataExcept(['number'], ['integer']),
+            util.dummyData('number.integer.4digit'),
+            util.dummyData('string.integer.4digit')
+        ];
+        a.expect(mustThrow.length + 3);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.dateFromDateNumber), 'function exists');
+        
+        // make sure all values that should throw an error do
+        for(const dd of mustThrow){
+            a.throws(
+                ()=>{ MoodleVersion.dateFromDateNumber(dd.value); },
+                TypeError,
+                `${dd.description} throws a type error`
+            );
+        }
+        
+        // make sure valid values are converted as expected
+        let d = new Date('2018-05-01T00:00:00.000Z');
+        a.strictEqual(MoodleVersion.dateFromDateNumber(20180501).toISOString(), d.toISOString(), '20180501 converts correctly');
+        d = new Date('2018-12-25T00:00:00.000Z');
+        a.strictEqual(MoodleVersion.dateFromDateNumber(20181225).toISOString(), d.toISOString(), '20181225 converts correctly');
+    });
+    
+    QUnit.test('dateNumberFromDate()', function(a){
+        const mustThrow = [
+            ...util.dummyDataExcept([], [], ['object.date'])
+        ];
+        a.expect(mustThrow.length + 3);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.dateNumberFromDate), 'function exists');
+        
+        // make sure all values that should throw an error do
+        for(const dd of mustThrow){
+            a.throws(
+                ()=>{ MoodleVersion.dateNumberFromDate(dd.value); },
+                TypeError,
+                `${dd.description} throws a type error`
+            );
+        }
+        
+        // make sure valid values are converted as expected
+        a.strictEqual(MoodleVersion.dateNumberFromDate(new Date('2018-05-01T00:00:00.000Z')), 20180501, '2018-05-01T00:00:00.000Z converts to 20180501');
+        a.strictEqual(MoodleVersion.dateNumberFromDate(new Date('2018-12-25T00:00:00.000Z')), 20181225, '2018-12-25T00:00:00.000Z converts to 20181225');
     });
     
     QUnit.test('releaseSuffixFromReleaseType()', function(a){
