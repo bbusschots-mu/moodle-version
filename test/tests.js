@@ -765,30 +765,85 @@ QUnit.module('Static Conversion Functions', {}, function(){
 QUnit.module('Object Utility Functions', function(){
     QUnit.test('.clone()', function(a){
         const propertiesToTest = ['_branchNumber', '_branchingDateNumber', '_releaseNumber', '_releaseType', '_buildNumber'];
-        a.expect(propertiesToTest.length + 2);
+        a.expect((propertiesToTest.length * 3) + 3);
         
         // make sure the function actually exists
         a.ok(is.function(MoodleVersion.prototype.clone), 'function exists');
         
-        // make sure the clone really is a different object
+        // make sure the clone really is a clone object
         let v = new MoodleVersion();
         let vc = v.clone();
+        a.ok(vc instanceof MoodleVersion, 'clone is a MoodleVersion object');
         a.notStrictEqual(v, vc, 'the clone is not a reference to the original');
         
-        // make sure all values get coppied
+        // make sure all values get coppied when undefined
         for(const p of propertiesToTest){
-            a.strictEqual(v[p], vc[p], `property ${p} coppied correctly`);
+            a.strictEqual(v[p], vc[p], `property ${p} coppied correctly when undefined`);
         }
+        
+        // make sure all values get coppied with a known version
+        v = MoodleVersion.fromObject({
+            branchNumber: 35,
+            releaseNumber: 0,
+            releaseType: 'weekly',
+            buildNumber: 20180614
+        });
+        vc = v.clone();
+        for(const p of propertiesToTest){
+            a.strictEqual(v[p], vc[p], `property ${p} coppied correctly on known version`);
+        }
+        
+        // make sure all values get coppied with an unknown version
+        v = MoodleVersion.fromObject({
+            branchNumber: 36,
+            branchindDateNumber: 20180517,
+            releaseNumber: 0,
+            releaseType: 'development',
+            buildNumber: 20180524
+        });
+        vc = v.clone();
+        for(const p of propertiesToTest){
+            a.strictEqual(v[p], vc[p], `property ${p} coppied correctly on an unknown version`);
+        }
+    });
+    
+    QUnit.only('.toString()', function(a){
+        a.expect(6);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.prototype.toString), 'function exists');
+        
+        // make sure the function returns a string
+        let v = new MoodleVersion();
+        a.ok(is.string(v.toString()), 'returns a string');
+        
+        // make sure the function can handle an empty object
+        a.strictEqual(v.toString(), '??.??.?? (type: ??, branching date: ?? & build: ??)', 'empty object rendered correctly');
+        
+        // make sure the function correctly includes all data
+        v = MoodleVersion.fromObject({
+            branchNumber: 35,
+            releaseNumber: 0,
+            releaseType: 'official',
+            buildNumber: 20180614
+        });
+        a.strictEqual(v.toString(), '3.5.0 (type: official, branching date: 20180517 & build: 20180614)', 'complete version rendered correctly');
+        
+        // make sure the function correctly handles the suffixes
+        v.releaseType = 'development';
+        a.strictEqual(v.toString(), '3.5.0dev (type: development, branching date: 20180517 & build: 20180614)', 'dev version rendered correctly');
+        v.releaseType = 'weekly';
+        a.strictEqual(v.toString(), '3.5.0+ (type: weekly, branching date: 20180517 & build: 20180614)', 'weekly version rendered correctly');
     });
 });
 
 QUnit.module('factory methods', function(){
-    QUnit.only('fromObject()', function(a){
+    QUnit.test('fromObject()', function(a){
         const mustThrow = [
             ...util.dummyBasicPrimitives()
         ];
         const props = ['_branchNumber', '_branchingDateNumber', '_releaseNumber', '_releaseType', '_buildNumber'];
-        a.expect(mustThrow.length + (props.length * 3) + 1);
+        a.expect(mustThrow.length + (props.length * 3) + 5);
         
         // make sure the function actually exists
         a.ok(is.function(MoodleVersion.fromObject), 'function exists');
@@ -816,6 +871,7 @@ QUnit.module('factory methods', function(){
         };
         
         // make sure all properties get saved when given the natively stored data for a valid branch
+        // this test covers auto-fill of branching dates
         v = MoodleVersion.fromObject({
             branchNumber: 33,
             releaseNumber: 6,
@@ -832,5 +888,32 @@ QUnit.module('factory methods', function(){
             buildNumber: 20180517
         });
         checkAllProps('correctly saved when passed data that needs transforming for valid branch', 33, 20170515, 6, 'official', 20180517);
+        
+        // make sure branches auto-fill to branching dates
+        v = MoodleVersion.fromObject({
+            branchingDateNumber: 20170515,
+            releaseNumber: 6,
+            releaseSuffix: '',
+            buildNumber: 20180517
+        });
+        a.strictEqual(v._branchNumber, 33, 'Branch correctly auto-filled from brancing date number');
+        v = MoodleVersion.fromObject({
+            branchingDate: new Date('2017-05-15T00:00:00.000Z'),
+            releaseNumber: 6,
+            releaseSuffix: '',
+            buildNumber: 20180517
+        });
+        a.strictEqual(v._branchNumber, 33, 'Branch correctly auto-filled from brancing date');
+        
+        // make sure un-known branches can be created
+        v = MoodleVersion.fromObject({
+            branchNumber: 36,
+            branchingDateNumber: 20180615,
+            releaseNumber: 0,
+            releaseSuffix: 'dev',
+            buildNumber: 20180618
+        });
+        a.strictEqual(v._branchNumber, 36, 'un-known branch successfully saved');
+        a.strictEqual(v._branchingDateNumber, 20180615, 'un-known branching date successfully saved');
     });
 });

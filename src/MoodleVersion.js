@@ -493,40 +493,40 @@ module.exports = class MoodleVersion {
                 ans._branchNumber = parseInt(obj.branchNumber);
             }else if(is.not.undefined(obj.branch)){
                 if(!MoodleVersion.isBranch(obj.branch)) throw new TypeError('invalid branch');
-                ans._branchNumber = MoodleVersion.branchFromBranchNumber(obj.branch);
+                ans._branchNumber = MoodleVersion.branchNumberFromBranch(obj.branch);
             }
         }
         
         // set the branching date if passed
         if(is.propertyDefined(obj, 'branchingDate') || is.propertyDefined(obj, 'branchingDateNumber')){
-            if(is.propertyDefined(obj, 'branchingDateNumber')){
+            if(is.not.undefined(obj.branchingDateNumber)){
                 if(!MoodleVersion.isDateNumber(obj.branchingDateNumber)) throw new TypeError('invalid branching date number');
-                ans._branchindDateNumber = parseInt(obj.branchingDateNumber);
-            }else{
+                ans._branchingDateNumber = parseInt(obj.branchingDateNumber);
+            }else if(is.not.undefined(obj.branchingDate)){
                 if(is.not.date(obj.branchingDate)) throw new TypeError('invalid branching date');
-                ans._branchindDateNumber = MoodleVersion.dateNumberFromDate(obj.branchingDate);
+                ans._branchingDateNumber = MoodleVersion.dateNumberFromDate(obj.branchingDate);
             }
         }
         
         // set the release number if passed
-        if(is.propertyDefined(obj, 'releaseNumber')){
+        if(is.not.undefined(obj.releaseNumber)){
             if(!MoodleVersion.isReleaseNumber(obj.releaseNumber)) throw new TypeError('invalid release number');
             ans._releaseNumber = parseInt(obj.releaseNumber);
         }
         
         // set the release type if passed
         if(is.propertyDefined(obj, 'releaseType') || is.propertyDefined(obj, 'releaseSuffix')){
-            if(is.propertyDefined(obj, 'releaseSuffix')){
+            if(is.not.undefined(obj.releaseSuffix)){
                 if(!MoodleVersion.isReleaseSuffix(obj.releaseSuffix)) throw new TypeError('invalid release suffix');
                 ans._releaseType = MoodleVersion.releaseTypeFromReleaseSuffix(obj.releaseSuffix);
-            }else{
+            }else if(is.not.undefined(obj.releaseType)){
                 if(!MoodleVersion.isReleaseType(obj.releaseType)) throw new TypeError('invalid release type');
                 ans._releaseType = obj.releaseType.toLowerCase();
             }
         }
         
         // set the build number if passed
-        if(is.propertyDefined(obj, 'buildNumber')){
+        if(is.not.undefined(obj.buildNumber)){
             if(!MoodleVersion.isDateNumber(obj.buildNumber)) throw new TypeError('invalid build number');
             ans._buildNumber = parseInt(obj.buildNumber);
         }
@@ -903,7 +903,7 @@ module.exports = class MoodleVersion {
         this._buildNumber = parseInt(bn);
     }
     
-    // LEFT OFF HERE - TO DO NEXT - add static fromString() function
+    // TO DO add static fromString() function
     
     /**
      * Create a new Moodle version object representing the same version
@@ -913,11 +913,11 @@ module.exports = class MoodleVersion {
      */
     clone(){
         return MoodleVersion.fromObject({
-            branchNumber: this.branchNumber,
-            branchingDateNumber: this.branchingDateNumber,
-            releaseNumber: this.releaseNumber,
-            releaseType: this.releaseType,
-            buildNumber: this.buildNumber
+            branchNumber: this._branchNumber,
+            branchingDateNumber: this._branchingDateNumber,
+            releaseNumber: this._releaseNumber,
+            releaseType: this._releaseType,
+            buildNumber: this._buildNumber
         });
     }
     
@@ -932,9 +932,11 @@ module.exports = class MoodleVersion {
     toString(){
         const stringify = (s)=>{ return is.undefined(s) ? '??' : String(s); };
         
-        let ans = `${stringify(this.branch)}.${stringify(this.releaseNumber)}`;
+        let ans = `${is.undefined(this.branch) ? '??.??' : this.branch }.${stringify(this.releaseNumber)}`;
         if(is.string(this.releaseSuffix)) ans += this.releaseSuffix;
-        ans += ` (type: ${stringify(this.releaseType)}, branching date: ${this.branchingDateNumber} & build: ${this.buildNumber})`;
+        ans += ` (type: ${stringify(this.releaseType)}, branching date: ${stringify(this.branchingDateNumber)} & build: ${stringify(this.buildNumber)})`;
         return ans;
     }
+    
+    // LEFT OFF HERE - TO DO NEXT - add comparison functions
 };
