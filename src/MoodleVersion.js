@@ -461,6 +461,9 @@ module.exports = class MoodleVersion {
      * A factory method for producing a Moodle Version object given all its
      * properties.
      *
+     * If only one of the branch and branching date are passed, and if a known
+     * mapping exists, the other is auto-completed.
+     *
      * This function can be used to create version objects which contain
      * unknown mappings between Moodle branches and branching dates.
      *
@@ -485,10 +488,10 @@ module.exports = class MoodleVersion {
         
         // set the branch if passed
         if(is.propertyDefined(obj, 'branch') || is.propertyDefined(obj, 'branchNumber')){
-            if(is.propertyDefined(obj, 'branchNumber')){
+            if(is.not.undefined(obj.branchNumber)){
                 if(!MoodleVersion.isBranchNumber(obj.branchNumber)) throw new TypeError('invalid branch number');
                 ans._branchNumber = parseInt(obj.branchNumber);
-            }else{
+            }else if(is.not.undefined(obj.branch)){
                 if(!MoodleVersion.isBranch(obj.branch)) throw new TypeError('invalid branch');
                 ans._branchNumber = MoodleVersion.branchFromBranchNumber(obj.branch);
             }
@@ -526,6 +529,16 @@ module.exports = class MoodleVersion {
         if(is.propertyDefined(obj, 'buildNumber')){
             if(!MoodleVersion.isDateNumber(obj.buildNumber)) throw new TypeError('invalid build number');
             ans._buildNumber = parseInt(obj.buildNumber);
+        }
+        
+        // if there's a branch but no branching date, try auto-complete it
+        if(is.number(ans._branchNumber) && is.undefined(ans._branchingDateNumber) && is.number(BNUM_BDNUM_MAP[ans._branchNumber])){
+            ans._branchingDateNumber = BNUM_BDNUM_MAP[ans._branchNumber];
+        }
+        
+        // if there's a branching date but no branch, try auto-complete it
+        if(is.number(ans._branchingDateNumber) && is.undefined(ans._branchNumber) && is.number(BDNUM_BNUM_MAP[ans._branchingDateNumber])){
+            ans._branchNumber = BDNUM_BNUM_MAP[ans._branchingDateNumber];
         }
         
         return ans;
@@ -893,9 +906,35 @@ module.exports = class MoodleVersion {
     // LEFT OFF HERE - TO DO NEXT - add static fromString() function
     
     /**
-     * toString() description.
+     * Create a new Moodle version object representing the same version
+     * information.
+     *
+     * @return {MoodleVersion}
+     */
+    clone(){
+        return MoodleVersion.fromObject({
+            branchNumber: this.branchNumber,
+            branchingDateNumber: this.branchingDateNumber,
+            releaseNumber: this.releaseNumber,
+            releaseType: this.releaseType,
+            buildNumber: this.buildNumber
+        });
+    }
+    
+    /**
+     * Return a string representation of the version. The output will be of the
+     * form `B.B.R[S] (type: T, branching date: BD & build: BN)`, e.g.
+     * `3.3.6 (type: official, branching date: 20170515 & build: 20180517)`.
+     * Undefined components will be rendered as `??`.
+     *
+     * @return {string}
      */
     toString(){
-        return `${this.branch}.${this.releaseNumber}`;
+        const stringify = (s)=>{ return is.undefined(s) ? '??' : String(s); };
+        
+        let ans = `${stringify(this.branch)}.${stringify(this.releaseNumber)}`;
+        if(is.string(this.releaseSuffix)) ans += this.releaseSuffix;
+        ans += ` (type: ${stringify(this.releaseType)}, branching date: ${this.branchingDateNumber} & build: ${this.buildNumber})`;
+        return ans;
     }
 };

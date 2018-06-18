@@ -13,14 +13,17 @@ class DummyData{
      * @param {string} desc - a description of the piece of data.
      * @param {string[]} tags - zero or more tags to associate with the data.
      * @param {*} val - the actual piece of data.
+     * @param {string} [type] - the data's type
      */
-    constructor(desc, tags, val){
+    constructor(desc, tags, val, type){
         if(!(is.string(desc) && is.not.empty(desc))) throw new TypeError('description must be a non-empty string');
         if(!(is.array(tags) && is.all.string(tags))) throw new TypeError('tags must be an array of strings');
+        if(is.not.undefined(type) && is.not.string(type)) throw new TypeError('if p, type must be a string');
         this._description = desc;
         this._tags = [...tags];
         this._value = val;
         this._tagLookup = {};
+        this._type = type;
         for(const t of this._tags){
             this._tagLookup[t] = true;
         }
@@ -47,7 +50,16 @@ class DummyData{
         return this._value;
     }
     
+    /**
+     * @type {string|undefined}
+     */
+    get type(){
+        return this._type;
+    }
     
+    /**
+     * @return {boolean}
+     */
     hasTag(t){
         if(is.not.string(t)) throw new TypeError('tag must be a string');
         return this._tagLookup[t] ? true : false;
@@ -119,8 +131,8 @@ const util = {
                 'float.negative': ['a negative floating point numeric string', ['numeric'], '-3.14']
             },
             'array': {
-                'empty': ['an empty array', [], []],
-                'basic': ['an array of primitives', ['basic'], [true, 42, 'boogers']]
+                'empty': ['an empty array', ['object'], []],
+                'basic': ['an array of primitives', ['object', 'basic'], [true, 42, 'boogers']]
             },
             'object': {
                 'null': ['null', ['empty', 'falsy', 'basic'], null],
@@ -129,7 +141,7 @@ const util = {
                 'date': ['a date object', [], new Date()]
             },
             'function': {
-                'void': ['a void function', ['basic'], function(){}]
+                'void': ['a void function', ['object', 'basic'], function(){}]
             },
             'other': {
                 "undefined": ['undefined', ['empty', 'falsy', 'basic'], undefined]
@@ -142,7 +154,8 @@ const util = {
                 ans[t][tp] = new DummyData(
                     rawData[t][tp][0],
                     [...tp.split('.'), ...rawData[t][tp][1]],
-                    rawData[t][tp][2]
+                    rawData[t][tp][2],
+                    t
                 );
             }
         }
@@ -278,6 +291,21 @@ const util = {
     },
     
     /**
+     * A function to return all basic dummy data that's not an object, i.e. all
+     * dummy data tagged `basic` that does not have either the type or tag
+     * `object`.
+     *
+     * @return {DummyData[]}
+     */
+    dummyBasicPrimitives: function(){
+        const ans = [];
+        for(const dd of this.dummyBasicData()){
+            if(dd.type != 'object' && !dd.hasTag('object')) ans.push(dd);
+        }
+        return ans;
+    },
+    
+    /**
      * A function to return all basic dummy data except those for zero or more
      * given types.
      *
@@ -289,6 +317,25 @@ const util = {
         for(const et of excludeTypes) excludeLookup[et] = true;
         const ans = [];
         for(const dd of this.dummyBasicData()){
+            if(!excludeLookup[dd.type]){
+                ans.push(dd);
+            }
+        }
+        return ans;
+    },
+    
+    /**
+     * A function to return all basic dummy primitives except those for zero or
+     * more given types.
+     *
+     * @param {...string} excludeTypes
+     * @return {DummyData[]}
+     */
+    dummyBasicPrimitivesExcept: function(...excludeTypes){
+        const excludeLookup = {};
+        for(const et of excludeTypes) excludeLookup[et] = true;
+        const ans = [];
+        for(const dd of this.dummyBasicPrimitives()){
             if(!excludeLookup[dd.type]){
                 ans.push(dd);
             }
@@ -712,5 +759,78 @@ QUnit.module('Static Conversion Functions', {}, function(){
         a.strictEqual(MoodleVersion.releaseTypeFromReleaseSuffix('DEV'), 'development', "'DEV' converts to 'development'");
         a.strictEqual(MoodleVersion.releaseTypeFromReleaseSuffix(''), 'official', "'' converts to 'official'");
         a.strictEqual(MoodleVersion.releaseTypeFromReleaseSuffix('+'), 'weekly', "'+' converts to 'weekly'");
+    });
+});
+
+QUnit.module('Object Utility Functions', function(){
+    QUnit.test('.clone()', function(a){
+        const propertiesToTest = ['_branchNumber', '_branchingDateNumber', '_releaseNumber', '_releaseType', '_buildNumber'];
+        a.expect(propertiesToTest.length + 2);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.prototype.clone), 'function exists');
+        
+        // make sure the clone really is a different object
+        let v = new MoodleVersion();
+        let vc = v.clone();
+        a.notStrictEqual(v, vc, 'the clone is not a reference to the original');
+        
+        // make sure all values get coppied
+        for(const p of propertiesToTest){
+            a.strictEqual(v[p], vc[p], `property ${p} coppied correctly`);
+        }
+    });
+});
+
+QUnit.module('factory methods', function(){
+    QUnit.only('fromObject()', function(a){
+        const mustThrow = [
+            ...util.dummyBasicPrimitives()
+        ];
+        const props = ['_branchNumber', '_branchingDateNumber', '_releaseNumber', '_releaseType', '_buildNumber'];
+        a.expect(mustThrow.length + (props.length * 3) + 1);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.fromObject), 'function exists');
+        
+        // make sure data that should throw an error does
+        for(const dd of mustThrow){
+            a.throws(
+                ()=>{ MoodleVersion.fromObject(dd.value); },
+                TypeError,
+                `${dd.description} throws a type error`
+            );
+        }
+        
+        // make sure an empty object is treated correctly
+        let v = MoodleVersion.fromObject({});
+        for(const p of props){
+            a.ok(is.undefined(v[p]), `${p} undefined when passed empty object`);
+        }
+        
+        // a helper function to quickly check all properties against an array of values
+        checkAllProps = (msg, ...vals)=>{
+            for(let i = 0; i < props.length; i++){
+                a.strictEqual(v[props[i]], vals[i], `${props[i]} ${msg}`);
+            }
+        };
+        
+        // make sure all properties get saved when given the natively stored data for a valid branch
+        v = MoodleVersion.fromObject({
+            branchNumber: 33,
+            releaseNumber: 6,
+            releaseType: 'official',
+            buildNumber: 20180517
+        });
+        checkAllProps('correctly saved when passed native data for valid branch', 33, 20170515, 6, 'official', 20180517);
+        
+        // make sure all properties get saved when given auto-translated data for a valid branch
+        v = MoodleVersion.fromObject({
+            branch: '3.3',
+            releaseNumber: 6,
+            releaseSuffix: '',
+            buildNumber: 20180517
+        });
+        checkAllProps('correctly saved when passed data that needs transforming for valid branch', 33, 20170515, 6, 'official', 20180517);
     });
 });
