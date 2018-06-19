@@ -457,6 +457,76 @@ module.exports = class MoodleVersion {
         return undefined;
     }
     
+    // TO DO - TEST
+    /**
+     * Convert a release type to a number. Useful for version comparisons.
+     *
+     * All invalid values convert to `0`, `'development'` to `1`, `'official'`
+     * to `2`, and `'weekly'` to 3.
+     *
+     * @param {*} rt
+     * @return {number}
+     */
+    static numberFromReleaseType(rt){
+        if(!MoodleVersion.isReleaseType(rt)) return 0;
+        switch(rt){
+            case 'weekly': return 3;
+            case 'official': return 2;
+            default: return 1;
+        }
+    }
+    
+    // TO DO - TEST
+    /**
+     * Compare two values to see if they represent the same version, a
+     * greater version, or a lesser version.
+     *
+     * When ranking versions, the branch is given the highest weight, then the
+     * release number, then the release type,
+     * and finally the build number. When comparing release types,
+     * `'development'` is considered earlier `'official'`, which is considered
+     * earlier than `'weekly'`.
+     *
+     * @param {*} val1
+     * @param {*} val2
+     * @return {number} Unless both values are moodle vesion objects, `NaN` is
+     * returned. If `val1` represents an earlier version than `val2` `-1` is
+     * returned, if `val1` and `val2` represent the same version `0` is
+     * returned, and if `val1` represents a later version than `val2` `1` is
+     * returned.
+     */
+    static compare(val1, val2){
+        // unless we get two Moodle versions, return NaN
+        if(!((val1 instanceof MoodleVersion) && (val2 instanceof MoodleVersion))) return NaN;
+        
+        // try find a difference in branch
+        const b1 = is.number(val1.branchNumber) ? val1.branchNumber : 0;
+        const b2 = is.number(val2.branchNumber) ? val2.branchNumber : 0;
+        if(b1 < b2) return -1;
+        if(b1 > b2) return 1;
+        
+        // if there was no difference in branch, try find a difference in release number
+        const r1 = is.number(val1.releaseNumber) ? val1.releaseNumber : 0;
+        const r2 = is.number(val2.releaseNumber) ? val2.releaseNumber : 0;
+        if(r1 < r2) return -1;
+        if(r1 > r2) return 1;
+        
+        // if we've still not found a difference, check the release type
+        const t1 = numberFromReleaseType(val1.releaseType);
+        const t2 = numberFromReleaseType(val2.releaseType);
+        if(t1 < t2) return -1;
+        if(t1 > t2) return 1;
+        
+        // finally, try split the difference with the build number
+        const bn1 = is.number(val1.buildNumber) ? val1.buildNumber : 0;
+        const bn2 = is.number(val2.buildNumber) ? val2.buildNumber : 0;
+        if(bn1 < bn2) return -1;
+        if(bn1 > bn2) return 1;
+        
+        // if we still haven't split the difference, they must be equal
+        return 0;
+    }
+    
     /**
      * A factory method for producing a Moodle Version object given all its
      * properties.
@@ -938,5 +1008,13 @@ module.exports = class MoodleVersion {
         return ans;
     }
     
-    // LEFT OFF HERE - TO DO NEXT - add comparison functions
+    /**
+     * Test if a given value is a Moodle Version object representing the same version.
+     *
+     * @param {*} val
+     * @return {boolean}
+     */
+    equals(val){
+        // LEFT OFF HERE!!!
+    }
 };
