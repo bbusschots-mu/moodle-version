@@ -1017,4 +1017,61 @@ module.exports = class MoodleVersion {
     equals(val){
         return MoodleVersion.compare(this, val) === 0 ? true : false;
     }
+    
+    /**
+     * Compare this version to another.
+     *
+     * @param {MoodleVersion} mv
+     * @return {number} `-1` returned if passed version is lesser, `0` if the
+     * passed version is the same, and `1` if the passed version is greater. If
+     * the passed value is not a Moodle version object, `NaN` will be returned.
+     */
+    compareTo(mv){
+        return MoodleVersion.compare(mv, this);
+    }
+    
+    /**
+     * Determine whether this versions is on the same branch as a given version.
+     *
+     * @param {MoodleVersion} mv
+     * @return {boolean|undefined} If the two versions share a branch then
+     * `true` is returned, if the branch numbers differ, `false` is returned.
+     * If the value passed is not a Moodle version object, or, the branch
+     * is undefined in both versions, `undefined` is returned.
+     */
+    sameBranch(mv){
+        if(!(mv instanceof MoodleVersion)) return undefined;
+        if(is.all.undefined(this.branch, mv.branch)) return undefined;
+        return this.branch === mv.branch;
+    }
+    
+    /**
+     * Determine whether this version is less than a given version.
+     *
+     * @param {MoodleVersion} mv
+     * @return {boolean|undefined} If the version is definitely lesser then
+     * `true` is returned, and if the version is equal or definitely greater
+     * then `false` is returned. If the value is not a Moodle version object
+     * then `undefined` is returned.
+     */
+    lessThan(mv){
+        const cmp = MoodleVersion.compare(this, mv);
+        if(is.nan(cmp)) return undefined;
+        return cmp === 1 ? true : false;
+    }
+    
+    /**
+     * Determine whether this version is greater than a given version.
+     *
+     * @param {MoodleVersion} mv
+     * @return {boolean|undefined} If the version is definitely greater then
+     * `true` is returned, and if the version is equal or definitely less than
+     * then `false` is returned. If the value is not a Moodle version object
+     * then `undefined` is returned.
+     */
+    greaterThan(mv){
+        const cmp = MoodleVersion.compare(this, mv);
+        if(is.nan(cmp)) return undefined;
+        return cmp === -1 ? true : false;
+    }
 };

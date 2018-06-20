@@ -929,7 +929,7 @@ QUnit.module('comparison methods', function(){
         a.strictEqual(MoodleVersion.compare(v2, v1), 1, 'val1 with higher build number than val2 returns 1');
     });
     
-    QUnit.only('.equals()', function(a){
+    QUnit.test('.equals()', function(a){
         const mustReturnFalse = [
             ...util.dummyBasicData()
         ];
@@ -961,6 +961,152 @@ QUnit.module('comparison methods', function(){
         a.strictEqual(v.equals(MoodleVersion.fromObject(_.assign({}, vObj, { releaseNumber: '7'}))), false, 'differing release number not considered equal');
         a.strictEqual(v.equals(MoodleVersion.fromObject(_.assign({}, vObj, { releaseType: 'weekly'}))), false, 'differing release type not considered equal');
         a.strictEqual(v.equals(MoodleVersion.fromObject(_.assign({}, vObj, { buildNumber: 20180518}))), false, 'differing release number not considered equal');
+    });
+    
+    QUnit.test('.compareTo()', function(a){
+        const mustReturnNaN = [
+            ...util.dummyBasicData()
+        ];
+        a.expect(mustReturnNaN.length + 10);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.prototype.compareTo), 'function exists');
+        
+        // make sure values other than version objects return NaN
+        const vObj = {
+            branch: '3.3',
+            releaseNumber: '6',
+            releaseType: 'official',
+            buildNumber: 20180517
+        };
+        const v = MoodleVersion.fromObject(vObj);
+        for(const dd of mustReturnNaN){
+            a.ok(is.nan(v.compareTo(dd.val)), `${dd.description} returns NaN`);
+        }
+        
+        // make sure an equal version returns 0
+        a.strictEqual(v.compareTo(MoodleVersion.fromObject(vObj)), 0, 'an equal version returns 0');
+        
+        // make sure lesser versions return -1
+        a.strictEqual(v.compareTo(MoodleVersion.fromObject(_.assign({}, vObj, { branch: '3.2'}))), -1, 'lower branch returns -1');
+        a.strictEqual(v.compareTo(MoodleVersion.fromObject(_.assign({}, vObj, { releaseNumber: 5}))), -1, 'lower release number returns -1');
+        a.strictEqual(v.compareTo(MoodleVersion.fromObject(_.assign({}, vObj, { releaseType: 'development'}))), -1, 'dev release returns -1');
+        a.strictEqual(v.compareTo(MoodleVersion.fromObject(_.assign({}, vObj, { buildNumber: 20180510}))), -1, 'lower build number returns -1');
+        
+        // make sure greater versions return false
+        a.strictEqual(v.compareTo(MoodleVersion.fromObject(_.assign({}, vObj, { branch: '3.4'}))), 1, 'higher branch returns 1');
+        a.strictEqual(v.compareTo(MoodleVersion.fromObject(_.assign({}, vObj, { releaseNumber: 7}))), 1, 'higher release number returns 1');
+        a.strictEqual(v.compareTo(MoodleVersion.fromObject(_.assign({}, vObj, { releaseType: 'weekly'}))), 1, 'weekly release returns 1');
+        a.strictEqual(v.compareTo(MoodleVersion.fromObject(_.assign({}, vObj, { buildNumber: 20180524}))), 1, 'higher build number returns 1');
+    });
+    
+    QUnit.test('.lessThan()', function(a){
+        const mustReturnUndefined = [
+            ...util.dummyBasicData()
+        ];
+        a.expect(mustReturnUndefined.length + 10);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.prototype.lessThan), 'function exists');
+        
+        // make sure values other than version objects return undefined
+        const vObj = {
+            branch: '3.3',
+            releaseNumber: '6',
+            releaseType: 'official',
+            buildNumber: 20180517
+        };
+        const v = MoodleVersion.fromObject(vObj);
+        for(const dd of mustReturnUndefined){
+            a.ok(is.undefined(v.lessThan(dd.val)), `${dd.description} returns undefined`);
+        }
+        
+        // make sure an equal version returns false
+        a.strictEqual(v.lessThan(MoodleVersion.fromObject(vObj)), false, 'an equal version is not considered lesser');
+        
+        // make sure lesser versions return true
+        a.strictEqual(v.lessThan(MoodleVersion.fromObject(_.assign({}, vObj, { branch: '3.2'}))), true, 'lower branch considered less than');
+        a.strictEqual(v.lessThan(MoodleVersion.fromObject(_.assign({}, vObj, { releaseNumber: 5}))), true, 'lower release number considered less than');
+        a.strictEqual(v.lessThan(MoodleVersion.fromObject(_.assign({}, vObj, { releaseType: 'development'}))), true, 'dev release considered less than official release');
+        a.strictEqual(v.lessThan(MoodleVersion.fromObject(_.assign({}, vObj, { buildNumber: 20180510}))), true, 'lower build number considered less than');
+        
+        // make sure greater versions return false
+        a.strictEqual(v.lessThan(MoodleVersion.fromObject(_.assign({}, vObj, { branch: '3.4'}))), false, 'higher branch not considered less than');
+        a.strictEqual(v.lessThan(MoodleVersion.fromObject(_.assign({}, vObj, { releaseNumber: 7}))), false, 'higher release number not considered less than');
+        a.strictEqual(v.lessThan(MoodleVersion.fromObject(_.assign({}, vObj, { releaseType: 'weekly'}))), false, 'weekly release not considered less than official release');
+        a.strictEqual(v.lessThan(MoodleVersion.fromObject(_.assign({}, vObj, { buildNumber: 20180524}))), false, 'higher build number not considered less than');
+    });
+    
+    QUnit.test('.greaterThan()', function(a){
+        const mustReturnUndefined = [
+            ...util.dummyBasicData()
+        ];
+        a.expect(mustReturnUndefined.length + 10);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.prototype.greaterThan), 'function exists');
+        
+        // make sure values other than version objects return undefined
+        const vObj = {
+            branch: '3.3',
+            releaseNumber: '6',
+            releaseType: 'official',
+            buildNumber: 20180517
+        };
+        const v = MoodleVersion.fromObject(vObj);
+        for(const dd of mustReturnUndefined){
+            a.ok(is.undefined(v.greaterThan(dd.val)), `${dd.description} returns undefined`);
+        }
+        
+        // make sure an equal version returns false
+        a.strictEqual(v.greaterThan(MoodleVersion.fromObject(vObj)), false, 'an equal version is not considered greater');
+        
+        // make sure lesser versions return false
+        a.strictEqual(v.greaterThan(MoodleVersion.fromObject(_.assign({}, vObj, { branch: '3.2'}))), false, 'lower branch not considered greater');
+        a.strictEqual(v.greaterThan(MoodleVersion.fromObject(_.assign({}, vObj, { releaseNumber: 5}))), false, 'lower release number not considered greater');
+        a.strictEqual(v.greaterThan(MoodleVersion.fromObject(_.assign({}, vObj, { releaseType: 'development'}))), false, 'dev release not considered gerater than official release');
+        a.strictEqual(v.greaterThan(MoodleVersion.fromObject(_.assign({}, vObj, { buildNumber: 20180510}))), false, 'lower build number not considered greater');
+        
+        // make sure greater versions return true
+        a.strictEqual(v.greaterThan(MoodleVersion.fromObject(_.assign({}, vObj, { branch: '3.4'}))), true, 'higher branch considered greater');
+        a.strictEqual(v.greaterThan(MoodleVersion.fromObject(_.assign({}, vObj, { releaseNumber: 7}))), true, 'higher release number considered greater');
+        a.strictEqual(v.greaterThan(MoodleVersion.fromObject(_.assign({}, vObj, { releaseType: 'weekly'}))), true, 'weekly release considered greater than official release');
+        a.strictEqual(v.greaterThan(MoodleVersion.fromObject(_.assign({}, vObj, { buildNumber: 20180524}))), true, 'higher build number considered greater');
+    });
+    
+    QUnit.test('.sameBranch()', function(a){
+        const mustReturnUndefined = [
+            ...util.dummyBasicData()
+        ];
+        a.expect(mustReturnUndefined.length + 8);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.prototype.sameBranch), 'function exists');
+        
+        // make sure values other than version objects return undefined
+        const vObj = {
+            branch: '3.3',
+            releaseNumber: '6',
+            releaseType: 'official',
+            buildNumber: 20180517
+        };
+        const v = MoodleVersion.fromObject(vObj);
+        for(const dd of mustReturnUndefined){
+            a.ok(is.undefined(v.sameBranch(dd.val)), `${dd.description} returns undefined`);
+        }
+        a.ok(is.undefined((new MoodleVersion()).sameBranch(new MoodleVersion())), 'two undefined branches returns undefined');
+        
+        // make sure an equal version returns true
+        a.strictEqual(v.sameBranch(MoodleVersion.fromObject(vObj)), true, 'an equal version is considered the same branch');
+        
+        // make sure same branch returns true
+        a.strictEqual(v.sameBranch(MoodleVersion.fromObject(_.assign({}, vObj, { releaseNumber: 5}))), true, 'differing release number considered same branch');
+        a.strictEqual(v.sameBranch(MoodleVersion.fromObject(_.assign({}, vObj, { releaseType: 'development'}))), true, 'differing release type considered same branch');
+        a.strictEqual(v.sameBranch(MoodleVersion.fromObject(_.assign({}, vObj, { buildNumber: 20180510}))), true, 'differing build number considered same branch');
+        
+        // make sure differing branch returns false
+        a.strictEqual(v.sameBranch(MoodleVersion.fromObject(_.assign({}, vObj, { branch: '3.4'}))), false, 'lower branch considered different branch');
+        a.strictEqual(v.sameBranch(MoodleVersion.fromObject(_.assign({}, vObj, { branch: '3.6'}))), false, 'higher branch considered different branch');
     });
 });
 
