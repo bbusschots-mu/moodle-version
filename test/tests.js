@@ -807,7 +807,7 @@ QUnit.module('Object Utility Functions', function(){
         }
     });
     
-    QUnit.only('.toString()', function(a){
+    QUnit.test('.toString()', function(a){
         a.expect(6);
         
         // make sure the function actually exists
@@ -834,6 +834,130 @@ QUnit.module('Object Utility Functions', function(){
         a.strictEqual(v.toString(), '3.5.0dev (type: development, branching date: 20180517 & build: 20180614)', 'dev version rendered correctly');
         v.releaseType = 'weekly';
         a.strictEqual(v.toString(), '3.5.0+ (type: weekly, branching date: 20180517 & build: 20180614)', 'weekly version rendered correctly');
+    });
+});
+
+QUnit.module('comparison methods', function(){
+    QUnit.test('compare()', function(a){
+        const mustReturnNaN = [
+            ...util.dummyBasicData()
+        ];
+        a.expect((mustReturnNaN.length * 2) + 11);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.compare), 'function exists');
+        
+        // make sure everything that must result in NaN does when used as either argument
+        const v = new MoodleVersion();
+        for(const dd of mustReturnNaN){
+            a.ok(is.nan(MoodleVersion.compare(dd.value, v)), `${dd.description} as val1 returns NaN`);
+            a.ok(is.nan(MoodleVersion.compare(v, dd.value)), `${dd.description} as val2 returns NaN`);
+        }
+        
+        // check that equality is properly detected, both on an 'empty' version and one with all details added
+        a.strictEqual(MoodleVersion.compare(new MoodleVersion(), new MoodleVersion()), 0, 'two default versions are considered equal');
+        let vObj = {
+            branch: '3.5',
+            releaseNumber: 0,
+            releaseType: 'weekly',
+            buildNumber: 20180614
+        };
+        a.strictEqual(MoodleVersion.compare(new MoodleVersion(vObj), new MoodleVersion(vObj)), 0, 'two versions with the same branch, release number, type & build number are considered equal');
+        
+        // check when branches differ
+        let v1 = MoodleVersion.fromObject({
+            branch: '3.3',
+            releaseNumber: '6',
+            releaseType: 'official',
+            buildNumber: 20180517
+        });
+        let v2 = MoodleVersion.fromObject({
+            branch: '3.4',
+            releaseNumber: '6',
+            releaseType: 'official',
+            buildNumber: 20180517
+        });
+        a.strictEqual(MoodleVersion.compare(v1, v2), -1, 'val1 with lower branch than val2 returns -1');
+        a.strictEqual(MoodleVersion.compare(v2, v1), 1, 'val1 with higher branch than val2 returns 1');
+        
+        // check when release numbers differ
+        v1 = MoodleVersion.fromObject({
+            branch: '3.3',
+            releaseNumber: '6',
+            releaseType: 'official',
+            buildNumber: 20180517
+        });
+        v2 = MoodleVersion.fromObject({
+            branch: '3.3',
+            releaseNumber: '7',
+            releaseType: 'official',
+            buildNumber: 20180517
+        });
+        a.strictEqual(MoodleVersion.compare(v1, v2), -1, 'val1 with lower release number than val2 returns -1');
+        a.strictEqual(MoodleVersion.compare(v2, v1), 1, 'val1 with higher release number than val2 returns 1');
+        
+        // check when release types differ
+        v1 = MoodleVersion.fromObject({
+            branch: '3.3',
+            releaseNumber: '6',
+            releaseType: 'official',
+            buildNumber: 20180517
+        });
+        v2 = MoodleVersion.fromObject({
+            branch: '3.3',
+            releaseNumber: '6',
+            releaseType: 'weekly',
+            buildNumber: 20180517
+        });
+        a.strictEqual(MoodleVersion.compare(v1, v2), -1, 'val1 with lower release type than val2 returns -1');
+        a.strictEqual(MoodleVersion.compare(v2, v1), 1, 'val1 with higher release type than val2 returns 1');
+        
+        // check when release types differ
+        v1 = MoodleVersion.fromObject({
+            branch: '3.3',
+            releaseNumber: '6',
+            releaseType: 'weekly',
+            buildNumber: 20180517
+        });
+        v2 = MoodleVersion.fromObject({
+            branch: '3.3',
+            releaseNumber: '6',
+            releaseType: 'weekly',
+            buildNumber: 20180524
+        });
+        a.strictEqual(MoodleVersion.compare(v1, v2), -1, 'val1 with lower build number than val2 returns -1');
+        a.strictEqual(MoodleVersion.compare(v2, v1), 1, 'val1 with higher build number than val2 returns 1');
+    });
+    
+    QUnit.only('.equals()', function(a){
+        const mustReturnFalse = [
+            ...util.dummyBasicData()
+        ];
+        a.expect(mustReturnFalse.length + 4);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.prototype.equals), 'function exists');
+        
+        // make sure values other than version objects return false
+        const vObj = {
+            branch: '3.3',
+            releaseNumber: '6',
+            releaseType: 'official',
+            buildNumber: 20180517
+        };
+        const v = MoodleVersion.fromObject(vObj);
+        for(const dd of mustReturnFalse){
+            a.strictEqual(v.equals(dd.val), false, `${dd.description} returns false`);
+        }
+        
+        // make sure equal versions return true
+        let vd = new MoodleVersion();
+        a.strictEqual(vd.equals(new MoodleVersion()), true, 'a default version is considered equal to another default version');
+        a.strictEqual(v.equals(v.clone()), true, 'a clone is considered equal to the original');
+        a.strictEqual(v.equals(MoodleVersion.fromObject(vObj)), true, 'two versions containing the same branch, release number, type, and build number are considered equal');
+        
+        // make sure differing versions return false
+        // LEFT OFF HERE
     });
 });
 

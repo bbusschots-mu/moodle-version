@@ -476,7 +476,6 @@ module.exports = class MoodleVersion {
         }
     }
     
-    // TO DO - TEST
     /**
      * Compare two values to see if they represent the same version, a
      * greater version, or a lesser version.
@@ -512,8 +511,8 @@ module.exports = class MoodleVersion {
         if(r1 > r2) return 1;
         
         // if we've still not found a difference, check the release type
-        const t1 = numberFromReleaseType(val1.releaseType);
-        const t2 = numberFromReleaseType(val2.releaseType);
+        const t1 = MoodleVersion.numberFromReleaseType(val1.releaseType);
+        const t2 = MoodleVersion.numberFromReleaseType(val2.releaseType);
         if(t1 < t2) return -1;
         if(t1 > t2) return 1;
         
@@ -1009,12 +1008,13 @@ module.exports = class MoodleVersion {
     }
     
     /**
-     * Test if a given value is a Moodle Version object representing the same version.
+     * Test if a given value is a Moodle Version object representing the same
+     * version.
      *
      * @param {*} val
      * @return {boolean}
      */
     equals(val){
-        // LEFT OFF HERE!!!
+        return MoodleVersion.compare(this, val) === 0 ? true : false;
     }
 };
