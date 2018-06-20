@@ -933,7 +933,7 @@ QUnit.module('comparison methods', function(){
         const mustReturnFalse = [
             ...util.dummyBasicData()
         ];
-        a.expect(mustReturnFalse.length + 4);
+        a.expect(mustReturnFalse.length + 8);
         
         // make sure the function actually exists
         a.ok(is.function(MoodleVersion.prototype.equals), 'function exists');
@@ -957,7 +957,10 @@ QUnit.module('comparison methods', function(){
         a.strictEqual(v.equals(MoodleVersion.fromObject(vObj)), true, 'two versions containing the same branch, release number, type, and build number are considered equal');
         
         // make sure differing versions return false
-        // LEFT OFF HERE
+        a.strictEqual(v.equals(MoodleVersion.fromObject(_.assign({}, vObj, { branch: '3.4'}))), false, 'differing branch not considered equal');
+        a.strictEqual(v.equals(MoodleVersion.fromObject(_.assign({}, vObj, { releaseNumber: '7'}))), false, 'differing release number not considered equal');
+        a.strictEqual(v.equals(MoodleVersion.fromObject(_.assign({}, vObj, { releaseType: 'weekly'}))), false, 'differing release type not considered equal');
+        a.strictEqual(v.equals(MoodleVersion.fromObject(_.assign({}, vObj, { buildNumber: 20180518}))), false, 'differing release number not considered equal');
     });
 });
 
