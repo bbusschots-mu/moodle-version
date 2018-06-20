@@ -1074,4 +1074,38 @@ module.exports = class MoodleVersion {
         if(is.nan(cmp)) return undefined;
         return cmp === -1 ? true : false;
     }
+    
+    /**
+     * Is this a stable release? I.e. is the release type `official` or
+     * `weekly`?
+     *
+     * @return {boolean|undefined} Both official and weekly releases are
+     * considered stable, while development releases are not. If the release
+     * type is not defined, `undefined` is returned.
+     */
+    isStable(){
+        if(is.undefined(this.releaseType)) return undefined;
+        return this.releaseType === 'official' || this.releaseType === 'weekly' ? true : false;
+    }
+    
+    /**
+     * Is this version on a branch the library knows about?
+     *
+     * @return {boolean}
+     */
+    isKnownBranch(){
+        return is.not.undefined(BNUM_BDNUM_MAP[this.branchNumber]);
+    }
+    
+    /**
+     * Determine whether or not this is version is on a long-term support
+     * branch. If the branch is not defined or unknown, `undefined` is returned.
+     *
+     * @return {boolean|undefined}
+     */
+    isLTS(){
+        if(is.undefined(this.branchNumber)) return undefined;
+        if(!this.isKnownBranch()) return undefined;
+        return is.not.undefined(BNUM_LTS_LOOKUP[this.branchNumber]);
+    }
 };

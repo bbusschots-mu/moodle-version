@@ -1110,6 +1110,56 @@ QUnit.module('comparison methods', function(){
     });
 });
 
+QUnit.module('informational methods', function(){
+    QUnit.test('.isKnownBranch()', function(a){
+        a.expect(4);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.prototype.isKnownBranch), 'function exists');
+        
+        // make sure undefined and unknown branches return false
+        a.strictEqual((new MoodleVersion()).isKnownBranch(), false, 'an undefined branch returns false');
+        a.strictEqual(MoodleVersion.fromObject({branch: '2.1'}).isKnownBranch(), false, 'an unknown branch returns false');
+        
+        // make sure a known branch returns true
+        a.strictEqual(MoodleVersion.fromObject({branch: '3.3'}).isKnownBranch(), true, 'a known branch returns true');
+    });
+    
+    QUnit.test('.isStable()', function(a){
+        a.expect(5);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.prototype.isStable), 'function exists');
+        
+        // make sure an undefined release type returns undefined
+        a.ok(is.undefined((new MoodleVersion()).isStable()), 'an undefined release type returns undefined');
+        
+        // make sure dev returns false
+        a.strictEqual(MoodleVersion.fromObject({releaseType: 'development'}).isStable(), false, 'develpment release returns false');
+        
+        // make sure official and weekly retun true
+        a.strictEqual(MoodleVersion.fromObject({releaseType: 'official'}).isStable(), true, 'official release returns true');
+        a.strictEqual(MoodleVersion.fromObject({releaseType: 'weekly'}).isStable(), true, 'weekly release returns true');
+    });
+    
+    QUnit.test('.isLTS()', function(a){
+        a.expect(5);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.prototype.isLTS), 'function exists');
+        
+        // make sure a undefined and unknown branches return undefined
+        a.ok(is.undefined((new MoodleVersion()).isLTS()), 'an undefined branch returns undefined');
+        a.ok(is.undefined(MoodleVersion.fromObject({branch: '2.1'}).isLTS()), 'an unknown branch returns undefined');
+        
+        // make sure a known non-LTS branch returns false
+        a.strictEqual(MoodleVersion.fromObject({branch: '3.3'}).isLTS(), false, 'a known non-LTS branch returns false');
+        
+        // make sure a known LTS branch returns true
+        a.strictEqual(MoodleVersion.fromObject({branch: '3.5'}).isLTS(), true, 'a known LTS branch returns true');
+    });
+});
+
 QUnit.module('factory methods', function(){
     QUnit.test('fromObject()', function(a){
         const mustThrow = [
