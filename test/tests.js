@@ -792,7 +792,7 @@ QUnit.module('Static Conversion Functions', {}, function(){
 });
 
 QUnit.module('Getters & Setters', function(){
-    QUnit.only('.branch & .branchNumber', function(a){
+    QUnit.test('.branch & .branchNumber', function(a){
         // data that must throw errors
         const mustThrowBranchNumber = [
             ...util.dummyDataExcept([], ['integer'], ['other.undefined']),
@@ -882,6 +882,95 @@ QUnit.module('Getters & Setters', function(){
         a.ok(is.undefined(v.branchNumber), 'branch number can be set to undefined');
         a.ok(is.undefined(v.branchingDateNumber), 'setting branch number undefined sets branching date to undefined too');
     });
+    
+    QUnit.only('.branchindDate & .branchingDateNumber', function(a){
+        // data that must throw errors
+        const mustThrowBranchindDateNumber = [
+            ...util.dummyDataExcept([], ['integer'], ['other.undefined']),
+            ...util.dummyDataWithAllTags('integer', 'negative'),
+            ...util.dummyDataWithAnyTag('digit'),
+            ...util.dummyDataWithAnyTag('3digit')
+        ];
+        const mustThrowBranchingDate = [
+            ...util.dummyBasicDataExcept('other')
+        ];
+        
+        // set the number of expected tests
+        a.expect(mustThrowBranchindDateNumber.length + mustThrowBranchingDate.length + 12);
+        
+        // make sure the setters throws errors when needed
+        for(const dd of mustThrowBranchindDateNumber){
+            a.throws(
+                ()=>{
+                    const v = new MoodleVersion();
+                    v.branchingDateNumber = dd.value;
+                },
+                TypeError,
+                `.branchingDateNumber throws error when attempting to set to ${dd.description}`
+            );
+        }
+        for(const dd of mustThrowBranchingDate){
+            a.throws(
+                ()=>{
+                    const v = new MoodleVersion();
+                    v.branchingDate = dd.value;
+                },
+                TypeError,
+                `.branchingDate throws error when attempting to set to ${dd.description}`
+            );
+        }
+        
+        // make sure setting a branching date to a valid value does not throw an error and that the value gets correctly set
+        let v = new MoodleVersion();
+        v.branchingDateNumber = 20170515; // Moodle 3.3
+        a.strictEqual(v.branchingDateNumber, 20170515, 'branching date number successfully set to 20170515');
+        let bd = v.branchingDate;
+        a.ok(is.date(bd) && is.year(bd, 2017) && is.month(bd, 'may') && bd.getDate() === 15, `branching date number 20170515 successfully gotten as branching date ${bd}`);
+        v.branchingDateNumber = '20170515'; // Moodle 3.3
+        a.strictEqual(v.branchingDateNumber, 20170515, "branching date number successfully set to '20170515'");
+        v.branchingDate = new Date('2018-05-17T00:00:00.000Z'); //Moodle 3.5
+        bd = v.branchingDate;
+        a.ok(is.date(bd) && is.year(bd, 2018) && is.month(bd, 'may') && bd.getDate() === 17, `branching date successfully set to ${bd}`);
+        a.strictEqual(v.branchingDateNumber, 20180517, `branching date ${bd} successfully gotten as branching date number 20180517`);
+        
+        // make sure unknown branching date fails to set
+        a.throws(
+            ()=>{
+                const v = new MoodleVersion();
+                v.branchingDateNumber = 20170401;
+            },
+            RangeError,
+            'attempting to set branching date number to date that does not match a know branch throws an error'
+        );
+        a.throws(
+            ()=>{
+                const v = new MoodleVersion();
+                v.branchingDate = new Date('2018-04-01T00:00:00.000Z');
+            },
+            RangeError,
+            'attempting to set branching date to date that does not match a know branch throws an error'
+        );
+        
+        // make sure matching branch gets set
+        v = new MoodleVersion();
+        v.branchingDateNumber = 20170515;
+        a.strictEqual(v.branchNumber, 33, 'setting known branching date sets matching branch');
+        
+        // make sure setting to undefined works, and also updates the branching date
+        v.branchingDateNumber = undefined;
+        a.ok(is.undefined(v.branchingDateNumber), 'branching date number can be set to undefined');
+        a.ok(is.undefined(v.branchNumber), 'setting branching date number undefined sets branch to undefined too');
+        v.branchingDateNumber = 20170515;
+        v.branchingDate = undefined;
+        a.ok(is.undefined(v.branchingDateNumber), 'branching date can be set to undefined');
+        a.ok(is.undefined(v.branchNumber), 'setting branching date undefined sets branch to undefined too');
+    });
+    
+    // TO DO - test release number getter & setter
+    
+    // TO DO - test release type and release suffix getters and setters
+    
+    // TO DO - test build number getter & setter
 });
 
 QUnit.module('Object Utility Functions', function(){
@@ -918,7 +1007,7 @@ QUnit.module('Object Utility Functions', function(){
         // make sure all values get coppied with an unknown version
         v = MoodleVersion.fromObject({
             branchNumber: 36,
-            branchindDateNumber: 20180517,
+            branchingDateNumber: 20180517,
             releaseNumber: 0,
             releaseType: 'development',
             buildNumber: 20180524

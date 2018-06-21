@@ -755,7 +755,7 @@ module.exports = class MoodleVersion {
         if(is.not.date(bd)) throw new TypeError('the branching date must be a Date object');
         
         // convert the date to a date number
-        let bdn = MoodleVesion.dateNumberFromDate(bd);
+        let bdn = MoodleVersion.dateNumberFromDate(bd);
         
         // test if there's a known mapping to a branch
         let bn = MoodleVersion.branchNumberFromBranchingDateNumber(bdn);
