@@ -613,6 +613,10 @@ module.exports = class MoodleVersion {
         return ans;
     }
     
+    // TO DO - static fromString()
+    
+    // TO DO - update constructor to accept strings and objects
+    
     // TO DO - Test all the accessors
     
     /**
@@ -971,8 +975,6 @@ module.exports = class MoodleVersion {
         // store the build number
         this._buildNumber = parseInt(bn);
     }
-    
-    // TO DO add static fromString() function
     
     /**
      * Create a new Moodle version object representing the same version

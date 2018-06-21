@@ -106,8 +106,8 @@ const util = {
             },
             'number': {
                 'zero': ['the number zero', ['integer', 'falsy'], 0],
+                'digit': ['a single-digit number', ['integer'], 7],
                 'integer': ['a positive integer', ['basic'], 12345],
-                'integer.digit': ['a single-digit number', [], 7],
                 'integer.2digit': ['a 2-digit number', [], 42],
                 'integer.3digit': ['a 3-digit number', [], 123],
                 'integer.4digit': ['a 4-digit number', [], 1982],
@@ -120,12 +120,12 @@ const util = {
                 'word': ['a single-word string', ['basic'], 'boogers'],
                 'line': ['a single-line string', [], 'boogers and snot'],
                 'multiline': ['a multi-line string', [''], 'boogers\nsnot\nbogeys'],
-                'zero': ['the digit 0', ['integer', 'numeric'], '0'],
-                'digit': ['a single-digit number', ['integer', 'numeric'], '7'],
+                'zero': ['the character 0', ['integer', 'numeric'], '0'],
+                'digit': ['a single-digit string', ['integer', 'numeric'], '7'],
                 'integer': ['a positive integer string', ['numeric'], '12345'],
-                'integer.2digit': ['a 2-digit number', ['numeric'], '42'],
-                'integer.3digit': ['a 3-digit number', ['numeric'], '123'],
-                'integer.4digit': ['a 4-digit number', ['numeric'], '1982'],
+                'integer.2digit': ['a 2-digit numeric string', ['numeric'], '42'],
+                'integer.3digit': ['a 3-digit numeric string', ['numeric'], '123'],
+                'integer.4digit': ['a 4-digit numeric string', ['numeric'], '1982'],
                 'integer.negative': ['a negative integer string', ['numeric'], '-12345'],
                 'float': ['a floating point numeric string', ['numeric'], '3.14'],
                 'float.negative': ['a negative floating point numeric string', ['numeric'], '-3.14']
@@ -282,12 +282,12 @@ const util = {
      * A function to return all basic dummy data, i.e. all dummy data tagged
      * `basic`.
      *
-     * This is a shortcut for `dummyDataByTag('basic')`.
+     * This is a shortcut for `dummyDataWithAnyTag('basic')`.
      *
      * @return {DummyData[]}
      */
     dummyBasicData: function(){
-        return this.dummyDataByTag('basic');
+        return this.dummyDataWithAnyTag('basic');
     },
     
     /**
@@ -360,25 +360,54 @@ const util = {
     },
     
     /**
-     * Returns the dummy data matching one or more tags.
+     * Returns the dummy data matching **any** of the given tags.
      * 
      * @param {...string} tagList
      * @return {DummyData[]}
      * @throws {TypeError}
      */
-    dummyDataByTag: function(...tagList){
+    dummyDataWithAnyTag: function(...tagList){
         if(!is.all.string(tagList)) throw new TypeError('all specified tags must be strings');
         const ans = [];
         for(const td of Object.values(this.allDummyData)){
             for(const dd of Object.values(td)){
+                // test if any requested tag is present
+                let anyPresent = false;
                 for(const t of tagList){
                     if(dd.hasTag(t)){
-                        ans.push(dd);
+                        anyPresent = true;
                         break;
                     }
                 }
+                if(anyPresent) ans.push(dd);
             }
             
+        }
+        return ans;
+    },
+    
+    /**
+     * Returns the dummy data matching **all** of the given tags.
+     * 
+     * @param {...string} tagList
+     * @return {DummyData[]}
+     * @throws {TypeError}
+     */
+    dummyDataWithAllTags: function(...tagList){
+        if(!is.all.string(tagList)) throw new TypeError('all specified tags must be strings');
+        const ans = [];
+        for(const td of Object.values(this.allDummyData)){
+            for(const dd of Object.values(td)){
+                // make sure every tag is present
+                let allPresent = true;
+                for(const t of tagList){
+                    if(!dd.hasTag(t)){
+                        allPresent = false;
+                        break;
+                    }
+                }
+                if(allPresent) ans.push(dd);
+            }
         }
         return ans;
     }
@@ -759,6 +788,99 @@ QUnit.module('Static Conversion Functions', {}, function(){
         a.strictEqual(MoodleVersion.releaseTypeFromReleaseSuffix('DEV'), 'development', "'DEV' converts to 'development'");
         a.strictEqual(MoodleVersion.releaseTypeFromReleaseSuffix(''), 'official', "'' converts to 'official'");
         a.strictEqual(MoodleVersion.releaseTypeFromReleaseSuffix('+'), 'weekly', "'+' converts to 'weekly'");
+    });
+});
+
+QUnit.module('Getters & Setters', function(){
+    QUnit.only('.branch & .branchNumber', function(a){
+        // data that must throw errors
+        const mustThrowBranchNumber = [
+            ...util.dummyDataExcept([], ['integer'], ['other.undefined']),
+            ...util.dummyDataWithAllTags('integer', 'negative'),
+            ...util.dummyDataWithAnyTag('digit'),
+            ...util.dummyDataWithAnyTag('3digit')
+        ];
+        const mustThrowBranch = [
+            ...util.dummyDataExcept([], ['float'], ['other.undefined']),
+            ...util.dummyDataWithAllTags('float', 'negative'),
+        ];
+        
+        // matching lists of valid data
+        const vbn  = [ 30,       33];       // valid branch numbers as numbers
+        const vbns = ['30',     '33'];      // valid branch numbes as strings
+        const vb   = ['3.0',    '3.3'];     // valid branches as strings
+        const vbf  = [ 3.0,      3.3];      // valid branches as floating point numbers
+        
+        // set the number of expected tests
+        a.expect(mustThrowBranchNumber.length + mustThrowBranch.length + (vbn.length * 6) + 7);
+        
+        // make sure the setters throws errors when needed
+        for(const dd of mustThrowBranchNumber){
+            a.throws(
+                ()=>{
+                    const v = new MoodleVersion();
+                    v.branchNumber = dd.value;
+                },
+                TypeError,
+                `.branchNumber throws error when attempting to set to ${dd.description}`
+            );
+        }
+        for(const dd of mustThrowBranch){
+            a.throws(
+                ()=>{
+                    const v = new MoodleVersion();
+                    v.branch = dd.value;
+                },
+                TypeError,
+                `.branch throws error when attempting to set to ${dd.description}`
+            );
+        }
+        
+        // make sure setting a branch number to a valid value does not throw an error and that the value gets correctly set
+        for(let i = 0; i < vbn.length; i++){
+            let v = new MoodleVersion();
+            v.branchNumber = vbn[i];
+            a.strictEqual(v.branchNumber, vbn[i], `branch number successfully set to ${vbn[i]}`);
+            a.strictEqual(v.branch, vb[i], `branch number ${vbn[i]} successfully gotten as branch ${vb[i]}`);
+            v.branchNumber = vbns[i];
+            a.strictEqual(v.branchNumber, vbn[i], `branch number successfully set to '${vbns[i]}'`);
+            v.branch = vb[i];
+            a.strictEqual(v.branch, vb[i], `branch successfully set to '${vb[i]}'`);
+            a.strictEqual(v.branchNumber, vbn[i], `branch '${vb[i]}' successfully gotten as branch number ${vbn[i]}`);
+            a.strictEqual(v.branch, vb[i], `branch successfully set to ${vbf[i]}`);
+        }
+        
+        // make sure unknown branch fails to set
+        a.throws(
+            ()=>{
+                const v = new MoodleVersion();
+                v.branchNumber = 21;
+            },
+            RangeError,
+            'attempting to set branch number for unknown branch throws error'
+        );
+        a.throws(
+            ()=>{
+                const v = new MoodleVersion();
+                v.branch = '2.1';
+            },
+            RangeError,
+            'attempting to set unknown branch throws error'
+        );
+        
+        // make sure matching branching date gets set
+        let v = new MoodleVersion();
+        v.branch = '3.3';
+        a.strictEqual(v.branchingDateNumber, 20170515, 'setting known branch sets matching branching date');
+        
+        // make sure setting to undefined works, and also updates the branching date
+        v.branch = undefined;
+        a.ok(is.undefined(v.branch), 'branch can be set to undefined');
+        a.ok(is.undefined(v.branchingDateNumber), 'setting branch undefined sets branching date to undefined too');
+        v.branch = '3.3';
+        v.branchNumber = undefined;
+        a.ok(is.undefined(v.branchNumber), 'branch number can be set to undefined');
+        a.ok(is.undefined(v.branchingDateNumber), 'setting branch number undefined sets branching date to undefined too');
     });
 });
 
