@@ -941,7 +941,7 @@ module.exports = class MoodleVersion {
      */
     set releaseSuffix(rs){
         const errMsg = "release suffix must be one of 'dev', '', or '+'";
-        if(is.not.string(rs)) throw new TypeErrpr(errMsg);
+        if(is.not.string(rs)) throw new TypeError(errMsg);
         rs = rs.toLowerCase();
         if(!MoodleVersion.isReleaseSuffix(rs)) throw new TypeError(errMsg);
         this._releaseType = MoodleVersion.releaseTypeFromReleaseSuffix(rs);
