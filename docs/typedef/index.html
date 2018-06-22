@@ -618,9 +618,20 @@ update releases then count up from there.</p>
   
   
   
-  <div data-ice="description"><p>A Moodle release string. These are the most detailed version numbers
-displayed to users, consisting of the version string and a build number.</p>
-<p>The release string for Moodle 3.3.6 is <code>3.3.6 (Build: 20180517)</code>.</p>
+  <div data-ice="description"><p>A Moodle release string. These are the release strings Moodle&apos;s documentation
+describes as <em>human friendly</em>. They are used in the following contexts:</p>
+<ol>
+<li>The admin section of web interface</li>
+<li>The CLI command <code>admin/cli/cfg.php --name=release</code></li>
+<li>The variable <code>$release</code> in <code>version.php</code></li>
+</ol>
+<p>In some contexts they&apos;re pre-fixed with the word <em>Moodle</em>, in others they&apos;re
+not.</p>
+<p>Examples:</p>
+<ul>
+<li><code>&apos;3.3.6 (Build: 20180517)&apos;</code> - the offical Moodle 3.3.6 release.</li>
+<li><code>&apos;Moodle 3.5+ (Build: 20180614)&apos;</code> - a weekly Moodle 3.5.0 release.</li>
+</ul>
 </div>
 
   

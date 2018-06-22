@@ -45,13 +45,13 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import MoodleVersion from &apos;<span><a href="file/src/MoodleVersion.js.html#lineNumber194">@maynoothuniversity/moodle-version/src/MoodleVersion.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import MoodleVersion from &apos;<span><a href="file/src/MoodleVersion.js.html#lineNumber204">@maynoothuniversity/moodle-version/src/MoodleVersion.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/src/MoodleVersion.js.html#lineNumber194">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/src/MoodleVersion.js.html#lineNumber204">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -93,7 +93,105 @@ Moodle version which uses the now standard versioning conventions.</p>
   
 </div>
 
-
+<div data-ice="staticMemberSummary"><h2>Static Member Summary</h2><table class="summary" data-ice="summary">
+  <thead><tr><td data-ice="title" colspan="3">Static Public Members</td></tr></thead>
+  <tbody>
+  
+  <tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      <span data-ice="static">static</span>
+      <span class="kind" data-ice="kind">get</span>
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html#static-get-releaseRE">releaseRE</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp">RegExp</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>A regular expression for matching human-friendly
+[Moodle release strings]<span><a href="typedef/index.html#static-typedef-ReleaseString">ReleaseString</a></span>.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      <span data-ice="static">static</span>
+      <span class="kind" data-ice="kind">get</span>
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html#static-get-versionNumberRE">versionNumberRE</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp">RegExp</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>A regular expression for matching
+[under-the-hood version numbers]<span><a href="typedef/index.html#static-typedef-VersionNumber">VersionNumber</a></span> like <code>&apos;2017051506&apos;</code>
+or <code>&apos;2017051506.00&apos;</code>.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      <span data-ice="static">static</span>
+      <span class="kind" data-ice="kind">get</span>
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html#static-get-versionRE">versionRE</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp">RegExp</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>A regular expression for matching
+[short version strings]<span><a href="typedef/index.html#static-typedef-VersionString">VersionString</a></span> like <code>&apos;3.5+&apos;</code> (as used on
+the Moodle download page).</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+</tbody>
+</table>
+</div>
 <div data-ice="staticMethodSummary"><h2>Static Method Summary</h2><table class="summary" data-ice="summary">
   <thead><tr><td data-ice="title" colspan="3">Static Public Methods</td></tr></thead>
   <tbody>
@@ -286,6 +384,36 @@ Moodle version which uses the now standard versioning conventions.</p>
           
           
           
+          <span class="code" data-ice="name"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html#static-method-compare">compare</a></span></span><span class="code" data-ice="signature">(val1: <span>*</span>, val2: <span>*</span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Compare two values to see if they represent the same version, a
+greater version, or a lesser version.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      <span data-ice="static">static</span>
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
           <span class="code" data-ice="name"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html#static-method-dateFromDateNumber">dateFromDateNumber</a></span></span><span class="code" data-ice="signature">(dn: <span><a href="typedef/index.html#static-typedef-DateNumber">DateNumber</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date">Date</a></span></span>
         </p>
       </div>
@@ -352,6 +480,35 @@ Moodle version which uses the now standard versioning conventions.</p>
         
         <div data-ice="description"><p>A factory method for producing a Moodle Version object given all its
 properties.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      <span data-ice="static">static</span>
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html#static-method-fromString">fromString</a></span></span><span class="code" data-ice="signature">(verStr: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Build a version object from a version string.</p>
 </div>
       </div>
     </td>
@@ -526,6 +683,35 @@ properties.</p>
         
         
         <div data-ice="description"><p>Test if a given value is a valid release type.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      <span data-ice="static">static</span>
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html#static-method-numberFromReleaseType">numberFromReleaseType</a></span></span><span class="code" data-ice="signature">(rt: <span>*</span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Convert a release type to a number.</p>
 </div>
       </div>
     </td>
@@ -1245,13 +1431,277 @@ updates to the official releases.</p>
           
           
           
+          <span class="code" data-ice="name"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html#instance-method-clone">clone</a></span></span><span class="code" data-ice="signature">(): <span><a href="class/src/MoodleVersion.js~MoodleVersion.html">MoodleVersion</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Create a new Moodle version object representing the same version
+information.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html#instance-method-compareTo">compareTo</a></span></span><span class="code" data-ice="signature">(mv: <span><a href="class/src/MoodleVersion.js~MoodleVersion.html">MoodleVersion</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Compare this version to another.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html#instance-method-equals">equals</a></span></span><span class="code" data-ice="signature">(val: <span>*</span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Test if a given value is a Moodle Version object representing the same
+version.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html#instance-method-greaterThan">greaterThan</a></span></span><span class="code" data-ice="signature">(mv: <span><a href="class/src/MoodleVersion.js~MoodleVersion.html">MoodleVersion</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Determine whether this version is greater than a given version.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html#instance-method-isKnownBranch">isKnownBranch</a></span></span><span class="code" data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Is this version on a branch the library knows about?</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html#instance-method-isLTS">isLTS</a></span></span><span class="code" data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Determine whether or not this is version is on a long-term support
+branch.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html#instance-method-isStable">isStable</a></span></span><span class="code" data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Is this a stable release? I.e.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html#instance-method-lessThan">lessThan</a></span></span><span class="code" data-ice="signature">(mv: <span><a href="class/src/MoodleVersion.js~MoodleVersion.html">MoodleVersion</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Determine whether this version is less than a given version.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html#instance-method-sameBranch">sameBranch</a></span></span><span class="code" data-ice="signature">(mv: <span><a href="class/src/MoodleVersion.js~MoodleVersion.html">MoodleVersion</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Determine whether this versions is on the same branch as a given version.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
           <span class="code" data-ice="name"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html#instance-method-toString">toString</a></span></span><span class="code" data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>toString() description.</p>
+        <div data-ice="description"><p>Return a string representation of the version.</p>
 </div>
       </div>
     </td>
@@ -1266,7 +1716,150 @@ updates to the official releases.</p>
 
 
 
+<div data-ice="staticMemberDetails"><h2 data-ice="title">Static Public Members</h2>
 
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-get-releaseRE">
+    <span class="access" data-ice="access">public</span>
+    <span data-ice="static">static</span>
+    <span class="kind" data-ice="kind">get</span>
+    
+    
+    
+    <span class="code" data-ice="name">releaseRE</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp">RegExp</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber633">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>A regular expression for matching human-friendly
+[Moodle release strings]<span><a href="typedef/index.html#static-typedef-ReleaseString">ReleaseString</a></span>. This RE is
+case-insensitive and will allow for the optional pre-fixing of the word
+<em>Moodle</em> with or whithout a separating space.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-get-versionNumberRE">
+    <span class="access" data-ice="access">public</span>
+    <span data-ice="static">static</span>
+    <span class="kind" data-ice="kind">get</span>
+    
+    
+    
+    <span class="code" data-ice="name">versionNumberRE</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp">RegExp</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber657">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>A regular expression for matching
+[under-the-hood version numbers]<span><a href="typedef/index.html#static-typedef-VersionNumber">VersionNumber</a></span> like <code>&apos;2017051506&apos;</code>
+or <code>&apos;2017051506.00&apos;</code>.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-get-versionRE">
+    <span class="access" data-ice="access">public</span>
+    <span data-ice="static">static</span>
+    <span class="kind" data-ice="kind">get</span>
+    
+    
+    
+    <span class="code" data-ice="name">versionRE</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp">RegExp</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber646">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>A regular expression for matching
+[short version strings]<span><a href="typedef/index.html#static-typedef-VersionString">VersionString</a></span> like <code>&apos;3.5+&apos;</code> (as used on
+the Moodle download page). This RE is case-insensitive and will allow for
+the optional pre-fixing of the word <em>Moodle</em> with or whithout a
+separating space.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+</div>
 <div data-ice="staticMethodDetails"><h2 data-ice="title">Static Public Methods</h2>
 
 <div class="detail" data-ice="detail">
@@ -1281,7 +1874,7 @@ updates to the official releases.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber320">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber330">source</a></span></span>
     </span>
   </h3>
 
@@ -1355,7 +1948,7 @@ to a branch <code>undefined</code> is returned.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber333">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber343">source</a></span></span>
     </span>
   </h3>
 
@@ -1428,7 +2021,7 @@ to a branch <code>undefined</code> is returned.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber348">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber358">source</a></span></span>
     </span>
   </h3>
 
@@ -1502,7 +2095,7 @@ to a branch number <code>undefined</code> is returned.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber361">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber371">source</a></span></span>
     </span>
   </h3>
 
@@ -1575,7 +2168,7 @@ to a branch number <code>undefined</code> is returned.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber373">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber383">source</a></span></span>
     </span>
   </h3>
 
@@ -1647,7 +2240,7 @@ to a branch number <code>undefined</code> is returned.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber386">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber396">source</a></span></span>
     </span>
   </h3>
 
@@ -1708,6 +2301,95 @@ to a branch number <code>undefined</code> is returned.</p>
   
 </div>
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-method-compare">
+    <span class="access" data-ice="access">public</span>
+    <span data-ice="static">static</span>
+    
+    
+    
+    
+    <span class="code" data-ice="name">compare</span><span class="code" data-ice="signature">(val1: <span>*</span>, val2: <span>*</span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber506">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Compare two values to see if they represent the same version, a
+greater version, or a lesser version.</p>
+<p>When ranking versions, the branch is given the highest weight, then the
+release number, then the release type,
+and finally the build number. When comparing release types,
+<code>&apos;development&apos;</code> is considered earlier <code>&apos;official&apos;</code>, which is considered
+earlier than <code>&apos;weekly&apos;</code>.</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">val1</td>
+      <td data-ice="type" class="code"><span>*</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">val2</td>
+      <td data-ice="type" class="code"><span>*</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>Unless both values are moodle vesion objects, <code>NaN</code> is
+returned. If <code>val1</code> represents an earlier version than <code>val2</code> <code>-1</code> is
+returned, if <code>val1</code> and <code>val2</code> represent the same version <code>0</code> is
+returned, and if <code>val1</code> represents a later version than <code>val2</code> <code>1</code> is
+returned.</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="static-method-dateFromDateNumber">
     <span class="access" data-ice="access">public</span>
     <span data-ice="static">static</span>
@@ -1719,7 +2401,7 @@ to a branch number <code>undefined</code> is returned.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber399">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber409">source</a></span></span>
     </span>
   </h3>
 
@@ -1803,7 +2485,7 @@ midnight UTC on the given date.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber413">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber423">source</a></span></span>
     </span>
   </h3>
 
@@ -1887,7 +2569,7 @@ UTC.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber481">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber562">source</a></span></span>
     </span>
   </h3>
 
@@ -1896,6 +2578,8 @@ UTC.</p>
   
   <div data-ice="description"><p>A factory method for producing a Moodle Version object given all its
 properties.</p>
+<p>If only one of the branch and branching date are passed, and if a known
+mapping exists, the other is auto-completed.</p>
 <p>This function can be used to create version objects which contain
 unknown mappings between Moodle branches and branching dates.</p>
 </div>
@@ -1976,6 +2660,108 @@ or, if any of the keys within that object map to an invalid value.</p>
   
 </div>
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-method-fromString">
+    <span class="access" data-ice="access">public</span>
+    <span data-ice="static">static</span>
+    
+    
+    
+    
+    <span class="code" data-ice="name">fromString</span><span class="code" data-ice="signature">(verStr: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber682">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Build a version object from a version string. The vesion string can be
+in one of the following formats:</p>
+<ul>
+<li>A human-friendly [full release string]<span><a href="typedef/index.html#static-typedef-ReleaseString">ReleaseString</a></span>, e.g.
+<code>&apos;Moodle 3.5+ (Build: 20180614)&apos;</code> (will be accepted with or without
+the <code>&apos;Moodle&apos;</code> prefix).</li>
+<li>A human-friendly [short version string]<span><a href="typedef/index.html#static-typedef-VersionString">VersionString</a></span>, e.g.
+<code>&apos;Moodle 3.3.6+&apos;</code> (will be accepted with or without the <code>&apos;Moodle&apos;</code>
+prefix).</li>
+<li>An [under-the-hood version number]<span><a href="typedef/index.html#static-typedef-VersionNumber">VersionNumber</a></span>, e.g.</li>
+<li><code>&apos;2017051506&apos;</code> or <code>&apos;2017051506.00&apos;</code>.</li>
+<li>A string as returned by calling <code>.toString()</code> on an instance of this
+class.</li>
+</ul>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">verStr</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>the version string to parse.</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span>*</span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>MoodleVersion</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  <div data-ice="throwWrap">
+    <h4>Throw:</h4>
+    <table>
+      <tbody>
+      
+      <tr class="throw" data-ice="throw">
+        <td><p data-ice="throwName"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError">TypeError</a></span></p></td>
+        
+      </tr>
+<tr class="throw" data-ice="throw">
+        <td><p data-ice="throwName"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError">RangeError</a></span></p></td>
+        
+      </tr>
+</tbody>
+    </table>
+  </div>
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="static-method-isBranch">
     <span class="access" data-ice="access">public</span>
     <span data-ice="static">static</span>
@@ -1987,7 +2773,7 @@ or, if any of the keys within that object map to an invalid value.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber249">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber259">source</a></span></span>
     </span>
   </h3>
 
@@ -2060,7 +2846,7 @@ or, if any of the keys within that object map to an invalid value.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber262">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber272">source</a></span></span>
     </span>
   </h3>
 
@@ -2143,7 +2929,7 @@ representation of otherwise valid values will return <code>false</code>.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber235">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber245">source</a></span></span>
     </span>
   </h3>
 
@@ -2227,7 +3013,7 @@ representation of otherwise valid values will return <code>false</code>.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber283">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber293">source</a></span></span>
     </span>
   </h3>
 
@@ -2313,7 +3099,7 @@ representation of otherwise valid values will return <code>false</code>.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber309">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber319">source</a></span></span>
     </span>
   </h3>
 
@@ -2386,7 +3172,7 @@ representation of otherwise valid values will return <code>false</code>.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber298">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber308">source</a></span></span>
     </span>
   </h3>
 
@@ -2448,6 +3234,80 @@ representation of otherwise valid values will return <code>false</code>.</p>
   
 </div>
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-method-numberFromReleaseType">
+    <span class="access" data-ice="access">public</span>
+    <span data-ice="static">static</span>
+    
+    
+    
+    
+    <span class="code" data-ice="name">numberFromReleaseType</span><span class="code" data-ice="signature">(rt: <span>*</span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber479">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Convert a release type to a number. Useful for version comparisons.</p>
+<p>All invalid values convert to <code>0</code>, <code>&apos;development&apos;</code> to <code>1</code>, <code>&apos;official&apos;</code>
+to <code>2</code>, and <code>&apos;weekly&apos;</code> to 3.</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">rt</td>
+      <td data-ice="type" class="code"><span>*</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="static-method-releaseSuffixFromReleaseType">
     <span class="access" data-ice="access">public</span>
     <span data-ice="static">static</span>
@@ -2459,7 +3319,7 @@ representation of otherwise valid values will return <code>false</code>.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber428">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber438">source</a></span></span>
     </span>
   </h3>
 
@@ -2531,7 +3391,7 @@ representation of otherwise valid values will return <code>false</code>.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber447">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber457">source</a></span></span>
     </span>
   </h3>
 
@@ -2606,7 +3466,7 @@ representation of otherwise valid values will return <code>false</code>.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber198">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber208">source</a></span></span>
     </span>
   </h3>
 
@@ -2653,7 +3513,7 @@ representation of otherwise valid values will return <code>false</code>.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber595">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber794">source</a></span></span>
     </span>
   </h3>
 
@@ -2700,7 +3560,7 @@ releases is <code>&apos;3.4&apos;</code>.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber611">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber813">source</a></span></span>
     </span>
   </h3>
 
@@ -2710,6 +3570,8 @@ releases is <code>&apos;3.4&apos;</code>.</p>
   <div data-ice="description"><p>The branch (AKA major version) must be a string consisting of two
 digits separated by a period, e.g. <code>&apos;3.5&apos;</code>.</p>
 <p>Setting the branch will also update the branching date to match.</p>
+<p>To create an object with an un-known combination of branch and branching
+date, use the <span><a href="class/src/MoodleVersion.js~MoodleVersion.html#static-method-fromObject">MoodleVersion.fromObject</a></span> factory method.</p>
 </div>
 
   
@@ -2763,7 +3625,7 @@ a known mapping to a branching date.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber545">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber744">source</a></span></span>
     </span>
   </h3>
 
@@ -2810,7 +3672,7 @@ release.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber562">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber761">source</a></span></span>
     </span>
   </h3>
 
@@ -2874,7 +3736,7 @@ a known mapping to a branching date.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber765">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber973">source</a></span></span>
     </span>
   </h3>
 
@@ -2920,7 +3782,7 @@ numbers.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber751">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber959">source</a></span></span>
     </span>
   </h3>
 
@@ -2965,7 +3827,7 @@ numbers.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber654">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber859">source</a></span></span>
     </span>
   </h3>
 
@@ -2973,6 +3835,8 @@ numbers.</p>
   
   
   <div data-ice="description"><p>Setting the branching date will update the branch to match.</p>
+<p>To create an object with an un-known combination of branch and branching
+date, use the <span><a href="class/src/MoodleVersion.js~MoodleVersion.html#static-method-fromObject">MoodleVersion.fromObject</a></span> factory method.</p>
 <p>@type{Date|undefined}</p>
 </div>
 
@@ -3027,7 +3891,7 @@ not have a known mapping to a branch.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber641">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber843">source</a></span></span>
     </span>
   </h3>
 
@@ -3071,7 +3935,7 @@ not have a known mapping to a branch.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber684">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber889">source</a></span></span>
     </span>
   </h3>
 
@@ -3115,7 +3979,7 @@ not have a known mapping to a branch.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber696">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber904">source</a></span></span>
     </span>
   </h3>
 
@@ -3123,6 +3987,8 @@ not have a known mapping to a branch.</p>
   
   
   <div data-ice="description"><p>Setting the branching date will update the branch to match.</p>
+<p>To create an object with an un-known combination of branch and branching
+date, use the <span><a href="class/src/MoodleVersion.js~MoodleVersion.html#static-method-fromObject">MoodleVersion.fromObject</a></span> factory method.</p>
 <p>@type{DateNumber|undefined}</p>
 </div>
 
@@ -3177,7 +4043,7 @@ not have a known mapping to a branch.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber724">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber932">source</a></span></span>
     </span>
   </h3>
 
@@ -3222,7 +4088,7 @@ not have a known mapping to a branch.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber738">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber946">source</a></span></span>
     </span>
   </h3>
 
@@ -3268,7 +4134,7 @@ numbers.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber860">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1068">source</a></span></span>
     </span>
   </h3>
 
@@ -3312,7 +4178,7 @@ numbers.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber870">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1078">source</a></span></span>
     </span>
   </h3>
 
@@ -3367,7 +4233,7 @@ numbers.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber778">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber986">source</a></span></span>
     </span>
   </h3>
 
@@ -3411,7 +4277,7 @@ numbers.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber788">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber996">source</a></span></span>
     </span>
   </h3>
 
@@ -3466,7 +4332,7 @@ numbers.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber835">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1043">source</a></span></span>
     </span>
   </h3>
 
@@ -3511,7 +4377,7 @@ updates to the official releases.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber847">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1055">source</a></span></span>
     </span>
   </h3>
 
@@ -3568,7 +4434,7 @@ applied.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber809">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1017">source</a></span></span>
     </span>
   </h3>
 
@@ -3612,7 +4478,7 @@ applied.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber821">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1029">source</a></span></span>
     </span>
   </h3>
 
@@ -3661,6 +4527,612 @@ validation is applied.</p>
 <div data-ice="methodDetails"><h2 data-ice="title">Public Methods</h2>
 
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-clone">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">clone</span><span class="code" data-ice="signature">(): <span><a href="class/src/MoodleVersion.js~MoodleVersion.html">MoodleVersion</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1098">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Create a new Moodle version object representing the same version
+information.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html">MoodleVersion</a></span></td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-compareTo">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">compareTo</span><span class="code" data-ice="signature">(mv: <span><a href="class/src/MoodleVersion.js~MoodleVersion.html">MoodleVersion</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1144">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Compare this version to another.</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">mv</td>
+      <td data-ice="type" class="code"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html">MoodleVersion</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p><code>-1</code> returned if passed version is lesser, <code>0</code> if the
+passed version is the same, and <code>1</code> if the passed version is greater. If
+the passed value is not a Moodle version object, <code>NaN</code> will be returned.</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-equals">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">equals</span><span class="code" data-ice="signature">(val: <span>*</span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1132">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Test if a given value is a Moodle Version object representing the same
+version.</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">val</td>
+      <td data-ice="type" class="code"><span>*</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-greaterThan">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">greaterThan</span><span class="code" data-ice="signature">(mv: <span><a href="class/src/MoodleVersion.js~MoodleVersion.html">MoodleVersion</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1187">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Determine whether this version is greater than a given version.</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">mv</td>
+      <td data-ice="type" class="code"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html">MoodleVersion</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>If the version is definitely greater then
+<code>true</code> is returned, and if the version is equal or definitely less than
+then <code>false</code> is returned. If the value is not a Moodle version object
+then <code>undefined</code> is returned.</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-isKnownBranch">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">isKnownBranch</span><span class="code" data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1211">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Is this version on a branch the library knows about?</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-isLTS">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">isLTS</span><span class="code" data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1221">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Determine whether or not this is version is on a long-term support
+branch. If the branch is not defined or unknown, <code>undefined</code> is returned.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-isStable">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">isStable</span><span class="code" data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1201">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Is this a stable release? I.e. is the release type <code>official</code> or
+<code>weekly</code>?</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>Both official and weekly releases are
+considered stable, while development releases are not. If the release
+type is not defined, <code>undefined</code> is returned.</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-lessThan">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">lessThan</span><span class="code" data-ice="signature">(mv: <span><a href="class/src/MoodleVersion.js~MoodleVersion.html">MoodleVersion</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1172">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Determine whether this version is less than a given version.</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">mv</td>
+      <td data-ice="type" class="code"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html">MoodleVersion</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>If the version is definitely lesser then
+<code>true</code> is returned, and if the version is equal or definitely greater
+then <code>false</code> is returned. If the value is not a Moodle version object
+then <code>undefined</code> is returned.</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-sameBranch">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">sameBranch</span><span class="code" data-ice="signature">(mv: <span><a href="class/src/MoodleVersion.js~MoodleVersion.html">MoodleVersion</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1157">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Determine whether this versions is on the same branch as a given version.</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">mv</td>
+      <td data-ice="type" class="code"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html">MoodleVersion</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>If the two versions share a branch then
+<code>true</code> is returned, if the branch numbers differ, <code>false</code> is returned.
+If the value passed is not a Moodle version object, or, the branch
+is undefined in both versions, <code>undefined</code> is returned.</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-toString">
     <span class="access" data-ice="access">public</span>
     
@@ -3672,14 +5144,17 @@ validation is applied.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber889">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1116">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>toString() description.</p>
+  <div data-ice="description"><p>Return a string representation of the version. The output will be of the
+form <code>B.B.R[S] (type: T, branching date: BD &amp; build: BN)</code>, e.g.
+<code>3.3.6 (type: official, branching date: 20170515 &amp; build: 20180517)</code>.
+Undefined components will be rendered as <code>??</code>.</p>
 </div>
 
   

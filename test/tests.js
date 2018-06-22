@@ -866,6 +866,26 @@ QUnit.module('Static Conversion Functions', {}, function(){
         a.strictEqual(MoodleVersion.releaseTypeFromReleaseSuffix(''), 'official', "'' converts to 'official'");
         a.strictEqual(MoodleVersion.releaseTypeFromReleaseSuffix('+'), 'weekly', "'+' converts to 'weekly'");
     });
+    
+    QUnit.test('numberFromReleaseType()', function(a){
+        const mustReturnZero = [
+            ...util.dummyBasicData('other')
+        ];
+        a.expect(mustReturnZero.length + 4);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.numberFromReleaseType), 'function exists');
+        
+        // make sure that values that should return undefined do
+        for(const dd of mustReturnZero){
+            a.strictEqual(MoodleVersion.numberFromReleaseType(dd.value), 0, `${dd.description} returns 0`);
+        }
+        
+        // make sure the three valid values convert correctly
+        a.strictEqual(MoodleVersion.numberFromReleaseType('development'), 1, "'development' converts to 1");
+        a.strictEqual(MoodleVersion.numberFromReleaseType('official'), 2, "'official' converts to 2");
+        a.strictEqual(MoodleVersion.numberFromReleaseType('weekly'), 3, "'weekly' converts to 3");
+    });
 });
 
 QUnit.module('Getters & Setters', function(){
@@ -1652,5 +1672,85 @@ QUnit.module('factory methods', function(){
         });
         a.strictEqual(v._branchNumber, 36, 'un-known branch successfully saved');
         a.strictEqual(v._branchingDateNumber, 20180615, 'un-known branching date successfully saved');
+    });
+    
+    QUnit.test('fromString()', function(a){
+        // define the data the should trigger errors
+        const mustThrowTypeError = [
+            ...util.dummyBasicPrimitivesExcept('string')
+        ];
+        const mustThrowRangeError = [
+            ...util.dummyData('string', {excludeTags: ['numeric']}),
+            util.dummyData('string.integer.negative'),
+            util.dummyData('string.integer.4digit'),
+            util.dummyData('string.zero')
+        ];
+        
+        // define test data
+        const rsIn =  [
+            '3.3.6 (Build: 20180517)',
+            'Moodle 3.5+ (Build: 20180614)'
+        ];
+        const rsOut = [
+            '3.3.6 (type: official, branching date: 20170515 & build: 20180517)',
+            '3.5.0+ (type: weekly, branching date: 20180517 & build: 20180614)'
+        ];
+        const vsIn = [
+            '3.3.6',
+            '3.5+'
+        ];
+        const vsOut = [
+            '3.3.6 (type: official, branching date: 20170515 & build: ??)',
+            '3.5.0+ (type: weekly, branching date: 20180517 & build: ??)'
+        ];
+        const vnIn = [
+            '2017051506',
+            '2018051700.00'
+        ];
+        const vnOut = [
+            '3.3.6 (type: ??, branching date: 20170515 & build: ??)',
+            '3.5.0 (type: ??, branching date: 20180517 & build: ??)'
+        ];
+        const fsInOut = [
+            '3.3.6 (type: official, branching date: 20170515 & build: 20180517)',
+            '3.5.0+ (type: weekly, branching date: 20180517 & build: 20180614)',
+            '??.??.?? (type: ??, branching date: ?? & build: ??)'
+        ];
+        
+        // calcualte the expected number of assertions
+        a.expect(mustThrowTypeError.length + mustThrowRangeError.length + rsIn.length + vsIn.length + vnIn.length + fsInOut.length + 1);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.fromString), 'function exists');
+        
+        // make sure data that should throw an error does
+        for(const dd of mustThrowTypeError){
+            a.throws(
+                ()=>{ MoodleVersion.fromString(dd.value); },
+                TypeError,
+                `${dd.description} throws a type error`
+            );
+        }
+        for(const dd of mustThrowRangeError){
+            a.throws(
+                ()=>{ MoodleVersion.fromString(dd.value); },
+                RangeError,
+                `${dd.description} throws a range error`
+            );
+        }
+        
+        // make sure release strings are parsed correctly
+        for(let i = 0; i < rsIn.length; i++){
+            a.strictEqual(MoodleVersion.fromString(rsIn[i]).toString(), rsOut[i], `'${rsIn[i]}' parsed to '${rsOut[i]}'`);
+        }
+        for(let i = 0; i < vsIn.length; i++){
+            a.strictEqual(MoodleVersion.fromString(vsIn[i]).toString(), vsOut[i], `'${vsIn[i]}' parsed to '${vsOut[i]}'`);
+        }
+        for(let i = 0; i < vnIn.length; i++){
+            a.strictEqual(MoodleVersion.fromString(vnIn[i]).toString(), vnOut[i], `'${vnIn[i]}' parsed to '${vnOut[i]}'`);
+        }
+        for(const s of fsInOut){
+            a.strictEqual(MoodleVersion.fromString(s).toString(), s, `'${s}' parsed to '${s}'`);
+        }
     });
 });

@@ -60,10 +60,20 @@ const is = require('is_js');
  */
 
 /**
- * A Moodle release string. These are the most detailed version numbers
- * displayed to users, consisting of the version string and a build number.
+ * A Moodle release string. These are the release strings Moodle's documentation
+ * describes as *human friendly*. They are used in the following contexts:
+ * 
+ * 1. The admin section of web interface
+ * 2. The CLI command `admin/cli/cfg.php --name=release`
+ * 3. The variable `$release` in `version.php`
  *
- * The release string for Moodle 3.3.6 is `3.3.6 (Build: 20180517)`.
+ * In some contexts they're pre-fixed with the word *Moodle*, in others they're
+ * not.
+ *
+ * Examples:
+ * 
+ * * `'3.3.6 (Build: 20180517)'` - the offical Moodle 3.3.6 release.
+ * * `'Moodle 3.5+ (Build: 20180614)'` - a weekly Moodle 3.5.0 release.
  *
  * @typedef {string} ReleaseString
  * @see VersionString
@@ -306,7 +316,7 @@ module.exports = class MoodleVersion {
      * @return {boolean}
      * @see ReleaseSuffix
      */
-    static isReleaseSuffix(val){ // TO DO - needs testing
+    static isReleaseSuffix(val){
         return val === 'dev' || val === '' || val === '+' ? true : false;
     }
     
@@ -457,7 +467,6 @@ module.exports = class MoodleVersion {
         return undefined;
     }
     
-    // TO DO - TEST
     /**
      * Convert a release type to a number. Useful for version comparisons.
      *
@@ -613,11 +622,115 @@ module.exports = class MoodleVersion {
         return ans;
     }
     
-    // TO DO - static fromString()
+    /**
+     * A regular expression for matching human-friendly
+     * [Moodle release strings]{@link ReleaseString}. This RE is
+     * case-insensitive and will allow for the optional pre-fixing of the word
+     * *Moodle* with or whithout a separating space.
+     *
+     * @type {RegExp}
+     */
+    static get releaseRE(){
+        return /(?:Moodle[ ]?)?(\d[.]\d)(?:[.](\d+))?(dev|[+])?[ ]?[(]Build[:][ ]?(\d{8})[)]/i;
+    }
+    
+    /**
+     * A regular expression for matching
+     * [short version strings]{@link VersionString} like `'3.5+'` (as used on
+     * the Moodle download page). This RE is case-insensitive and will allow for
+     * the optional pre-fixing of the word *Moodle* with or whithout a
+     * separating space.
+     *
+     * @type {RegExp}
+     */
+    static get versionRE(){
+        return /(?:Moodle[ ]?)?(\b\d[.]\d)(?:[.](\d+))?(dev|[+])?/i;
+    }
+    
+    /**
+     * A regular expression for matching
+     * [under-the-hood version numbers]{@link VersionNumber} like `'2017051506'`
+     * or `'2017051506.00'`.
+     *
+     * @type {RegExp}
+     */
+    static get versionNumberRE(){
+        return /(\d{8})(\d{2})(?:[.](\d{2}))?/i;
+    }
+    
+    // TO DO - TEST
+    /**
+     * Build a version object from a version string. The vesion string can be
+     * in one of the following formats:
+     *
+     * * A human-friendly [full release string]{@link ReleaseString}, e.g.
+     *   `'Moodle 3.5+ (Build: 20180614)'` (will be accepted with or without
+     *   the `'Moodle'` prefix).
+     * * A human-friendly [short version string]{@link VersionString}, e.g.
+     *  `'Moodle 3.3.6+'` (will be accepted with or without the `'Moodle'`
+     *  prefix).
+     * * An [under-the-hood version number]{@link VersionNumber}, e.g.
+     * * `'2017051506'` or `'2017051506.00'`.
+     * * A string as returned by calling `.toString()` on an instance of this
+     *   class.
+     *
+     * @param {string} verStr - the version string to parse.
+     * @return MoodleVersion
+     * @throws {TypeError}
+     * @throws {RangeError}
+     */
+    static fromString(verStr){
+        if(is.not.string(verStr)) throw new TypeError('version string required');
+        const ans = new MoodleVersion();
+        
+        // first try match against a full human-friendly release string
+        let matched = MoodleVersion.releaseRE.exec(verStr);
+        if(matched){
+            ans.branch = matched[1];
+            ans.releaseNumber = matched[2] ? matched[2] : 0;
+            ans.releaseSuffix = matched[3] ? matched[3] : '';
+            ans.buildNumber = matched[4];
+            return ans;
+        }
+        
+        // then try match against an under-the-hood Moodle version number
+        matched = MoodleVersion.versionNumberRE.exec(verStr);
+        if(matched){
+            ans.branchingDateNumber = matched[1];
+            ans.releaseNumber = matched[2] ? parseInt(matched[2]) : 0;
+            return ans;
+        }
+        
+        // next try match a string as produced by .toString()
+        matched = (/((?:[0-9]|[?]{2})[.](?:[0-9]|[?]{2}))[.]((?:[0-9]+|[?]{2}))(dev|[+])?[ ][(]type[:][ ](development|official|weekly|[?]{2})[,][ ]branching[ ]date[:][ ](\d{8}|[?]{2})[ ][&][ ]build[:][ ](\d{8}|[?]{2})[)]/i).exec(verStr);
+        if(matched){
+            const ansObj = {};
+            if(matched[1] != '??.??') ansObj.branch = matched[1];
+            if(matched[2] != '??') ansObj.releaseNumber = matched[2];
+            if(matched[4] != '??') ansObj.releaseType = matched[4];
+            if(matched[5] != '??') ansObj.branchingDateNumber = matched[5];
+            if(matched[6] != '??') ansObj.buildNumber = matched[6];
+            return MoodleVersion.fromObject(ansObj);
+        }
+        
+        // finally try match against a short human-friendly version string
+        matched = MoodleVersion.versionRE.exec(verStr);
+        if(matched){
+            ans.branch = matched[1];
+            ans.releaseNumber = matched[2] ? matched[2] : 0;
+            ans.releaseSuffix = matched[3] ? matched[3] : '';
+            return ans;
+        }
+        
+        // if no match was found, throw a range error
+        throw new RangeError(`failed to extract Moodle version from string: ${verStr}`);
+    }
     
     // TO DO - update constructor to accept strings and objects
     
-    // TO DO - Test all the accessors
+    // TO DO - getters for release strings, version strings, and version numbers
+    
+    // TO DO - .toObject()
     
     /**
      * The version's branch number, if known. This is the two-digit number
@@ -708,7 +821,7 @@ module.exports = class MoodleVersion {
         // try convert the branch to a branch number
         let bn = MoodleVersion.branchNumberFromBranch(b);
         if(is.not.number(bn)){
-            throw new TypeError('branches must be strings consisting of a digit, a period, and another digit');
+            throw new TypeError(`branches must be strings consisting of a digit, a period, and another digit. Got: ${b}`);
         }
         
         // test if we have a mapping to a branching date

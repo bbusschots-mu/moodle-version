@@ -107,10 +107,20 @@
  */
 
 /**
- * A Moodle release string. These are the most detailed version numbers
- * displayed to users, consisting of the version string and a build number.
+ * A Moodle release string. These are the release strings Moodle&apos;s documentation
+ * describes as *human friendly*. They are used in the following contexts:
+ * 
+ * 1. The admin section of web interface
+ * 2. The CLI command `admin/cli/cfg.php --name=release`
+ * 3. The variable `$release` in `version.php`
  *
- * The release string for Moodle 3.3.6 is `3.3.6 (Build: 20180517)`.
+ * In some contexts they&apos;re pre-fixed with the word *Moodle*, in others they&apos;re
+ * not.
+ *
+ * Examples:
+ * 
+ * * `&apos;3.3.6 (Build: 20180517)&apos;` - the offical Moodle 3.3.6 release.
+ * * `&apos;Moodle 3.5+ (Build: 20180614)&apos;` - a weekly Moodle 3.5.0 release.
  *
  * @typedef {string} ReleaseString
  * @see VersionString
@@ -353,7 +363,7 @@ module.exports = class MoodleVersion {
      * @return {boolean}
      * @see ReleaseSuffix
      */
-    static isReleaseSuffix(val){ // TO DO - needs testing
+    static isReleaseSuffix(val){
         return val === &apos;dev&apos; || val === &apos;&apos; || val === &apos;+&apos; ? true : false;
     }
     
@@ -505,8 +515,79 @@ module.exports = class MoodleVersion {
     }
     
     /**
+     * Convert a release type to a number. Useful for version comparisons.
+     *
+     * All invalid values convert to `0`, `&apos;development&apos;` to `1`, `&apos;official&apos;`
+     * to `2`, and `&apos;weekly&apos;` to 3.
+     *
+     * @param {*} rt
+     * @return {number}
+     */
+    static numberFromReleaseType(rt){
+        if(!MoodleVersion.isReleaseType(rt)) return 0;
+        switch(rt){
+            case &apos;weekly&apos;: return 3;
+            case &apos;official&apos;: return 2;
+            default: return 1;
+        }
+    }
+    
+    /**
+     * Compare two values to see if they represent the same version, a
+     * greater version, or a lesser version.
+     *
+     * When ranking versions, the branch is given the highest weight, then the
+     * release number, then the release type,
+     * and finally the build number. When comparing release types,
+     * `&apos;development&apos;` is considered earlier `&apos;official&apos;`, which is considered
+     * earlier than `&apos;weekly&apos;`.
+     *
+     * @param {*} val1
+     * @param {*} val2
+     * @return {number} Unless both values are moodle vesion objects, `NaN` is
+     * returned. If `val1` represents an earlier version than `val2` `-1` is
+     * returned, if `val1` and `val2` represent the same version `0` is
+     * returned, and if `val1` represents a later version than `val2` `1` is
+     * returned.
+     */
+    static compare(val1, val2){
+        // unless we get two Moodle versions, return NaN
+        if(!((val1 instanceof MoodleVersion) &amp;&amp; (val2 instanceof MoodleVersion))) return NaN;
+        
+        // try find a difference in branch
+        const b1 = is.number(val1.branchNumber) ? val1.branchNumber : 0;
+        const b2 = is.number(val2.branchNumber) ? val2.branchNumber : 0;
+        if(b1 &lt; b2) return -1;
+        if(b1 &gt; b2) return 1;
+        
+        // if there was no difference in branch, try find a difference in release number
+        const r1 = is.number(val1.releaseNumber) ? val1.releaseNumber : 0;
+        const r2 = is.number(val2.releaseNumber) ? val2.releaseNumber : 0;
+        if(r1 &lt; r2) return -1;
+        if(r1 &gt; r2) return 1;
+        
+        // if we&apos;ve still not found a difference, check the release type
+        const t1 = MoodleVersion.numberFromReleaseType(val1.releaseType);
+        const t2 = MoodleVersion.numberFromReleaseType(val2.releaseType);
+        if(t1 &lt; t2) return -1;
+        if(t1 &gt; t2) return 1;
+        
+        // finally, try split the difference with the build number
+        const bn1 = is.number(val1.buildNumber) ? val1.buildNumber : 0;
+        const bn2 = is.number(val2.buildNumber) ? val2.buildNumber : 0;
+        if(bn1 &lt; bn2) return -1;
+        if(bn1 &gt; bn2) return 1;
+        
+        // if we still haven&apos;t split the difference, they must be equal
+        return 0;
+    }
+    
+    /**
      * A factory method for producing a Moodle Version object given all its
      * properties.
+     *
+     * If only one of the branch and branching date are passed, and if a known
+     * mapping exists, the other is auto-completed.
      *
      * This function can be used to create version objects which contain
      * unknown mappings between Moodle branches and branching dates.
@@ -532,53 +613,171 @@ module.exports = class MoodleVersion {
         
         // set the branch if passed
         if(is.propertyDefined(obj, &apos;branch&apos;) || is.propertyDefined(obj, &apos;branchNumber&apos;)){
-            if(is.propertyDefined(obj, &apos;branchNumber&apos;)){
+            if(is.not.undefined(obj.branchNumber)){
                 if(!MoodleVersion.isBranchNumber(obj.branchNumber)) throw new TypeError(&apos;invalid branch number&apos;);
                 ans._branchNumber = parseInt(obj.branchNumber);
-            }else{
+            }else if(is.not.undefined(obj.branch)){
                 if(!MoodleVersion.isBranch(obj.branch)) throw new TypeError(&apos;invalid branch&apos;);
-                ans._branchNumber = MoodleVersion.branchFromBranchNumber(obj.branch);
+                ans._branchNumber = MoodleVersion.branchNumberFromBranch(obj.branch);
             }
         }
         
         // set the branching date if passed
         if(is.propertyDefined(obj, &apos;branchingDate&apos;) || is.propertyDefined(obj, &apos;branchingDateNumber&apos;)){
-            if(is.propertyDefined(obj, &apos;branchingDateNumber&apos;)){
+            if(is.not.undefined(obj.branchingDateNumber)){
                 if(!MoodleVersion.isDateNumber(obj.branchingDateNumber)) throw new TypeError(&apos;invalid branching date number&apos;);
-                ans._branchindDateNumber = parseInt(obj.branchingDateNumber);
-            }else{
+                ans._branchingDateNumber = parseInt(obj.branchingDateNumber);
+            }else if(is.not.undefined(obj.branchingDate)){
                 if(is.not.date(obj.branchingDate)) throw new TypeError(&apos;invalid branching date&apos;);
-                ans._branchindDateNumber = MoodleVersion.dateNumberFromDate(obj.branchingDate);
+                ans._branchingDateNumber = MoodleVersion.dateNumberFromDate(obj.branchingDate);
             }
         }
         
         // set the release number if passed
-        if(is.propertyDefined(obj, &apos;releaseNumber&apos;)){
+        if(is.not.undefined(obj.releaseNumber)){
             if(!MoodleVersion.isReleaseNumber(obj.releaseNumber)) throw new TypeError(&apos;invalid release number&apos;);
             ans._releaseNumber = parseInt(obj.releaseNumber);
         }
         
         // set the release type if passed
         if(is.propertyDefined(obj, &apos;releaseType&apos;) || is.propertyDefined(obj, &apos;releaseSuffix&apos;)){
-            if(is.propertyDefined(obj, &apos;releaseSuffix&apos;)){
+            if(is.not.undefined(obj.releaseSuffix)){
                 if(!MoodleVersion.isReleaseSuffix(obj.releaseSuffix)) throw new TypeError(&apos;invalid release suffix&apos;);
                 ans._releaseType = MoodleVersion.releaseTypeFromReleaseSuffix(obj.releaseSuffix);
-            }else{
+            }else if(is.not.undefined(obj.releaseType)){
                 if(!MoodleVersion.isReleaseType(obj.releaseType)) throw new TypeError(&apos;invalid release type&apos;);
                 ans._releaseType = obj.releaseType.toLowerCase();
             }
         }
         
         // set the build number if passed
-        if(is.propertyDefined(obj, &apos;buildNumber&apos;)){
+        if(is.not.undefined(obj.buildNumber)){
             if(!MoodleVersion.isDateNumber(obj.buildNumber)) throw new TypeError(&apos;invalid build number&apos;);
             ans._buildNumber = parseInt(obj.buildNumber);
+        }
+        
+        // if there&apos;s a branch but no branching date, try auto-complete it
+        if(is.number(ans._branchNumber) &amp;&amp; is.undefined(ans._branchingDateNumber) &amp;&amp; is.number(BNUM_BDNUM_MAP[ans._branchNumber])){
+            ans._branchingDateNumber = BNUM_BDNUM_MAP[ans._branchNumber];
+        }
+        
+        // if there&apos;s a branching date but no branch, try auto-complete it
+        if(is.number(ans._branchingDateNumber) &amp;&amp; is.undefined(ans._branchNumber) &amp;&amp; is.number(BDNUM_BNUM_MAP[ans._branchingDateNumber])){
+            ans._branchNumber = BDNUM_BNUM_MAP[ans._branchingDateNumber];
         }
         
         return ans;
     }
     
-    // TO DO - Test all the accessors
+    /**
+     * A regular expression for matching human-friendly
+     * [Moodle release strings]{@link ReleaseString}. This RE is
+     * case-insensitive and will allow for the optional pre-fixing of the word
+     * *Moodle* with or whithout a separating space.
+     *
+     * @type {RegExp}
+     */
+    static get releaseRE(){
+        return /(?:Moodle[ ]?)?(\d[.]\d)(?:[.](\d+))?(dev|[+])?[ ]?[(]Build[:][ ]?(\d{8})[)]/i;
+    }
+    
+    /**
+     * A regular expression for matching
+     * [short version strings]{@link VersionString} like `&apos;3.5+&apos;` (as used on
+     * the Moodle download page). This RE is case-insensitive and will allow for
+     * the optional pre-fixing of the word *Moodle* with or whithout a
+     * separating space.
+     *
+     * @type {RegExp}
+     */
+    static get versionRE(){
+        return /(?:Moodle[ ]?)?(\b\d[.]\d)(?:[.](\d+))?(dev|[+])?/i;
+    }
+    
+    /**
+     * A regular expression for matching
+     * [under-the-hood version numbers]{@link VersionNumber} like `&apos;2017051506&apos;`
+     * or `&apos;2017051506.00&apos;`.
+     *
+     * @type {RegExp}
+     */
+    static get versionNumberRE(){
+        return /(\d{8})(\d{2})(?:[.](\d{2}))?/i;
+    }
+    
+    // TO DO - TEST
+    /**
+     * Build a version object from a version string. The vesion string can be
+     * in one of the following formats:
+     *
+     * * A human-friendly [full release string]{@link ReleaseString}, e.g.
+     *   `&apos;Moodle 3.5+ (Build: 20180614)&apos;` (will be accepted with or without
+     *   the `&apos;Moodle&apos;` prefix).
+     * * A human-friendly [short version string]{@link VersionString}, e.g.
+     *  `&apos;Moodle 3.3.6+&apos;` (will be accepted with or without the `&apos;Moodle&apos;`
+     *  prefix).
+     * * An [under-the-hood version number]{@link VersionNumber}, e.g.
+     * * `&apos;2017051506&apos;` or `&apos;2017051506.00&apos;`.
+     * * A string as returned by calling `.toString()` on an instance of this
+     *   class.
+     *
+     * @param {string} verStr - the version string to parse.
+     * @return MoodleVersion
+     * @throws {TypeError}
+     * @throws {RangeError}
+     */
+    static fromString(verStr){
+        if(is.not.string(verStr)) throw new TypeError(&apos;version string required&apos;);
+        const ans = new MoodleVersion();
+        
+        // first try match against a full human-friendly release string
+        let matched = MoodleVersion.releaseRE.exec(verStr);
+        if(matched){
+            ans.branch = matched[1];
+            ans.releaseNumber = matched[2] ? matched[2] : 0;
+            ans.releaseSuffix = matched[3] ? matched[3] : &apos;&apos;;
+            ans.buildNumber = matched[4];
+            return ans;
+        }
+        
+        // then try match against an under-the-hood Moodle version number
+        matched = MoodleVersion.versionNumberRE.exec(verStr);
+        if(matched){
+            ans.branchingDateNumber = matched[1];
+            ans.releaseNumber = matched[2] ? parseInt(matched[2]) : 0;
+            return ans;
+        }
+        
+        // next try match a string as produced by .toString()
+        matched = (/((?:[0-9]|[?]{2})[.](?:[0-9]|[?]{2}))[.]((?:[0-9]+|[?]{2}))(dev|[+])?[ ][(]type[:][ ](development|official|weekly|[?]{2})[,][ ]branching[ ]date[:][ ](\d{8}|[?]{2})[ ][&amp;][ ]build[:][ ](\d{8}|[?]{2})[)]/i).exec(verStr);
+        if(matched){
+            const ansObj = {};
+            if(matched[1] != &apos;??.??&apos;) ansObj.branch = matched[1];
+            if(matched[2] != &apos;??&apos;) ansObj.releaseNumber = matched[2];
+            if(matched[4] != &apos;??&apos;) ansObj.releaseType = matched[4];
+            if(matched[5] != &apos;??&apos;) ansObj.branchingDateNumber = matched[5];
+            if(matched[6] != &apos;??&apos;) ansObj.buildNumber = matched[6];
+            return MoodleVersion.fromObject(ansObj);
+        }
+        
+        // finally try match against a short human-friendly version string
+        matched = MoodleVersion.versionRE.exec(verStr);
+        if(matched){
+            ans.branch = matched[1];
+            ans.releaseNumber = matched[2] ? matched[2] : 0;
+            ans.releaseSuffix = matched[3] ? matched[3] : &apos;&apos;;
+            return ans;
+        }
+        
+        // if no match was found, throw a range error
+        throw new RangeError(`failed to extract Moodle version from string: ${verStr}`);
+    }
+    
+    // TO DO - update constructor to accept strings and objects
+    
+    // TO DO - getters for release strings, version strings, and version numbers
+    
+    // TO DO - .toObject()
     
     /**
      * The version&apos;s branch number, if known. This is the two-digit number
@@ -650,6 +849,9 @@ module.exports = class MoodleVersion {
      *
      * Setting the branch will also update the branching date to match.
      *
+     * To create an object with an un-known combination of branch and branching
+     * date, use the {@link MoodleVersion.fromObject} factory method.
+     *
      * @type {BranchString}
      * @throws {TypeError}
      * @throws {RangeError} A range error is thrown if the branch does not have
@@ -666,7 +868,7 @@ module.exports = class MoodleVersion {
         // try convert the branch to a branch number
         let bn = MoodleVersion.branchNumberFromBranch(b);
         if(is.not.number(bn)){
-            throw new TypeError(&apos;branches must be strings consisting of a digit, a period, and another digit&apos;);
+            throw new TypeError(`branches must be strings consisting of a digit, a period, and another digit. Got: ${b}`);
         }
         
         // test if we have a mapping to a branching date
@@ -693,6 +895,9 @@ module.exports = class MoodleVersion {
     /**
      * Setting the branching date will update the branch to match.
      *
+     * To create an object with an un-known combination of branch and branching
+     * date, use the {@link MoodleVersion.fromObject} factory method.
+     *
      * @type{Date|undefined}
      * @throws {TypeError}
      * @throws {RangeError} A range error is thrown if the branching date does
@@ -710,7 +915,7 @@ module.exports = class MoodleVersion {
         if(is.not.date(bd)) throw new TypeError(&apos;the branching date must be a Date object&apos;);
         
         // convert the date to a date number
-        let bdn = MoodleVesion.dateNumberFromDate(bd);
+        let bdn = MoodleVersion.dateNumberFromDate(bd);
         
         // test if there&apos;s a known mapping to a branch
         let bn = MoodleVersion.branchNumberFromBranchingDateNumber(bdn);
@@ -734,6 +939,9 @@ module.exports = class MoodleVersion {
     
     /**
      * Setting the branching date will update the branch to match.
+     *
+     * To create an object with an un-known combination of branch and branching
+     * date, use the {@link MoodleVersion.fromObject} factory method.
      *
      * @type{DateNumber|undefined}
      * @throws {TypeError}
@@ -893,7 +1101,7 @@ module.exports = class MoodleVersion {
      */
     set releaseSuffix(rs){
         const errMsg = &quot;release suffix must be one of &apos;dev&apos;, &apos;&apos;, or &apos;+&apos;&quot;;
-        if(is.not.string(rs)) throw new TypeErrpr(errMsg);
+        if(is.not.string(rs)) throw new TypeError(errMsg);
         rs = rs.toLowerCase();
         if(!MoodleVersion.isReleaseSuffix(rs)) throw new TypeError(errMsg);
         this._releaseType = MoodleVersion.releaseTypeFromReleaseSuffix(rs);
@@ -928,13 +1136,139 @@ module.exports = class MoodleVersion {
         this._buildNumber = parseInt(bn);
     }
     
-    // LEFT OFF HERE - TO DO NEXT, add function for setting unknown branch and branching date combos
+    /**
+     * Create a new Moodle version object representing the same version
+     * information.
+     *
+     * @return {MoodleVersion}
+     */
+    clone(){
+        return MoodleVersion.fromObject({
+            branchNumber: this._branchNumber,
+            branchingDateNumber: this._branchingDateNumber,
+            releaseNumber: this._releaseNumber,
+            releaseType: this._releaseType,
+            buildNumber: this._buildNumber
+        });
+    }
     
     /**
-     * toString() description.
+     * Return a string representation of the version. The output will be of the
+     * form `B.B.R[S] (type: T, branching date: BD &amp; build: BN)`, e.g.
+     * `3.3.6 (type: official, branching date: 20170515 &amp; build: 20180517)`.
+     * Undefined components will be rendered as `??`.
+     *
+     * @return {string}
      */
     toString(){
-        return `${this.branch}.${this.releaseNumber}`;
+        const stringify = (s)=&gt;{ return is.undefined(s) ? &apos;??&apos; : String(s); };
+        
+        let ans = `${is.undefined(this.branch) ? &apos;??.??&apos; : this.branch }.${stringify(this.releaseNumber)}`;
+        if(is.string(this.releaseSuffix)) ans += this.releaseSuffix;
+        ans += ` (type: ${stringify(this.releaseType)}, branching date: ${stringify(this.branchingDateNumber)} &amp; build: ${stringify(this.buildNumber)})`;
+        return ans;
+    }
+    
+    /**
+     * Test if a given value is a Moodle Version object representing the same
+     * version.
+     *
+     * @param {*} val
+     * @return {boolean}
+     */
+    equals(val){
+        return MoodleVersion.compare(this, val) === 0 ? true : false;
+    }
+    
+    /**
+     * Compare this version to another.
+     *
+     * @param {MoodleVersion} mv
+     * @return {number} `-1` returned if passed version is lesser, `0` if the
+     * passed version is the same, and `1` if the passed version is greater. If
+     * the passed value is not a Moodle version object, `NaN` will be returned.
+     */
+    compareTo(mv){
+        return MoodleVersion.compare(mv, this);
+    }
+    
+    /**
+     * Determine whether this versions is on the same branch as a given version.
+     *
+     * @param {MoodleVersion} mv
+     * @return {boolean|undefined} If the two versions share a branch then
+     * `true` is returned, if the branch numbers differ, `false` is returned.
+     * If the value passed is not a Moodle version object, or, the branch
+     * is undefined in both versions, `undefined` is returned.
+     */
+    sameBranch(mv){
+        if(!(mv instanceof MoodleVersion)) return undefined;
+        if(is.all.undefined(this.branch, mv.branch)) return undefined;
+        return this.branch === mv.branch;
+    }
+    
+    /**
+     * Determine whether this version is less than a given version.
+     *
+     * @param {MoodleVersion} mv
+     * @return {boolean|undefined} If the version is definitely lesser then
+     * `true` is returned, and if the version is equal or definitely greater
+     * then `false` is returned. If the value is not a Moodle version object
+     * then `undefined` is returned.
+     */
+    lessThan(mv){
+        const cmp = MoodleVersion.compare(this, mv);
+        if(is.nan(cmp)) return undefined;
+        return cmp === 1 ? true : false;
+    }
+    
+    /**
+     * Determine whether this version is greater than a given version.
+     *
+     * @param {MoodleVersion} mv
+     * @return {boolean|undefined} If the version is definitely greater then
+     * `true` is returned, and if the version is equal or definitely less than
+     * then `false` is returned. If the value is not a Moodle version object
+     * then `undefined` is returned.
+     */
+    greaterThan(mv){
+        const cmp = MoodleVersion.compare(this, mv);
+        if(is.nan(cmp)) return undefined;
+        return cmp === -1 ? true : false;
+    }
+    
+    /**
+     * Is this a stable release? I.e. is the release type `official` or
+     * `weekly`?
+     *
+     * @return {boolean|undefined} Both official and weekly releases are
+     * considered stable, while development releases are not. If the release
+     * type is not defined, `undefined` is returned.
+     */
+    isStable(){
+        if(is.undefined(this.releaseType)) return undefined;
+        return this.releaseType === &apos;official&apos; || this.releaseType === &apos;weekly&apos; ? true : false;
+    }
+    
+    /**
+     * Is this version on a branch the library knows about?
+     *
+     * @return {boolean}
+     */
+    isKnownBranch(){
+        return is.not.undefined(BNUM_BDNUM_MAP[this.branchNumber]);
+    }
+    
+    /**
+     * Determine whether or not this is version is on a long-term support
+     * branch. If the branch is not defined or unknown, `undefined` is returned.
+     *
+     * @return {boolean|undefined}
+     */
+    isLTS(){
+        if(is.undefined(this.branchNumber)) return undefined;
+        if(!this.isKnownBranch()) return undefined;
+        return is.not.undefined(BNUM_LTS_LOOKUP[this.branchNumber]);
     }
 };</code></pre>
 
