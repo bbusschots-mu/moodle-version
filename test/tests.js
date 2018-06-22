@@ -111,6 +111,7 @@ const util = {
                 'integer.2digit': ['a 2-digit number', [], 42],
                 'integer.3digit': ['a 3-digit number', [], 123],
                 'integer.4digit': ['a 4-digit number', [], 1982],
+                'uts': ['a numeric Unix Time-stamp', ['datetime', 'integer'], 1529660265],
                 'integer.negative': ['a negative integer', [], -12345],
                 'float': ['a positive floating point number', [], 3.14],
                 'float.negative': ['a negative floating point number', [], -3.14]
@@ -126,6 +127,10 @@ const util = {
                 'integer.2digit': ['a 2-digit numeric string', ['numeric'], '42'],
                 'integer.3digit': ['a 3-digit numeric string', ['numeric'], '123'],
                 'integer.4digit': ['a 4-digit numeric string', ['numeric'], '1982'],
+                'uts': ['a Unix Time-stamp string', ['datetime', 'numeric', 'integer'], '1529660265'],
+                'iso8601': ['an ISO8601 date & time string', ['datetime'], '2018-06-22T09:37:45z'],
+                'rfc2822': ['an RFC2822 date & time string', ['datetime'], 'Fri, 22 Jun 2018 09:37:45 +0000'],
+                'jsdate': ['a JavaScript date & time string', ['datetime'], '2018-06-22T09:37:45.000Z'],
                 'integer.negative': ['a negative integer string', ['numeric'], '-12345'],
                 'float': ['a floating point numeric string', ['numeric'], '3.14'],
                 'float.negative': ['a negative floating point numeric string', ['numeric'], '-3.14']
@@ -138,7 +143,8 @@ const util = {
                 'null': ['null', ['empty', 'falsy', 'basic'], null],
                 'empty': ['empty object', ['plain'], {}],
                 'plain': ['a plain object', ['basic'], {a: 'b', c: 42, d: true}],
-                'date': ['a date object', [], new Date()]
+                'jsdate': ['a date object', ['datetime'], new Date('2018-06-22T09:37:45.000Z')],
+                'jsdate.now': ['a date object', ['datetime'], new Date()]
             },
             'function': {
                 'void': ['a void function', ['object', 'basic'], function(){}]
@@ -725,7 +731,8 @@ QUnit.module('Static Conversion Functions', {}, function(){
     
     QUnit.test('dateNumberFromDate()', function(a){
         const mustThrow = [
-            ...util.dummyDataExcept([], [], ['object.date'])
+            ...util.dummyDataExcept(['object'], [], []),
+            ...util.dummyData('object', {excludeTags: ['datetime']})
         ];
         a.expect(mustThrow.length + 3);
         
@@ -883,7 +890,7 @@ QUnit.module('Getters & Setters', function(){
         a.ok(is.undefined(v.branchingDateNumber), 'setting branch number undefined sets branching date to undefined too');
     });
     
-    QUnit.only('.branchindDate & .branchingDateNumber', function(a){
+    QUnit.test('.branchindDate & .branchingDateNumber', function(a){
         // data that must throw errors
         const mustThrowBranchindDateNumber = [
             ...util.dummyDataExcept([], ['integer'], ['other.undefined']),
@@ -966,7 +973,43 @@ QUnit.module('Getters & Setters', function(){
         a.ok(is.undefined(v.branchNumber), 'setting branching date undefined sets branch to undefined too');
     });
     
-    // TO DO - test release number getter & setter
+    QUnit.test('.releaseNumber', function(a){
+        // data that must throw errors
+        const mustThrow = [
+            ...util.dummyDataExcept([], ['integer'], ['other.undefined', 'string.empty']),
+            ...util.dummyDataWithAllTags('integer', 'negative')
+        ];
+        
+        // set the number of expected tests
+        a.expect(mustThrow.length + 5);
+        
+        // make sure the setters throws errors when needed
+        for(const dd of mustThrow){
+            a.throws(
+                ()=>{
+                    const v = new MoodleVersion();
+                    v.releaseNumber = dd.value;
+                },
+                TypeError,
+                `.releaseNumber throws error when attempting to set to ${dd.description}`
+            );
+        }
+        
+        // make sure the release number can be set as a number and a string and read back
+        let mv = new MoodleVersion();
+        mv.releaseNumber = 7;
+        a.strictEqual(mv.releaseNumber, 7, '.releaseNumber set to 7 and retrieved as 7');
+        mv.releaseNumber = '11';
+        a.strictEqual(mv.releaseNumber, 11, ".releaseNumber set to '11' and retrieved as 11");
+        
+        // make sure the release number can be set to zero, and can be undefined
+        mv.releaseNumber = 0;
+        a.strictEqual(mv.releaseNumber, 0, '.releaseNumber set to 0 and retried as 0');
+        mv.releaseNumber = '';
+        a.strictEqual(mv.releaseNumber, 0, ".releaseNumber set to '' and retried as 0");
+        mv.releaseNumber = undefined;
+        a.ok(is.undefined(mv.releaseNumber), '.releaseNumber can be set to undefined');
+    });
     
     // TO DO - test release type and release suffix getters and setters
     
