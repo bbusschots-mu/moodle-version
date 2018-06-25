@@ -1195,7 +1195,7 @@ QUnit.module('Getters & Setters', function(){
         a.ok(is.undefined(mv.buildNumber), '.buildNumber can be set to undefined');
     });
     
-    QUnit.only('.version', function(a){
+    QUnit.test('.version', function(a){
         a.expect(6);
         
         // make sure an empty object renders correctly
@@ -1204,13 +1204,42 @@ QUnit.module('Getters & Setters', function(){
         // make sure an official version with release number renders correctly
         a.strictEqual(MoodleVersion.fromObject({ branch: '3.3', releaseNumber: 6, releaseType: 'official' }).version, '3.3.6', 'official release with non-zero release number rendered correctly');
         
-        // make sure zero relesae numbers are omitted
+        // make sure zero release numbers are omitted
         a.strictEqual(MoodleVersion.fromObject({ branch: '3.5', releaseNumber: 0, releaseType: 'official' }).version, '3.5', 'official release with release number 0 rendered correctly');
         
         // make sure siffixes are handled properly
         a.strictEqual(MoodleVersion.fromObject({ branch: '3.3', releaseNumber: 0, releaseType: 'development' }).version, '3.3dev', 'dev release rendered correctly');
         a.strictEqual(MoodleVersion.fromObject({ branch: '3.3', releaseNumber: 0, releaseType: 'weekly' }).version, '3.3+', 'weekly release with release number 0 rendered correctly');
         a.strictEqual(MoodleVersion.fromObject({ branch: '3.3', releaseNumber: 1, releaseType: 'weekly' }).version, '3.3.1+', 'weekly release with non-zero release number rendered correctly');
+    });
+    
+    QUnit.test('.versionNumber', function(a){
+        a.expect(3);
+        
+        // make sure an empty object renders correctly
+        a.strictEqual((new MoodleVersion()).versionNumber, '??????????', 'empty object rendered correctly');
+        
+        // make sure an official version with release number renders correctly
+        a.strictEqual(MoodleVersion.fromObject({ branchingDateNumber: 20170515, releaseNumber: 6 }).versionNumber, '2017051506', 'official release with non-zero release number rendered correctly');
+        a.strictEqual(MoodleVersion.fromObject({ branchingDateNumber: 20170515, releaseNumber: 0 }).versionNumber, '2017051500', 'official release with release number 0 rendered correctly');
+    });
+    
+    QUnit.test('.release', function(a){
+        a.expect(6);
+        
+        // make sure an empty object renders correctly
+        a.strictEqual((new MoodleVersion()).release, '??.??.?? (Build: ????????)', 'empty object rendered correctly');
+        
+        // make sure an official version with release number renders correctly
+        a.strictEqual(MoodleVersion.fromObject({ branch: '3.3', releaseNumber: 6, releaseType: 'official', buildNumber: 20180517 }).release, '3.3.6 (Build: 20180517)', 'official release with non-zero release number rendered correctly');
+        
+        // make sure zero release numbers are omitted
+        a.strictEqual(MoodleVersion.fromObject({ branch: '3.5', releaseNumber: 0, releaseType: 'official', buildNumber:  20180517 }).release, '3.5 (Build: 20180517)', 'official release with release number 0 rendered correctly');
+        
+        // make sure siffixes are handled properly
+        a.strictEqual(MoodleVersion.fromObject({ branch: '3.5', releaseNumber: 0, releaseType: 'development', buildNumber:  20180510 }).release, '3.5dev (Build: 20180510)', 'dev release rendered correctly');
+        a.strictEqual(MoodleVersion.fromObject({ branch: '3.5', releaseNumber: 0, releaseType: 'weekly', buildNumber: 20180614 }).release, '3.5+ (Build: 20180614)', 'weekly release with release number 0 rendered correctly');
+        a.strictEqual(MoodleVersion.fromObject({ branch: '3.5', releaseNumber: 1, releaseType: 'weekly', buildNumber: 20180621 }).release, '3.5.1+ (Build: 20180621)', 'weekly release with non-zero release number rendered correctly');
     });
 });
 

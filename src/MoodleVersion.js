@@ -1119,6 +1119,35 @@ module.exports = class MoodleVersion {
     }
     
     /**
+     * The under-the-hood form of the version number.
+     *
+     * If the branch is unknown its replaced with eight question marks, and if
+     * the release number is unknown it's replaced with two.
+     *
+     * @type {VersionNumber}
+     */
+    get versionNumber(){
+        let ans = is.undefined(this.branchingDateNumber) ? '????????' : TO_STR(this.branchingDateNumber);
+        ans += `${this.releaseNumber < 10 ? '0' : ''}${TO_STR(this.releaseNumber)}`;
+        return ans;
+    }
+    
+    /**
+     * The long human-friendly form of the version information.
+     *
+     * In keeping with how Moodle presents version strings, release numbers of
+     * zero are omitted. If the release type is unknown no suffix is appended.
+     * If the branch is unknown it is represented as `'??.??'`, if the
+     * release number is unknown it's represented as `'.??'`, and if the build
+     * number is unknown it's represented as `'????????'`.
+     *
+     * @type {ReleaseString}
+     */
+    get release(){
+        return `${this.version} (Build: ${is.undefined(this.buildNumber) ? '????????' : this.buildNumber})`;
+    }
+    
+    /**
      * Create a new Moodle version object representing the same version
      * information.
      *
