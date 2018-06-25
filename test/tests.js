@@ -888,6 +888,40 @@ QUnit.module('Static Conversion Functions', {}, function(){
     });
 });
 
+QUnit.module('constructor', function(){
+    QUnit.test('class exists', function(a){
+        a.expect(1);
+        a.ok(is.function(MoodleVersion));
+    });
+    
+    QUnit.test('default constructor', function(a){
+        a.expect(1);
+        a.strictEqual((new MoodleVersion()).toString(), '??.??.?? (type: ??, branching date: ?? & build: ??)');
+    });
+    
+    QUnit.test('argument processing', function(a){
+        const mustThrow = [
+            ...util.dummyBasicDataExcept('string', 'object', 'other')
+        ];
+        a.expect(mustThrow.length + 2);
+        
+        // make sure that types that should throw an error do
+        for(const dd of mustThrow){
+            a.throws(
+                ()=>{ new MoodleVersion(dd.value); },
+                TypeError,
+                `${dd.description} throws Type Error`
+            );
+        }
+        
+        // make sure that strings are parsed
+        a.strictEqual((new MoodleVersion('3.5+')).version, '3.5+', 'can initialise from string');
+        
+        // make sure objects are parsed
+        a.strictEqual((new MoodleVersion({branch: '3.3', releaseNumber: 6, releaseType: 'official'})).version, '3.3.6', 'can initialise from object');
+    });
+});
+
 QUnit.module('Getters & Setters', function(){
     QUnit.test('.branch & .branchNumber', function(a){
         // data that must throw errors
@@ -1317,7 +1351,7 @@ QUnit.module('Object Utility Functions', function(){
         a.strictEqual(v.toString(), '3.5.0+ (type: weekly, branching date: 20180517 & build: 20180614)', 'weekly version rendered correctly');
     });
     
-    QUnit.only('.toObject()', function(a){
+    QUnit.test('.toObject()', function(a){
         a.expect(3);
         
         // make sure the function actually exists

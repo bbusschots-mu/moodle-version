@@ -233,6 +233,19 @@ for(const bnum of LTS_BNUMS){
 }
 
 /**
+ * Convert a value to a string for use in string representations of the
+ * version. `undefined` is returned as `&apos;??&apos;` and all other values are
+ * converted to a string with JavaScript&apos;s `String()` function.
+ *
+ * @param {*} val
+ * @return {string}
+ * @private
+*/
+function TO_STR(val){
+    return is.undefined(val) ? &apos;??&apos; : String(val);
+}
+
+/**
  * A class for parsing and representing
  * [version information](https://docs.moodle.org/35/en/Moodle_version) for the
  * [Moodle VLE](http://moodle.org/).
@@ -250,33 +263,57 @@ for(const bnum of LTS_BNUMS){
  */
 module.exports = class MoodleVersion {
     /**
-     * Constructor description.
+     * By default version objects contain no information.
+     *
+     * If a string is passed, the object is initialised using
+     * {@link MoodleVersion.fromString}, and if an object is passed then
+     * {@link MoodleVersion.fromObject} is used instead.
+     *
+     * @param {string|Object} versionInfo
+     * @throws TypeError
+     * @throws RangeError
      */
-    constructor() {
+    constructor(versionInfo) {
+        let newObj;
+        if(is.not.undefined(versionInfo)){
+            if(is.string(versionInfo)){
+                newObj = MoodleVersion.fromString(versionInfo);
+            }else if(is.object(versionInfo) &amp;&amp; is.not.array(versionInfo) &amp;&amp; is.not.function(versionInfo) &amp;&amp; is.not.error(versionInfo)){
+                newObj = MoodleVersion.fromObject(versionInfo);
+            }else{
+                throw new TypeError(&apos;the MoodleVersion constructor only accepts strings and objects&apos;);
+            }
+        }
+        
         /**
          * @type {BranchNumber|undefined}
          */
         this._branchNumber = undefined;
+        if(newObj) this._branchNumber = newObj._branchNumber;
         
         /**
          * @type {DateNumber|undefined}
          */
         this._branchingDateNumber = undefined;
+        if(newObj) this._branchingDateNumber = newObj._branchingDateNumber;
         
         /**
          * @type {ReleaseNumber|undefined}
          */
         this._releaseNumber = undefined;
+        if(newObj) this._releaseNumber = newObj._releaseNumber;
         
         /**
          * @type {ReleaseType|undefined}
          */
         this._releaseType = undefined;
+        if(newObj) this._releaseType = newObj._releaseType;
         
         /**
          * @type {BuildNumber|undefined}
          */
         this._buildNumber = undefined;
+        if(newObj) this._buildNumber = newObj._buildNumber;
     }
     
     /**
@@ -705,7 +742,6 @@ module.exports = class MoodleVersion {
         return /(\d{8})(\d{2})(?:[.](\d{2}))?/i;
     }
     
-    // TO DO - TEST
     /**
      * Build a version object from a version string. The vesion string can be
      * in one of the following formats:
@@ -774,10 +810,6 @@ module.exports = class MoodleVersion {
     }
     
     // TO DO - update constructor to accept strings and objects
-    
-    // TO DO - getters for release strings, version strings, and version numbers
-    
-    // TO DO - .toObject()
     
     /**
      * The version&apos;s branch number, if known. This is the two-digit number
@@ -1137,6 +1169,52 @@ module.exports = class MoodleVersion {
     }
     
     /**
+     * The short human-friendly form of the version number.
+     *
+     * In keeping with how Moodle presents version strings, release numbers of
+     * zero are omitted. If the release type is unknown no suffix is appended.
+     * If the branch is unknown it is represented as `&apos;??.??&apos;`, and if the
+     * release number is unknown it&apos;s represented as `&apos;.??&apos;`.
+     *
+     * @type {VersionString}
+     */
+    get version(){
+        let ans = is.undefined(this.branch) ? &apos;??.??&apos; : this.branch;
+        if(this.releaseNumber !== 0) ans += `.${TO_STR(this.releaseNumber)}`;
+        if(is.string(this.releaseSuffix)) ans += this.releaseSuffix;
+        return ans;
+    }
+    
+    /**
+     * The under-the-hood form of the version number.
+     *
+     * If the branch is unknown its replaced with eight question marks, and if
+     * the release number is unknown it&apos;s replaced with two.
+     *
+     * @type {VersionNumber}
+     */
+    get versionNumber(){
+        let ans = is.undefined(this.branchingDateNumber) ? &apos;????????&apos; : TO_STR(this.branchingDateNumber);
+        ans += `${this.releaseNumber &lt; 10 ? &apos;0&apos; : &apos;&apos;}${TO_STR(this.releaseNumber)}`;
+        return ans;
+    }
+    
+    /**
+     * The long human-friendly form of the version information.
+     *
+     * In keeping with how Moodle presents version strings, release numbers of
+     * zero are omitted. If the release type is unknown no suffix is appended.
+     * If the branch is unknown it is represented as `&apos;??.??&apos;`, if the
+     * release number is unknown it&apos;s represented as `&apos;.??&apos;`, and if the build
+     * number is unknown it&apos;s represented as `&apos;????????&apos;`.
+     *
+     * @type {ReleaseString}
+     */
+    get release(){
+        return `${this.version} (Build: ${is.undefined(this.buildNumber) ? &apos;????????&apos; : this.buildNumber})`;
+    }
+    
+    /**
      * Create a new Moodle version object representing the same version
      * information.
      *
@@ -1161,12 +1239,43 @@ module.exports = class MoodleVersion {
      * @return {string}
      */
     toString(){
-        const stringify = (s)=&gt;{ return is.undefined(s) ? &apos;??&apos; : String(s); };
-        
-        let ans = `${is.undefined(this.branch) ? &apos;??.??&apos; : this.branch }.${stringify(this.releaseNumber)}`;
+        let ans = `${is.undefined(this.branch) ? &apos;??.??&apos; : this.branch }.${TO_STR(this.releaseNumber)}`;
         if(is.string(this.releaseSuffix)) ans += this.releaseSuffix;
-        ans += ` (type: ${stringify(this.releaseType)}, branching date: ${stringify(this.branchingDateNumber)} &amp; build: ${stringify(this.buildNumber)})`;
+        ans += ` (type: ${TO_STR(this.releaseType)}, branching date: ${TO_STR(this.branchingDateNumber)} &amp; build: ${TO_STR(this.buildNumber)})`;
         return ans;
+    }
+    
+    /**
+     * The version as a plain object indexed by zero or more of:
+     *
+     * * `version`
+     * * `versionNumber`
+     * * `release`
+     * * `branch`
+     * * `branchNumber`
+     * * `branchingDateNumber`
+     * * `branchingDate`
+     * * `releaseNumber`
+     * * `releaseType`
+     * * `releaseSuffix`
+     * * `buildNumber`
+     *
+     * @return {Object}
+     */
+    toObject(){
+        return {
+            version: this.version,
+            versionNumber: this.versionNumber,
+            release: this.release,
+            branch: this.branch,
+            branchNumber: this.branchNumber,
+            branchingDateNumber: this.branchingDateNumber,
+            branchingDate: this.branchingDate,
+            releaseNumber: this.releaseNumber,
+            releaseType: this.releaseType,
+            releaseSuffix: this.releaseSuffix,
+            buildNumber: this.buildNumber
+        };
     }
     
     /**

@@ -319,13 +319,13 @@ window.esdocSearchIndex = [
   ],
   [
     "src/moodleversion.js~moodleversion#branch",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-branch",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-branch",
     "src/MoodleVersion.js~MoodleVersion#branch",
     "member"
   ],
   [
     "src/moodleversion.js~moodleversion#branch",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-branch",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-branch",
     "src/MoodleVersion.js~MoodleVersion#branch",
     "member"
   ],
@@ -391,13 +391,13 @@ window.esdocSearchIndex = [
   ],
   [
     "src/moodleversion.js~moodleversion#buildnumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-buildNumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-buildNumber",
     "src/MoodleVersion.js~MoodleVersion#buildNumber",
     "member"
   ],
   [
     "src/moodleversion.js~moodleversion#buildnumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-buildNumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-buildNumber",
     "src/MoodleVersion.js~MoodleVersion#buildNumber",
     "member"
   ],
@@ -456,9 +456,9 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion#releasenumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-releaseNumber",
-    "src/MoodleVersion.js~MoodleVersion#releaseNumber",
+    "src/moodleversion.js~moodleversion#release",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-release",
+    "src/MoodleVersion.js~MoodleVersion#release",
     "member"
   ],
   [
@@ -468,9 +468,9 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#releasesuffix",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-releaseSuffix",
-    "src/MoodleVersion.js~MoodleVersion#releaseSuffix",
+    "src/moodleversion.js~moodleversion#releasenumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-releaseNumber",
+    "src/MoodleVersion.js~MoodleVersion#releaseNumber",
     "member"
   ],
   [
@@ -480,14 +480,20 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#releasetype",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-releaseType",
-    "src/MoodleVersion.js~MoodleVersion#releaseType",
+    "src/moodleversion.js~moodleversion#releasesuffix",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-releaseSuffix",
+    "src/MoodleVersion.js~MoodleVersion#releaseSuffix",
     "member"
   ],
   [
     "src/moodleversion.js~moodleversion#releasetype",
     "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-releaseType",
+    "src/MoodleVersion.js~MoodleVersion#releaseType",
+    "member"
+  ],
+  [
+    "src/moodleversion.js~moodleversion#releasetype",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-releaseType",
     "src/MoodleVersion.js~MoodleVersion#releaseType",
     "member"
   ],
@@ -498,10 +504,28 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/moodleversion.js~moodleversion#toobject",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-method-toObject",
+    "src/MoodleVersion.js~MoodleVersion#toObject",
+    "method"
+  ],
+  [
     "src/moodleversion.js~moodleversion#tostring",
     "class/src/MoodleVersion.js~MoodleVersion.html#instance-method-toString",
     "src/MoodleVersion.js~MoodleVersion#toString",
     "method"
+  ],
+  [
+    "src/moodleversion.js~moodleversion#version",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-version",
+    "src/MoodleVersion.js~MoodleVersion#version",
+    "member"
+  ],
+  [
+    "src/moodleversion.js~moodleversion#versionnumber",
+    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-versionNumber",
+    "src/MoodleVersion.js~MoodleVersion#versionNumber",
+    "member"
   ],
   [
     "src/moodleversion.js~moodleversion.branchfrombranchnumber",

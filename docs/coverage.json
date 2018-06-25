@@ -1,11 +1,11 @@
 {
   "coverage": "100%",
-  "expectCount": 64,
-  "actualCount": 64,
+  "expectCount": 69,
+  "actualCount": 69,
   "files": {
     "src/MoodleVersion.js": {
-      "expectCount": 64,
-      "actualCount": 64,
+      "expectCount": 69,
+      "actualCount": 69,
       "undocumentLines": []
     }
   }

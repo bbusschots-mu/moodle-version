@@ -216,33 +216,57 @@ function TO_STR(val){
  */
 module.exports = class MoodleVersion {
     /**
-     * Constructor description.
+     * By default version objects contain no information.
+     *
+     * If a string is passed, the object is initialised using
+     * {@link MoodleVersion.fromString}, and if an object is passed then
+     * {@link MoodleVersion.fromObject} is used instead.
+     *
+     * @param {string|Object} versionInfo
+     * @throws TypeError
+     * @throws RangeError
      */
-    constructor() {
+    constructor(versionInfo) {
+        let newObj;
+        if(is.not.undefined(versionInfo)){
+            if(is.string(versionInfo)){
+                newObj = MoodleVersion.fromString(versionInfo);
+            }else if(is.object(versionInfo) && is.not.array(versionInfo) && is.not.function(versionInfo) && is.not.error(versionInfo)){
+                newObj = MoodleVersion.fromObject(versionInfo);
+            }else{
+                throw new TypeError('the MoodleVersion constructor only accepts strings and objects');
+            }
+        }
+        
         /**
          * @type {BranchNumber|undefined}
          */
         this._branchNumber = undefined;
+        if(newObj) this._branchNumber = newObj._branchNumber;
         
         /**
          * @type {DateNumber|undefined}
          */
         this._branchingDateNumber = undefined;
+        if(newObj) this._branchingDateNumber = newObj._branchingDateNumber;
         
         /**
          * @type {ReleaseNumber|undefined}
          */
         this._releaseNumber = undefined;
+        if(newObj) this._releaseNumber = newObj._releaseNumber;
         
         /**
          * @type {ReleaseType|undefined}
          */
         this._releaseType = undefined;
+        if(newObj) this._releaseType = newObj._releaseType;
         
         /**
          * @type {BuildNumber|undefined}
          */
         this._buildNumber = undefined;
+        if(newObj) this._buildNumber = newObj._buildNumber;
     }
     
     /**
@@ -739,8 +763,6 @@ module.exports = class MoodleVersion {
     }
     
     // TO DO - update constructor to accept strings and objects
-    
-    // TO DO - .toObject()
     
     /**
      * The version's branch number, if known. This is the two-digit number
