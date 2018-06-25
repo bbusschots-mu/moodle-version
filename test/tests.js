@@ -1316,6 +1316,42 @@ QUnit.module('Object Utility Functions', function(){
         v.releaseType = 'weekly';
         a.strictEqual(v.toString(), '3.5.0+ (type: weekly, branching date: 20180517 & build: 20180614)', 'weekly version rendered correctly');
     });
+    
+    QUnit.only('.toObject()', function(a){
+        a.expect(3);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.prototype.toObject), 'function exists');
+        
+        // make sure the function returns an object
+        let v = new MoodleVersion();
+        a.ok(is.object(v.toObject()), 'returns an object');
+        
+        // make sure the function returns the expected values
+        let mv = MoodleVersion.fromObject({
+            branch: '3.3',
+            releaseNumber: 6,
+            releaseType: 'official',
+            buildNumber: 20180517
+        });
+        a.deepEqual(
+            mv.toObject(),
+            {
+                version: '3.3.6',
+                versionNumber: '2017051506',
+                release: '3.3.6 (Build: 20180517)',
+                branch: '3.3',
+                branchNumber: 33,
+                branchingDateNumber: 20170515,
+                branchingDate: MoodleVersion.dateFromDateNumber(20170515),
+                releaseNumber: 6,
+                releaseType: 'official',
+                releaseSuffix: '',
+                buildNumber: 20180517
+            },
+            'expected values returned'
+        );
+    });
 });
 
 QUnit.module('comparison methods', function(){

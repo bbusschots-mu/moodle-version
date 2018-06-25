@@ -740,8 +740,6 @@ module.exports = class MoodleVersion {
     
     // TO DO - update constructor to accept strings and objects
     
-    // TO DO - getters for release strings, version strings, and version numbers
-    
     // TO DO - .toObject()
     
     /**
@@ -1176,6 +1174,39 @@ module.exports = class MoodleVersion {
         if(is.string(this.releaseSuffix)) ans += this.releaseSuffix;
         ans += ` (type: ${TO_STR(this.releaseType)}, branching date: ${TO_STR(this.branchingDateNumber)} & build: ${TO_STR(this.buildNumber)})`;
         return ans;
+    }
+    
+    /**
+     * The version as a plain object indexed by zero or more of:
+     *
+     * * `version`
+     * * `versionNumber`
+     * * `release`
+     * * `branch`
+     * * `branchNumber`
+     * * `branchingDateNumber`
+     * * `branchingDate`
+     * * `releaseNumber`
+     * * `releaseType`
+     * * `releaseSuffix`
+     * * `buildNumber`
+     *
+     * @return {Object}
+     */
+    toObject(){
+        return {
+            version: this.version,
+            versionNumber: this.versionNumber,
+            release: this.release,
+            branch: this.branch,
+            branchNumber: this.branchNumber,
+            branchingDateNumber: this.branchingDateNumber,
+            branchingDate: this.branchingDate,
+            releaseNumber: this.releaseNumber,
+            releaseType: this.releaseType,
+            releaseSuffix: this.releaseSuffix,
+            buildNumber: this.buildNumber
+        };
     }
     
     /**
