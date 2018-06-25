@@ -1,6 +1,7 @@
 {
     "bundle": {
         "name": "MoodleVersion",
+        "main": "MoodleVersion",
         "path": "./src",
         "filesz": "MoodleVersion.js",
         "dependencies": {

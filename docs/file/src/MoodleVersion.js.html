@@ -707,36 +707,36 @@ module.exports = class MoodleVersion {
     }
     
     /**
-     * A regular expression for matching human-friendly
-     * [Moodle release strings]{@link ReleaseString}. This RE is
-     * case-insensitive and will allow for the optional pre-fixing of the word
-     * *Moodle* with or whithout a separating space.
+     * A regular expression for matching human-friendly Moodle release strings.
+     * This RE is case-insensitive and will allow for the optional pre-fixing of
+     * the word *Moodle* with or whithout a separating space.
      *
      * @type {RegExp}
+     * @see {@link ReleaseString}
      */
     static get releaseRE(){
         return /(?:Moodle[ ]?)?(\d[.]\d)(?:[.](\d+))?(dev|[+])?[ ]?[(]Build[:][ ]?(\d{8})[)]/i;
     }
     
     /**
-     * A regular expression for matching
-     * [short version strings]{@link VersionString} like `&apos;3.5+&apos;` (as used on
-     * the Moodle download page). This RE is case-insensitive and will allow for
-     * the optional pre-fixing of the word *Moodle* with or whithout a
-     * separating space.
+     * A regular expression for matching short version strings like `&apos;3.5+&apos;` (as
+     * used on the Moodle download page). This RE is case-insensitive and will
+     * allow for the optional pre-fixing of the word *Moodle* with or whithout
+     * a separating space.
      *
      * @type {RegExp}
+     * @see {@link VersionString}
      */
     static get versionRE(){
         return /(?:Moodle[ ]?)?(\b\d[.]\d)(?:[.](\d+))?(dev|[+])?/i;
     }
     
     /**
-     * A regular expression for matching
-     * [under-the-hood version numbers]{@link VersionNumber} like `&apos;2017051506&apos;`
-     * or `&apos;2017051506.00&apos;`.
+     * A regular expression for matching under-the-hood version numbers like
+     * `&apos;2017051506&apos;` or `&apos;2017051506.00&apos;`.
      *
      * @type {RegExp}
+     * @see {@link VersionNumber}
      */
     static get versionNumberRE(){
         return /(\d{8})(\d{2})(?:[.](\d{2}))?/i;
@@ -746,13 +746,13 @@ module.exports = class MoodleVersion {
      * Build a version object from a version string. The vesion string can be
      * in one of the following formats:
      *
-     * * A human-friendly [full release string]{@link ReleaseString}, e.g.
+     * * A human-friendly full release string ({@link ReleaseString}), e.g.
      *   `&apos;Moodle 3.5+ (Build: 20180614)&apos;` (will be accepted with or without
      *   the `&apos;Moodle&apos;` prefix).
-     * * A human-friendly [short version string]{@link VersionString}, e.g.
+     * * A human-friendly short version string ({@link VersionString}), e.g.
      *  `&apos;Moodle 3.3.6+&apos;` (will be accepted with or without the `&apos;Moodle&apos;`
      *  prefix).
-     * * An [under-the-hood version number]{@link VersionNumber}, e.g.
+     * * An under-the-hood version number ({@link VersionNumber}), e.g.
      * * `&apos;2017051506&apos;` or `&apos;2017051506.00&apos;`.
      * * A string as returned by calling `.toString()` on an instance of this
      *   class.
@@ -761,6 +761,10 @@ module.exports = class MoodleVersion {
      * @return MoodleVersion
      * @throws {TypeError}
      * @throws {RangeError}
+     * @see {@link ReleaseString}
+     * @see {@link VersionString}
+     * @see {@link VersionNumber}
+     * @see {@link MoodleVersion#toString}
      */
     static fromString(verStr){
         if(is.not.string(verStr)) throw new TypeError(&apos;version string required&apos;);

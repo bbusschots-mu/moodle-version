@@ -117,8 +117,7 @@ Moodle version which uses the now standard versioning conventions.</p>
       <div>
         
         
-        <div data-ice="description"><p>A regular expression for matching human-friendly
-[Moodle release strings]<span><a href="typedef/index.html#static-typedef-ReleaseString">ReleaseString</a></span>.</p>
+        <div data-ice="description"><p>A regular expression for matching human-friendly Moodle release strings.</p>
 </div>
       </div>
     </td>
@@ -147,9 +146,8 @@ Moodle version which uses the now standard versioning conventions.</p>
       <div>
         
         
-        <div data-ice="description"><p>A regular expression for matching
-[under-the-hood version numbers]<span><a href="typedef/index.html#static-typedef-VersionNumber">VersionNumber</a></span> like <code>&apos;2017051506&apos;</code>
-or <code>&apos;2017051506.00&apos;</code>.</p>
+        <div data-ice="description"><p>A regular expression for matching under-the-hood version numbers like
+<code>&apos;2017051506&apos;</code> or <code>&apos;2017051506.00&apos;</code>.</p>
 </div>
       </div>
     </td>
@@ -178,9 +176,8 @@ or <code>&apos;2017051506.00&apos;</code>.</p>
       <div>
         
         
-        <div data-ice="description"><p>A regular expression for matching
-[short version strings]<span><a href="typedef/index.html#static-typedef-VersionString">VersionString</a></span> like <code>&apos;3.5+&apos;</code> (as used on
-the Moodle download page).</p>
+        <div data-ice="description"><p>A regular expression for matching short version strings like <code>&apos;3.5+&apos;</code> (as
+used on the Moodle download page).</p>
 </div>
       </div>
     </td>
@@ -1853,10 +1850,9 @@ branch.</p>
   
   
   
-  <div data-ice="description"><p>A regular expression for matching human-friendly
-[Moodle release strings]<span><a href="typedef/index.html#static-typedef-ReleaseString">ReleaseString</a></span>. This RE is
-case-insensitive and will allow for the optional pre-fixing of the word
-<em>Moodle</em> with or whithout a separating space.</p>
+  <div data-ice="description"><p>A regular expression for matching human-friendly Moodle release strings.
+This RE is case-insensitive and will allow for the optional pre-fixing of
+the word <em>Moodle</em> with or whithout a separating space.</p>
 </div>
 
   
@@ -1878,7 +1874,7 @@ case-insensitive and will allow for the optional pre-fixing of the word
 
   
 
-  
+  <div data-ice="see"><h4>See:</h4><ul><li><span><span><a href="typedef/index.html#static-typedef-ReleaseString">ReleaseString</a></span></span></li></ul></div>
   
 </div>
 <div class="detail" data-ice="detail">
@@ -1900,9 +1896,8 @@ case-insensitive and will allow for the optional pre-fixing of the word
   
   
   
-  <div data-ice="description"><p>A regular expression for matching
-[under-the-hood version numbers]<span><a href="typedef/index.html#static-typedef-VersionNumber">VersionNumber</a></span> like <code>&apos;2017051506&apos;</code>
-or <code>&apos;2017051506.00&apos;</code>.</p>
+  <div data-ice="description"><p>A regular expression for matching under-the-hood version numbers like
+<code>&apos;2017051506&apos;</code> or <code>&apos;2017051506.00&apos;</code>.</p>
 </div>
 
   
@@ -1924,7 +1919,7 @@ or <code>&apos;2017051506.00&apos;</code>.</p>
 
   
 
-  
+  <div data-ice="see"><h4>See:</h4><ul><li><span><span><a href="typedef/index.html#static-typedef-VersionNumber">VersionNumber</a></span></span></li></ul></div>
   
 </div>
 <div class="detail" data-ice="detail">
@@ -1946,11 +1941,10 @@ or <code>&apos;2017051506.00&apos;</code>.</p>
   
   
   
-  <div data-ice="description"><p>A regular expression for matching
-[short version strings]<span><a href="typedef/index.html#static-typedef-VersionString">VersionString</a></span> like <code>&apos;3.5+&apos;</code> (as used on
-the Moodle download page). This RE is case-insensitive and will allow for
-the optional pre-fixing of the word <em>Moodle</em> with or whithout a
-separating space.</p>
+  <div data-ice="description"><p>A regular expression for matching short version strings like <code>&apos;3.5+&apos;</code> (as
+used on the Moodle download page). This RE is case-insensitive and will
+allow for the optional pre-fixing of the word <em>Moodle</em> with or whithout
+a separating space.</p>
 </div>
 
   
@@ -1972,7 +1966,7 @@ separating space.</p>
 
   
 
-  
+  <div data-ice="see"><h4>See:</h4><ul><li><span><span><a href="typedef/index.html#static-typedef-VersionString">VersionString</a></span></span></li></ul></div>
   
 </div>
 </div>
@@ -2787,7 +2781,7 @@ or, if any of the keys within that object map to an invalid value.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber718">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber722">source</a></span></span>
     </span>
   </h3>
 
@@ -2797,13 +2791,13 @@ or, if any of the keys within that object map to an invalid value.</p>
   <div data-ice="description"><p>Build a version object from a version string. The vesion string can be
 in one of the following formats:</p>
 <ul>
-<li>A human-friendly [full release string]<span><a href="typedef/index.html#static-typedef-ReleaseString">ReleaseString</a></span>, e.g.
+<li>A human-friendly full release string (<span><a href="typedef/index.html#static-typedef-ReleaseString">ReleaseString</a></span>), e.g.
 <code>&apos;Moodle 3.5+ (Build: 20180614)&apos;</code> (will be accepted with or without
 the <code>&apos;Moodle&apos;</code> prefix).</li>
-<li>A human-friendly [short version string]<span><a href="typedef/index.html#static-typedef-VersionString">VersionString</a></span>, e.g.
+<li>A human-friendly short version string (<span><a href="typedef/index.html#static-typedef-VersionString">VersionString</a></span>), e.g.
 <code>&apos;Moodle 3.3.6+&apos;</code> (will be accepted with or without the <code>&apos;Moodle&apos;</code>
 prefix).</li>
-<li>An [under-the-hood version number]<span><a href="typedef/index.html#static-typedef-VersionNumber">VersionNumber</a></span>, e.g.</li>
+<li>An under-the-hood version number (<span><a href="typedef/index.html#static-typedef-VersionNumber">VersionNumber</a></span>), e.g.</li>
 <li><code>&apos;2017051506&apos;</code> or <code>&apos;2017051506.00&apos;</code>.</li>
 <li>A string as returned by calling <code>.toString()</code> on an instance of this
 class.</li>
@@ -2874,7 +2868,10 @@ class.</li>
 
   
 
-  
+  <div data-ice="see"><h4>See:</h4><ul><li><span><span><a href="typedef/index.html#static-typedef-ReleaseString">ReleaseString</a></span></span></li>
+<li><span><span><a href="typedef/index.html#static-typedef-VersionString">VersionString</a></span></span></li>
+<li><span><span><a href="typedef/index.html#static-typedef-VersionNumber">VersionNumber</a></span></span></li>
+<li><span><span><a href="class/src/MoodleVersion.js~MoodleVersion.html#instance-method-toString">MoodleVersion#toString</a></span></span></li></ul></div>
   
 </div>
 <div class="detail" data-ice="detail">
@@ -3665,7 +3662,7 @@ to <code>2</code>, and <code>&apos;weekly&apos;</code> to 3.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber826">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber830">source</a></span></span>
     </span>
   </h3>
 
@@ -3712,7 +3709,7 @@ releases is <code>&apos;3.4&apos;</code>.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber845">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber849">source</a></span></span>
     </span>
   </h3>
 
@@ -3777,7 +3774,7 @@ a known mapping to a branching date.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber776">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber780">source</a></span></span>
     </span>
   </h3>
 
@@ -3824,7 +3821,7 @@ release.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber793">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber797">source</a></span></span>
     </span>
   </h3>
 
@@ -3888,7 +3885,7 @@ a known mapping to a branching date.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1005">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1009">source</a></span></span>
     </span>
   </h3>
 
@@ -3934,7 +3931,7 @@ numbers.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber991">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber995">source</a></span></span>
     </span>
   </h3>
 
@@ -3979,7 +3976,7 @@ numbers.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber891">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber895">source</a></span></span>
     </span>
   </h3>
 
@@ -4043,7 +4040,7 @@ not have a known mapping to a branch.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber875">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber879">source</a></span></span>
     </span>
   </h3>
 
@@ -4087,7 +4084,7 @@ not have a known mapping to a branch.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber936">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber940">source</a></span></span>
     </span>
   </h3>
 
@@ -4151,7 +4148,7 @@ not have a known mapping to a branch.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber921">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber925">source</a></span></span>
     </span>
   </h3>
 
@@ -4195,7 +4192,7 @@ not have a known mapping to a branch.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber964">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber968">source</a></span></span>
     </span>
   </h3>
 
@@ -4240,7 +4237,7 @@ not have a known mapping to a branch.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber978">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber982">source</a></span></span>
     </span>
   </h3>
 
@@ -4286,7 +4283,7 @@ numbers.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1110">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1114">source</a></span></span>
     </span>
   </h3>
 
@@ -4341,7 +4338,7 @@ numbers.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1100">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1104">source</a></span></span>
     </span>
   </h3>
 
@@ -4385,7 +4382,7 @@ numbers.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1166">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1170">source</a></span></span>
     </span>
   </h3>
 
@@ -4434,7 +4431,7 @@ number is unknown it&apos;s represented as <code>&apos;????????&apos;</code>.</p
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1028">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1032">source</a></span></span>
     </span>
   </h3>
 
@@ -4489,7 +4486,7 @@ number is unknown it&apos;s represented as <code>&apos;????????&apos;</code>.</p
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1018">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1022">source</a></span></span>
     </span>
   </h3>
 
@@ -4533,7 +4530,7 @@ number is unknown it&apos;s represented as <code>&apos;????????&apos;</code>.</p
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1075">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1079">source</a></span></span>
     </span>
   </h3>
 
@@ -4578,7 +4575,7 @@ updates to the official releases.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1087">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1091">source</a></span></span>
     </span>
   </h3>
 
@@ -4635,7 +4632,7 @@ applied.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1061">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1065">source</a></span></span>
     </span>
   </h3>
 
@@ -4692,7 +4689,7 @@ validation is applied.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1049">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1053">source</a></span></span>
     </span>
   </h3>
 
@@ -4736,7 +4733,7 @@ validation is applied.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1134">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1138">source</a></span></span>
     </span>
   </h3>
 
@@ -4784,7 +4781,7 @@ release number is unknown it&apos;s represented as <code>&apos;.??&apos;</code>.
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1149">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1153">source</a></span></span>
     </span>
   </h3>
 
@@ -4833,7 +4830,7 @@ the release number is unknown it&apos;s replaced with two.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1176">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1180">source</a></span></span>
     </span>
   </h3>
 
@@ -4890,7 +4887,7 @@ information.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1253">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1257">source</a></span></span>
     </span>
   </h3>
 
@@ -4965,7 +4962,7 @@ the passed value is not a Moodle version object, <code>NaN</code> will be return
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1241">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1245">source</a></span></span>
     </span>
   </h3>
 
@@ -5038,7 +5035,7 @@ version.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1296">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1300">source</a></span></span>
     </span>
   </h3>
 
@@ -5114,7 +5111,7 @@ then <code>undefined</code> is returned.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1320">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1324">source</a></span></span>
     </span>
   </h3>
 
@@ -5170,7 +5167,7 @@ then <code>undefined</code> is returned.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1330">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1334">source</a></span></span>
     </span>
   </h3>
 
@@ -5227,7 +5224,7 @@ branch. If the branch is not defined or unknown, <code>undefined</code> is retur
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1310">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1314">source</a></span></span>
     </span>
   </h3>
 
@@ -5287,7 +5284,7 @@ type is not defined, <code>undefined</code> is returned.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1281">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1285">source</a></span></span>
     </span>
   </h3>
 
@@ -5363,7 +5360,7 @@ then <code>undefined</code> is returned.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1266">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1270">source</a></span></span>
     </span>
   </h3>
 
@@ -5439,7 +5436,7 @@ is undefined in both versions, <code>undefined</code> is returned.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1218">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1222">source</a></span></span>
     </span>
   </h3>
 
@@ -5508,7 +5505,7 @@ is undefined in both versions, <code>undefined</code> is returned.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1194">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/MoodleVersion.js.html#lineNumber1198">source</a></span></span>
     </span>
   </h3>
 
