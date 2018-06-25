@@ -1194,6 +1194,24 @@ QUnit.module('Getters & Setters', function(){
         mv.buildNumber = undefined;
         a.ok(is.undefined(mv.buildNumber), '.buildNumber can be set to undefined');
     });
+    
+    QUnit.only('.version', function(a){
+        a.expect(6);
+        
+        // make sure an empty object renders correctly
+        a.strictEqual((new MoodleVersion()).version, '??.??.??', 'empty object rendered correctly');
+        
+        // make sure an official version with release number renders correctly
+        a.strictEqual(MoodleVersion.fromObject({ branch: '3.3', releaseNumber: 6, releaseType: 'official' }).version, '3.3.6', 'official release with non-zero release number rendered correctly');
+        
+        // make sure zero relesae numbers are omitted
+        a.strictEqual(MoodleVersion.fromObject({ branch: '3.5', releaseNumber: 0, releaseType: 'official' }).version, '3.5', 'official release with release number 0 rendered correctly');
+        
+        // make sure siffixes are handled properly
+        a.strictEqual(MoodleVersion.fromObject({ branch: '3.3', releaseNumber: 0, releaseType: 'development' }).version, '3.3dev', 'dev release rendered correctly');
+        a.strictEqual(MoodleVersion.fromObject({ branch: '3.3', releaseNumber: 0, releaseType: 'weekly' }).version, '3.3+', 'weekly release with release number 0 rendered correctly');
+        a.strictEqual(MoodleVersion.fromObject({ branch: '3.3', releaseNumber: 1, releaseType: 'weekly' }).version, '3.3.1+', 'weekly release with non-zero release number rendered correctly');
+    });
 });
 
 QUnit.module('Object Utility Functions', function(){

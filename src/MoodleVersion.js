@@ -186,6 +186,19 @@ for(const bnum of LTS_BNUMS){
 }
 
 /**
+ * Convert a value to a string for use in string representations of the
+ * version. `undefined` is returned as `'??'` and all other values are
+ * converted to a string with JavaScript's `String()` function.
+ *
+ * @param {*} val
+ * @return {string}
+ * @private
+*/
+function TO_STR(val){
+    return is.undefined(val) ? '??' : String(val);
+}
+
+/**
  * A class for parsing and representing
  * [version information](https://docs.moodle.org/35/en/Moodle_version) for the
  * [Moodle VLE](http://moodle.org/).
@@ -658,7 +671,6 @@ module.exports = class MoodleVersion {
         return /(\d{8})(\d{2})(?:[.](\d{2}))?/i;
     }
     
-    // TO DO - TEST
     /**
      * Build a version object from a version string. The vesion string can be
      * in one of the following formats:
@@ -1090,6 +1102,23 @@ module.exports = class MoodleVersion {
     }
     
     /**
+     * The short human-friendly form of the version number.
+     *
+     * In keeping with how Moodle presents version strings, release numbers of
+     * zero are omitted. If the release type is unknown no suffix is appended.
+     * If the branch is unknown it is represented as `'??.??'`, and if the
+     * release number is unknown it's represented as `'.??'`.
+     *
+     * @type {VersionString}
+     */
+    get version(){
+        let ans = is.undefined(this.branch) ? '??.??' : this.branch;
+        if(this.releaseNumber !== 0) ans += `.${TO_STR(this.releaseNumber)}`;
+        if(is.string(this.releaseSuffix)) ans += this.releaseSuffix;
+        return ans;
+    }
+    
+    /**
      * Create a new Moodle version object representing the same version
      * information.
      *
@@ -1114,11 +1143,9 @@ module.exports = class MoodleVersion {
      * @return {string}
      */
     toString(){
-        const stringify = (s)=>{ return is.undefined(s) ? '??' : String(s); };
-        
-        let ans = `${is.undefined(this.branch) ? '??.??' : this.branch }.${stringify(this.releaseNumber)}`;
+        let ans = `${is.undefined(this.branch) ? '??.??' : this.branch }.${TO_STR(this.releaseNumber)}`;
         if(is.string(this.releaseSuffix)) ans += this.releaseSuffix;
-        ans += ` (type: ${stringify(this.releaseType)}, branching date: ${stringify(this.branchingDateNumber)} & build: ${stringify(this.buildNumber)})`;
+        ans += ` (type: ${TO_STR(this.releaseType)}, branching date: ${TO_STR(this.branchingDateNumber)} & build: ${TO_STR(this.buildNumber)})`;
         return ans;
     }
     
