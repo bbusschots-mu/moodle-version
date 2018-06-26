@@ -1285,7 +1285,7 @@ module.exports = class MoodleVersion {
     lessThan(mv){
         const cmp = MoodleVersion.compare(this, mv);
         if(is.nan(cmp)) return undefined;
-        return cmp === 1 ? true : false;
+        return cmp === -1 ? true : false;
     }
     
     /**
@@ -1300,7 +1300,7 @@ module.exports = class MoodleVersion {
     greaterThan(mv){
         const cmp = MoodleVersion.compare(this, mv);
         if(is.nan(cmp)) return undefined;
-        return cmp === -1 ? true : false;
+        return cmp === 1 ? true : false;
     }
     
     /**

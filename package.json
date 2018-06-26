@@ -2,12 +2,15 @@
   "name": "@maynoothuniversity/moodle-version",
   "version": "0.1.1",
   "description": "A parser for Moodle version strings",
-  "main": "src/lib.js",
+  "main": "src/MoodleVersion.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "./node_modules/.bin/urequire config ./urequire.json",
     "docs": "./node_modules/.bin/esdoc -c ./esdoc.json",
     "docs-dev": "./node_modules/.bin/esdoc -c ./esdoc-dev.json",
-    "test": "./node_modules/.bin/qunit -c MoodleVersion:./src/MoodleVersion.js -d is:./node_modules/is_js _:./node_modules/lodash -t ./test/tests.js"
+    "test": "./node_modules/.bin/qunit -c MoodleVersion:./src/MoodleVersion.js -d is:./node_modules/is_js _:./node_modules/lodash util:./node_modules/@maynoothuniversity/mu-qunit-util -t ./test/tests.js"
   },
   "repository": {
     "type": "git",
@@ -23,15 +26,11 @@
   },
   "homepage": "https://github.com/bbusschots-mu/moodle-version#readme",
   "dependencies": {
-    "esdoc-external-nodejs-plugin": "^1.0.0",
-    "esdoc-member-plugin": "^1.0.0",
-    "esdoc-node-plugin": "^0.2.1",
-    "esdoc-plugin-external-links": "0.0.1",
-    "esdoc-var-plugin": "^0.1.0",
     "is_js": "^0.9.0",
     "urequire": "^0.7.0-beta.33"
   },
   "devDependencies": {
+    "@maynoothuniversity/mu-qunit-util": "^1.1.0",
     "esdoc": "^1.1.0",
     "esdoc-node": "^1.0.3",
     "esdoc-standard-plugin": "^1.0.0",
