@@ -50,6 +50,11 @@ console.log(mv1.lessThan(mv2)); // false
 console.log(mv1.greaterThan(mv2)); // true
 ```
 
+## API Documentation
+
+Full API documentation is available at
+[bbusschots-mu.github.io/moodle-version](https://bbusschots-mu.github.io/moodle-version/).
+
 ## NodeJS
 
 Install the package:
@@ -82,5 +87,5 @@ The following example uses CDNs for both this class and it's requirements:
 <script src="https://cdnjs.cloudflare.com/ajax/libs/is_js/0.9.0/is.min.js"></script>
 
 <!-- Load MoodleVersion from the RawGit CDN -->
-TO DO
+<script src="https://cdn.rawgit.com/bbusschots-mu/moodle-version/b424372a/build/MoodleVersion.js"></script>
 ```

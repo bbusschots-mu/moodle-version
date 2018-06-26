@@ -1,8 +1,8 @@
 window.esdocSearchIndex = [
   [
-    "@maynoothuniversity/moodle-version/src/moodleversion.js~moodleversion",
+    "@maynoothuniversity/moodle-version~moodleversion",
     "class/src/MoodleVersion.js~MoodleVersion.html",
-    "<span>MoodleVersion</span> <span class=\"search-result-import-path\">@maynoothuniversity/moodle-version/src/MoodleVersion.js</span>",
+    "<span>MoodleVersion</span> <span class=\"search-result-import-path\">@maynoothuniversity/moodle-version</span>",
     "class"
   ],
   [

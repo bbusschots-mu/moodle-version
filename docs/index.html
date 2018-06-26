@@ -44,8 +44,71 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="moodle-version">moodle-version</h1><p>A JavaScript class for parsing Moodle version number strings.</p>
-</div>
+<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="-maynoothuniversity-moodle-version">@maynoothuniversity/moodle-version</h1><p>A JavaScript class for parsing Moodle version numbers and release strings.</p>
+<p>Moodle version identifiers are a lot more complex than those for other software
+packages. You&apos;ll find three different representations of the version information
+in common use:</p>
+<ol>
+<li><em>Version Strings</em> &#x2014; you&apos;ll see these short numbers on the offical Moodle
+download page. They consist of a branch string (e.g. <code>3.5</code>), an optional
+release number, e.g. <code>.1</code>, and an optional suffix (<code>dev</code> for developer
+releases and <code>+</code> for weekly releases). So, version <code>3.3.6+</code> is a weekly
+update to the sixth official release of Moodle 3.3.</li>
+<li><em>Release Strings</em> - you&apos;ll see these long version strings in the Moodle
+admin area. They consist of the version string with the build number
+appended to the end, e.g. <code>Moodle 3.5+ (Build: 20180614)</code>.</li>
+<li><em>Version Numbers</em> - under the hood Moodle represents versions as the date
+the version was branched in source control in reverse order followed by the
+release number. So, under the hood <code>Moodle 3.5+ (Build: 20180614)</code> is
+represented as version <code>2018051700</code>.</li>
+</ol>
+<p>This JavaScript class is here to help!</p>
+<pre><code><code class="source-code prettyprint">// create a Moodle Version object from a release string
+const mv1 = new MoodleVersion(&apos;Moodle 3.5+ (Build: 20180614)&apos;);
+
+// output the version in any format
+console.log(mv1.version); // 3.5+
+console.log(mv1.versionNumber); // 2018051700
+console.log(mv1.release); // 3.5+ (Build: 20180614)
+
+// interrogate the version
+console.log(mv1.branch); // 3.5
+console.log(mv1.branchNumber); // 35
+console.log(mv1.branchingDate); // 2018-05-17T00:00:00.000Z
+console.log(mv1.branchingDateNumber); // 20180517
+console.log(mv1.releaseNumber); // 0
+console.log(mv1.releaseType); // weekly
+console.log(mv1.releaseSuffix); // +
+console.log(mv1.buildNumber); // 20180614
+console.log(mv1.isStable()); // true
+console.log(mv1.isLTS()); // true
+
+// compare versions
+const mv2 = new MoodleVersion(&apos;3.5dev&apos;);
+console.log(mv1.equals(mv2)); // false
+console.log(mv1.sameBranch(mv2)); // true
+console.log(mv1.lessThan(mv2)); // false
+console.log(mv1.greaterThan(mv2)); // true</code>
+</code></pre><h2 id="api-documentation">API Documentation</h2><p>Full API documentation is available at
+<a href="https://bbusschots-mu.github.io/moodle-version/">bbusschots-mu.github.io/moodle-version</a>.</p>
+<h2 id="nodejs">NodeJS</h2><p>Install the package:</p>
+<pre><code><code class="source-code prettyprint">npm install --save @maynoothuniversity/moodle-version</code>
+</code></pre><p>Import the module:</p>
+<pre><code><code class="source-code prettyprint">const MoodleVersion = require(&apos;@maynoothuniversity/moodle-version&apos;);</code>
+</code></pre><h2 id="in-browser">In Browser</h2><p>The original source package is written for use in Node, and cannot be directly
+used in a web browser, however, an automatically generated browser-ready version
+can be found in <code>build/MoodleVersion.js</code>. You can download this file, or,
+access it via any of the many CDNs that publish content form GitHub.</p>
+<p>To use this class in a web page you&apos;ll also need to import the
+<a href="http://is.js.org/">is.js</a> libray. Again, you can download this library, or,
+access it via a CDN.</p>
+<p>The following example uses CDNs for both this class and it&apos;s requirements:</p>
+<pre><code><code class="source-code prettyprint">&lt;!-- Load is.js from the CloudFlare CDN --&gt;
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/is_js/0.9.0/is.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- Load MoodleVersion from the RawGit CDN --&gt;
+&lt;script src=&quot;https://cdn.rawgit.com/bbusschots-mu/moodle-version/b424372a/build/MoodleVersion.js&quot;&gt;&lt;/script&gt;</code>
+</code></pre></div>
 </div>
 
 <footer class="footer">
