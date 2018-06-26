@@ -87,5 +87,5 @@ The following example uses CDNs for both this class and it's requirements:
 <script src="https://cdnjs.cloudflare.com/ajax/libs/is_js/0.9.0/is.min.js"></script>
 
 <!-- Load MoodleVersion from the RawGit CDN -->
-<script src="https://cdn.rawgit.com/bbusschots-mu/moodle-version/b424372a/build/MoodleVersion.js"></script>
+<script src="https://cdn.rawgit.com/bbusschots-mu/moodle-version/v0.1.1/build/MoodleVersion.js"></script>
 ```
