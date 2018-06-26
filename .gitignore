@@ -62,8 +62,6 @@ typings/
 
 *.komodoproject
 
-build/
-
 temp*.*
 
 docs-dev/
