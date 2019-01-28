@@ -1,8 +1,8 @@
 window.esdocSearchIndex = [
   [
-    "@maynoothuniversity/moodle-version~moodleversion",
-    "class/src/MoodleVersion.js~MoodleVersion.html",
-    "<span>MoodleVersion</span> <span class=\"search-result-import-path\">@maynoothuniversity/moodle-version</span>",
+    "@maynoothuniversity/moodle-version/src/index.js~moodleversion",
+    "class/src/index.js~MoodleVersion.html",
+    "<span>MoodleVersion</span> <span class=\"search-result-import-path\">@maynoothuniversity/moodle-version/src/index.js</span>",
     "class"
   ],
   [
@@ -288,417 +288,417 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
-    "src/moodleversion.js",
-    "file/src/MoodleVersion.js.html",
-    "src/MoodleVersion.js",
+    "src/index.js",
+    "file/src/index.js.html",
+    "src/index.js",
     "file"
   ],
   [
-    "src/moodleversion.js~branchnumber",
+    "src/index.js~branchnumber",
     "typedef/index.html#static-typedef-BranchNumber",
-    "src/MoodleVersion.js~BranchNumber",
+    "src/index.js~BranchNumber",
     "typedef"
   ],
   [
-    "src/moodleversion.js~branchstring",
+    "src/index.js~branchstring",
     "typedef/index.html#static-typedef-BranchString",
-    "src/MoodleVersion.js~BranchString",
+    "src/index.js~BranchString",
     "typedef"
   ],
   [
-    "src/moodleversion.js~buildnumber",
+    "src/index.js~buildnumber",
     "typedef/index.html#static-typedef-BuildNumber",
-    "src/MoodleVersion.js~BuildNumber",
+    "src/index.js~BuildNumber",
     "typedef"
   ],
   [
-    "src/moodleversion.js~datenumber",
+    "src/index.js~datenumber",
     "typedef/index.html#static-typedef-DateNumber",
-    "src/MoodleVersion.js~DateNumber",
+    "src/index.js~DateNumber",
     "typedef"
   ],
   [
-    "src/moodleversion.js~moodleversion#branch",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-branch",
-    "src/MoodleVersion.js~MoodleVersion#branch",
+    "src/index.js~moodleversion#branch",
+    "class/src/index.js~MoodleVersion.html#instance-get-branch",
+    "src/index.js~MoodleVersion#branch",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#branch",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-branch",
-    "src/MoodleVersion.js~MoodleVersion#branch",
+    "src/index.js~moodleversion#branch",
+    "class/src/index.js~MoodleVersion.html#instance-set-branch",
+    "src/index.js~MoodleVersion#branch",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#branchnumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-branchNumber",
-    "src/MoodleVersion.js~MoodleVersion#branchNumber",
+    "src/index.js~moodleversion#branchnumber",
+    "class/src/index.js~MoodleVersion.html#instance-get-branchNumber",
+    "src/index.js~MoodleVersion#branchNumber",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#branchnumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-branchNumber",
-    "src/MoodleVersion.js~MoodleVersion#branchNumber",
+    "src/index.js~moodleversion#branchnumber",
+    "class/src/index.js~MoodleVersion.html#instance-set-branchNumber",
+    "src/index.js~MoodleVersion#branchNumber",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#branchenumbersbybranchingdatenumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-brancheNumbersByBranchingDateNumber",
-    "src/MoodleVersion.js~MoodleVersion#brancheNumbersByBranchingDateNumber",
+    "src/index.js~moodleversion#branchenumbersbybranchingdatenumber",
+    "class/src/index.js~MoodleVersion.html#instance-get-brancheNumbersByBranchingDateNumber",
+    "src/index.js~MoodleVersion#brancheNumbersByBranchingDateNumber",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#branchesbybranchingdatenumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-branchesByBranchingDateNumber",
-    "src/MoodleVersion.js~MoodleVersion#branchesByBranchingDateNumber",
+    "src/index.js~moodleversion#branchesbybranchingdatenumber",
+    "class/src/index.js~MoodleVersion.html#instance-get-branchesByBranchingDateNumber",
+    "src/index.js~MoodleVersion#branchesByBranchingDateNumber",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#branchingdate",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-branchingDate",
-    "src/MoodleVersion.js~MoodleVersion#branchingDate",
+    "src/index.js~moodleversion#branchingdate",
+    "class/src/index.js~MoodleVersion.html#instance-get-branchingDate",
+    "src/index.js~MoodleVersion#branchingDate",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#branchingdate",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-branchingDate",
-    "src/MoodleVersion.js~MoodleVersion#branchingDate",
+    "src/index.js~moodleversion#branchingdate",
+    "class/src/index.js~MoodleVersion.html#instance-set-branchingDate",
+    "src/index.js~MoodleVersion#branchingDate",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#branchingdatenumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-branchingDateNumber",
-    "src/MoodleVersion.js~MoodleVersion#branchingDateNumber",
+    "src/index.js~moodleversion#branchingdatenumber",
+    "class/src/index.js~MoodleVersion.html#instance-get-branchingDateNumber",
+    "src/index.js~MoodleVersion#branchingDateNumber",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#branchingdatenumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-branchingDateNumber",
-    "src/MoodleVersion.js~MoodleVersion#branchingDateNumber",
+    "src/index.js~moodleversion#branchingdatenumber",
+    "class/src/index.js~MoodleVersion.html#instance-set-branchingDateNumber",
+    "src/index.js~MoodleVersion#branchingDateNumber",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#branchingdatenumbersbybranch",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-branchingDateNumbersByBranch",
-    "src/MoodleVersion.js~MoodleVersion#branchingDateNumbersByBranch",
+    "src/index.js~moodleversion#branchingdatenumbersbybranch",
+    "class/src/index.js~MoodleVersion.html#instance-get-branchingDateNumbersByBranch",
+    "src/index.js~MoodleVersion#branchingDateNumbersByBranch",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#branchingdatenumbersbybranchnumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-branchingDateNumbersByBranchNumber",
-    "src/MoodleVersion.js~MoodleVersion#branchingDateNumbersByBranchNumber",
+    "src/index.js~moodleversion#branchingdatenumbersbybranchnumber",
+    "class/src/index.js~MoodleVersion.html#instance-get-branchingDateNumbersByBranchNumber",
+    "src/index.js~MoodleVersion#branchingDateNumbersByBranchNumber",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#buildnumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-buildNumber",
-    "src/MoodleVersion.js~MoodleVersion#buildNumber",
+    "src/index.js~moodleversion#buildnumber",
+    "class/src/index.js~MoodleVersion.html#instance-set-buildNumber",
+    "src/index.js~MoodleVersion#buildNumber",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#buildnumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-buildNumber",
-    "src/MoodleVersion.js~MoodleVersion#buildNumber",
+    "src/index.js~moodleversion#buildnumber",
+    "class/src/index.js~MoodleVersion.html#instance-get-buildNumber",
+    "src/index.js~MoodleVersion#buildNumber",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#clone",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-method-clone",
-    "src/MoodleVersion.js~MoodleVersion#clone",
+    "src/index.js~moodleversion#clone",
+    "class/src/index.js~MoodleVersion.html#instance-method-clone",
+    "src/index.js~MoodleVersion#clone",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion#compareto",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-method-compareTo",
-    "src/MoodleVersion.js~MoodleVersion#compareTo",
+    "src/index.js~moodleversion#compareto",
+    "class/src/index.js~MoodleVersion.html#instance-method-compareTo",
+    "src/index.js~MoodleVersion#compareTo",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion#constructor",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-constructor-constructor",
-    "src/MoodleVersion.js~MoodleVersion#constructor",
+    "src/index.js~moodleversion#constructor",
+    "class/src/index.js~MoodleVersion.html#instance-constructor-constructor",
+    "src/index.js~MoodleVersion#constructor",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion#equals",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-method-equals",
-    "src/MoodleVersion.js~MoodleVersion#equals",
+    "src/index.js~moodleversion#equals",
+    "class/src/index.js~MoodleVersion.html#instance-method-equals",
+    "src/index.js~MoodleVersion#equals",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion#greaterthan",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-method-greaterThan",
-    "src/MoodleVersion.js~MoodleVersion#greaterThan",
+    "src/index.js~moodleversion#greaterthan",
+    "class/src/index.js~MoodleVersion.html#instance-method-greaterThan",
+    "src/index.js~MoodleVersion#greaterThan",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion#isknownbranch",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-method-isKnownBranch",
-    "src/MoodleVersion.js~MoodleVersion#isKnownBranch",
+    "src/index.js~moodleversion#isknownbranch",
+    "class/src/index.js~MoodleVersion.html#instance-method-isKnownBranch",
+    "src/index.js~MoodleVersion#isKnownBranch",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion#islts",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-method-isLTS",
-    "src/MoodleVersion.js~MoodleVersion#isLTS",
+    "src/index.js~moodleversion#islts",
+    "class/src/index.js~MoodleVersion.html#instance-method-isLTS",
+    "src/index.js~MoodleVersion#isLTS",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion#isstable",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-method-isStable",
-    "src/MoodleVersion.js~MoodleVersion#isStable",
+    "src/index.js~moodleversion#isstable",
+    "class/src/index.js~MoodleVersion.html#instance-method-isStable",
+    "src/index.js~MoodleVersion#isStable",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion#lessthan",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-method-lessThan",
-    "src/MoodleVersion.js~MoodleVersion#lessThan",
+    "src/index.js~moodleversion#lessthan",
+    "class/src/index.js~MoodleVersion.html#instance-method-lessThan",
+    "src/index.js~MoodleVersion#lessThan",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion#release",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-release",
-    "src/MoodleVersion.js~MoodleVersion#release",
+    "src/index.js~moodleversion#release",
+    "class/src/index.js~MoodleVersion.html#instance-get-release",
+    "src/index.js~MoodleVersion#release",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#releasenumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-releaseNumber",
-    "src/MoodleVersion.js~MoodleVersion#releaseNumber",
+    "src/index.js~moodleversion#releasenumber",
+    "class/src/index.js~MoodleVersion.html#instance-get-releaseNumber",
+    "src/index.js~MoodleVersion#releaseNumber",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#releasenumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-releaseNumber",
-    "src/MoodleVersion.js~MoodleVersion#releaseNumber",
+    "src/index.js~moodleversion#releasenumber",
+    "class/src/index.js~MoodleVersion.html#instance-set-releaseNumber",
+    "src/index.js~MoodleVersion#releaseNumber",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#releasesuffix",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-releaseSuffix",
-    "src/MoodleVersion.js~MoodleVersion#releaseSuffix",
+    "src/index.js~moodleversion#releasesuffix",
+    "class/src/index.js~MoodleVersion.html#instance-set-releaseSuffix",
+    "src/index.js~MoodleVersion#releaseSuffix",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#releasesuffix",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-releaseSuffix",
-    "src/MoodleVersion.js~MoodleVersion#releaseSuffix",
+    "src/index.js~moodleversion#releasesuffix",
+    "class/src/index.js~MoodleVersion.html#instance-get-releaseSuffix",
+    "src/index.js~MoodleVersion#releaseSuffix",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#releasetype",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-releaseType",
-    "src/MoodleVersion.js~MoodleVersion#releaseType",
+    "src/index.js~moodleversion#releasetype",
+    "class/src/index.js~MoodleVersion.html#instance-get-releaseType",
+    "src/index.js~MoodleVersion#releaseType",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#releasetype",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-set-releaseType",
-    "src/MoodleVersion.js~MoodleVersion#releaseType",
+    "src/index.js~moodleversion#releasetype",
+    "class/src/index.js~MoodleVersion.html#instance-set-releaseType",
+    "src/index.js~MoodleVersion#releaseType",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#samebranch",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-method-sameBranch",
-    "src/MoodleVersion.js~MoodleVersion#sameBranch",
+    "src/index.js~moodleversion#samebranch",
+    "class/src/index.js~MoodleVersion.html#instance-method-sameBranch",
+    "src/index.js~MoodleVersion#sameBranch",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion#toobject",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-method-toObject",
-    "src/MoodleVersion.js~MoodleVersion#toObject",
+    "src/index.js~moodleversion#toobject",
+    "class/src/index.js~MoodleVersion.html#instance-method-toObject",
+    "src/index.js~MoodleVersion#toObject",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion#tostring",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-method-toString",
-    "src/MoodleVersion.js~MoodleVersion#toString",
+    "src/index.js~moodleversion#tostring",
+    "class/src/index.js~MoodleVersion.html#instance-method-toString",
+    "src/index.js~MoodleVersion#toString",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion#version",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-version",
-    "src/MoodleVersion.js~MoodleVersion#version",
+    "src/index.js~moodleversion#version",
+    "class/src/index.js~MoodleVersion.html#instance-get-version",
+    "src/index.js~MoodleVersion#version",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion#versionnumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#instance-get-versionNumber",
-    "src/MoodleVersion.js~MoodleVersion#versionNumber",
+    "src/index.js~moodleversion#versionnumber",
+    "class/src/index.js~MoodleVersion.html#instance-get-versionNumber",
+    "src/index.js~MoodleVersion#versionNumber",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion.branchfrombranchnumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-branchFromBranchNumber",
-    "src/MoodleVersion.js~MoodleVersion.branchFromBranchNumber",
+    "src/index.js~moodleversion.branchfrombranchnumber",
+    "class/src/index.js~MoodleVersion.html#static-method-branchFromBranchNumber",
+    "src/index.js~MoodleVersion.branchFromBranchNumber",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.branchfrombranchingdatenumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-branchFromBranchingDateNumber",
-    "src/MoodleVersion.js~MoodleVersion.branchFromBranchingDateNumber",
+    "src/index.js~moodleversion.branchfrombranchingdatenumber",
+    "class/src/index.js~MoodleVersion.html#static-method-branchFromBranchingDateNumber",
+    "src/index.js~MoodleVersion.branchFromBranchingDateNumber",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.branchnumberfrombranch",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-branchNumberFromBranch",
-    "src/MoodleVersion.js~MoodleVersion.branchNumberFromBranch",
+    "src/index.js~moodleversion.branchnumberfrombranch",
+    "class/src/index.js~MoodleVersion.html#static-method-branchNumberFromBranch",
+    "src/index.js~MoodleVersion.branchNumberFromBranch",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.branchnumberfrombranchingdatenumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-branchNumberFromBranchingDateNumber",
-    "src/MoodleVersion.js~MoodleVersion.branchNumberFromBranchingDateNumber",
+    "src/index.js~moodleversion.branchnumberfrombranchingdatenumber",
+    "class/src/index.js~MoodleVersion.html#static-method-branchNumberFromBranchingDateNumber",
+    "src/index.js~MoodleVersion.branchNumberFromBranchingDateNumber",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.branchingdatenumberfrombranch",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-branchingDateNumberFromBranch",
-    "src/MoodleVersion.js~MoodleVersion.branchingDateNumberFromBranch",
+    "src/index.js~moodleversion.branchingdatenumberfrombranch",
+    "class/src/index.js~MoodleVersion.html#static-method-branchingDateNumberFromBranch",
+    "src/index.js~MoodleVersion.branchingDateNumberFromBranch",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.branchingdatenumberfrombranchnumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-branchingDateNumberFromBranchNumber",
-    "src/MoodleVersion.js~MoodleVersion.branchingDateNumberFromBranchNumber",
+    "src/index.js~moodleversion.branchingdatenumberfrombranchnumber",
+    "class/src/index.js~MoodleVersion.html#static-method-branchingDateNumberFromBranchNumber",
+    "src/index.js~MoodleVersion.branchingDateNumberFromBranchNumber",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.compare",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-compare",
-    "src/MoodleVersion.js~MoodleVersion.compare",
+    "src/index.js~moodleversion.compare",
+    "class/src/index.js~MoodleVersion.html#static-method-compare",
+    "src/index.js~MoodleVersion.compare",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.datefromdatenumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-dateFromDateNumber",
-    "src/MoodleVersion.js~MoodleVersion.dateFromDateNumber",
+    "src/index.js~moodleversion.datefromdatenumber",
+    "class/src/index.js~MoodleVersion.html#static-method-dateFromDateNumber",
+    "src/index.js~MoodleVersion.dateFromDateNumber",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.datenumberfromdate",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-dateNumberFromDate",
-    "src/MoodleVersion.js~MoodleVersion.dateNumberFromDate",
+    "src/index.js~moodleversion.datenumberfromdate",
+    "class/src/index.js~MoodleVersion.html#static-method-dateNumberFromDate",
+    "src/index.js~MoodleVersion.dateNumberFromDate",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.fromobject",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-fromObject",
-    "src/MoodleVersion.js~MoodleVersion.fromObject",
+    "src/index.js~moodleversion.fromobject",
+    "class/src/index.js~MoodleVersion.html#static-method-fromObject",
+    "src/index.js~MoodleVersion.fromObject",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.fromstring",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-fromString",
-    "src/MoodleVersion.js~MoodleVersion.fromString",
+    "src/index.js~moodleversion.fromstring",
+    "class/src/index.js~MoodleVersion.html#static-method-fromString",
+    "src/index.js~MoodleVersion.fromString",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.isbranch",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-isBranch",
-    "src/MoodleVersion.js~MoodleVersion.isBranch",
+    "src/index.js~moodleversion.isbranch",
+    "class/src/index.js~MoodleVersion.html#static-method-isBranch",
+    "src/index.js~MoodleVersion.isBranch",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.isbranchnumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-isBranchNumber",
-    "src/MoodleVersion.js~MoodleVersion.isBranchNumber",
+    "src/index.js~moodleversion.isbranchnumber",
+    "class/src/index.js~MoodleVersion.html#static-method-isBranchNumber",
+    "src/index.js~MoodleVersion.isBranchNumber",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.isdatenumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-isDateNumber",
-    "src/MoodleVersion.js~MoodleVersion.isDateNumber",
+    "src/index.js~moodleversion.isdatenumber",
+    "class/src/index.js~MoodleVersion.html#static-method-isDateNumber",
+    "src/index.js~MoodleVersion.isDateNumber",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.isreleasenumber",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-isReleaseNumber",
-    "src/MoodleVersion.js~MoodleVersion.isReleaseNumber",
+    "src/index.js~moodleversion.isreleasenumber",
+    "class/src/index.js~MoodleVersion.html#static-method-isReleaseNumber",
+    "src/index.js~MoodleVersion.isReleaseNumber",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.isreleasesuffix",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-isReleaseSuffix",
-    "src/MoodleVersion.js~MoodleVersion.isReleaseSuffix",
+    "src/index.js~moodleversion.isreleasesuffix",
+    "class/src/index.js~MoodleVersion.html#static-method-isReleaseSuffix",
+    "src/index.js~MoodleVersion.isReleaseSuffix",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.isreleasetype",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-isReleaseType",
-    "src/MoodleVersion.js~MoodleVersion.isReleaseType",
+    "src/index.js~moodleversion.isreleasetype",
+    "class/src/index.js~MoodleVersion.html#static-method-isReleaseType",
+    "src/index.js~MoodleVersion.isReleaseType",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.numberfromreleasetype",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-numberFromReleaseType",
-    "src/MoodleVersion.js~MoodleVersion.numberFromReleaseType",
+    "src/index.js~moodleversion.numberfromreleasetype",
+    "class/src/index.js~MoodleVersion.html#static-method-numberFromReleaseType",
+    "src/index.js~MoodleVersion.numberFromReleaseType",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.releasere",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-get-releaseRE",
-    "src/MoodleVersion.js~MoodleVersion.releaseRE",
+    "src/index.js~moodleversion.releasere",
+    "class/src/index.js~MoodleVersion.html#static-get-releaseRE",
+    "src/index.js~MoodleVersion.releaseRE",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion.releasesuffixfromreleasetype",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-releaseSuffixFromReleaseType",
-    "src/MoodleVersion.js~MoodleVersion.releaseSuffixFromReleaseType",
+    "src/index.js~moodleversion.releasesuffixfromreleasetype",
+    "class/src/index.js~MoodleVersion.html#static-method-releaseSuffixFromReleaseType",
+    "src/index.js~MoodleVersion.releaseSuffixFromReleaseType",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.releasetypefromreleasesuffix",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-method-releaseTypeFromReleaseSuffix",
-    "src/MoodleVersion.js~MoodleVersion.releaseTypeFromReleaseSuffix",
+    "src/index.js~moodleversion.releasetypefromreleasesuffix",
+    "class/src/index.js~MoodleVersion.html#static-method-releaseTypeFromReleaseSuffix",
+    "src/index.js~MoodleVersion.releaseTypeFromReleaseSuffix",
     "method"
   ],
   [
-    "src/moodleversion.js~moodleversion.versionnumberre",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-get-versionNumberRE",
-    "src/MoodleVersion.js~MoodleVersion.versionNumberRE",
+    "src/index.js~moodleversion.versionnumberre",
+    "class/src/index.js~MoodleVersion.html#static-get-versionNumberRE",
+    "src/index.js~MoodleVersion.versionNumberRE",
     "member"
   ],
   [
-    "src/moodleversion.js~moodleversion.versionre",
-    "class/src/MoodleVersion.js~MoodleVersion.html#static-get-versionRE",
-    "src/MoodleVersion.js~MoodleVersion.versionRE",
+    "src/index.js~moodleversion.versionre",
+    "class/src/index.js~MoodleVersion.html#static-get-versionRE",
+    "src/index.js~MoodleVersion.versionRE",
     "member"
   ],
   [
-    "src/moodleversion.js~releasenumber",
+    "src/index.js~releasenumber",
     "typedef/index.html#static-typedef-ReleaseNumber",
-    "src/MoodleVersion.js~ReleaseNumber",
+    "src/index.js~ReleaseNumber",
     "typedef"
   ],
   [
-    "src/moodleversion.js~releasestring",
+    "src/index.js~releasestring",
     "typedef/index.html#static-typedef-ReleaseString",
-    "src/MoodleVersion.js~ReleaseString",
+    "src/index.js~ReleaseString",
     "typedef"
   ],
   [
-    "src/moodleversion.js~releasesuffix",
+    "src/index.js~releasesuffix",
     "typedef/index.html#static-typedef-ReleaseSuffix",
-    "src/MoodleVersion.js~ReleaseSuffix",
+    "src/index.js~ReleaseSuffix",
     "typedef"
   ],
   [
-    "src/moodleversion.js~releasetype",
+    "src/index.js~releasetype",
     "typedef/index.html#static-typedef-ReleaseType",
-    "src/MoodleVersion.js~ReleaseType",
+    "src/index.js~ReleaseType",
     "typedef"
   ],
   [
-    "src/moodleversion.js~versionnumber",
+    "src/index.js~versionnumber",
     "typedef/index.html#static-typedef-VersionNumber",
-    "src/MoodleVersion.js~VersionNumber",
+    "src/index.js~VersionNumber",
     "typedef"
   ],
   [
-    "src/moodleversion.js~versionstring",
+    "src/index.js~versionstring",
     "typedef/index.html#static-typedef-VersionString",
-    "src/MoodleVersion.js~VersionString",
+    "src/index.js~VersionString",
     "typedef"
   ]
 ]

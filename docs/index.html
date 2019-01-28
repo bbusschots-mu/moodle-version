@@ -29,7 +29,7 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/MoodleVersion.js~MoodleVersion.html">MoodleVersion</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/index.js~MoodleVersion.html">MoodleVersion</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-BranchNumber">BranchNumber</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-BranchString">BranchString</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-BuildNumber">BuildNumber</a></span></span></li>
@@ -63,52 +63,52 @@ release number. So, under the hood <code>Moodle 3.5+ (Build: 20180614)</code> is
 represented as version <code>2018051700</code>.</li>
 </ol>
 <p>This JavaScript class is here to help!</p>
-<pre><code><code class="source-code prettyprint">// create a Moodle Version object from a release string
-const mv1 = new MoodleVersion(&apos;Moodle 3.5+ (Build: 20180614)&apos;);
+<h2 id="install--amp--import">Install &amp; Import</h2><h3 id="nodejs">NodeJS</h3><p>Install:</p>
+<pre><code><code class="source-code prettyprint">npm install --save @maynoothuniversity/moodle-version</code>
+</code></pre><p>Import:</p>
+<pre><code><code class="source-code prettyprint">const MoodleVersion = require(&apos;@maynoothuniversity/moodle-version&apos;);</code>
+</code></pre><h3 id="es6-module">ES6 Module</h3><pre><code><code class="source-code prettyprint">// import
+import * as MoodleVersion from &apos;./dist/index.es.js&apos;</code>
+</code></pre><h3 id="browser--from-cdn-">Browser (from CDN)</h3><pre><code><code class="source-code prettyprint">&lt;!-- Import module, always imported as MoodleVersion --&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;&quot;&gt;https://cdn.jsdelivr.net/npm/@maynoothuniversity/moodle-version/dist/index.js&lt;/script&gt;</code>
+</code></pre><h2 id="usage">Usage</h2><pre><code><code class="source-code prettyprint">const MoodleVersion = require(&apos;@maynoothuniversity/moodle-version&apos;);
+let mv1;
+
+// create a Moodle Version object from a version string
+mv1 = new MoodleVersion(&apos;3.5.4+&apos;);
+
+// create a Moodle Version object a version number (Moodle&apos;s internal represenation)
+mv1 = new MoodleVersion(&apos;2018051704.05&apos;);
+
+// create a Moodle Version object from a release string (as seen in admin GUI)
+mv1 = new MoodleVersion(&apos;Moodle 3.5.4+ (Build: 20190124)&apos;);
 
 // output the version in any format
-console.log(mv1.version); // 3.5+
-console.log(mv1.versionNumber); // 2018051700
-console.log(mv1.release); // 3.5+ (Build: 20180614)
+console.log(mv1.version); // 3.5.4+
+console.log(mv1.versionNumber); // 2018051704
+console.log(mv1.release); // 3.5.4+ (Build: 20190124)
 
 // interrogate the version
 console.log(mv1.branch); // 3.5
 console.log(mv1.branchNumber); // 35
 console.log(mv1.branchingDate); // 2018-05-17T00:00:00.000Z
 console.log(mv1.branchingDateNumber); // 20180517
-console.log(mv1.releaseNumber); // 0
+console.log(mv1.releaseNumber); // 4
 console.log(mv1.releaseType); // weekly
 console.log(mv1.releaseSuffix); // +
-console.log(mv1.buildNumber); // 20180614
+console.log(mv1.buildNumber); // 20190124
 console.log(mv1.isStable()); // true
 console.log(mv1.isLTS()); // true
 
 // compare versions
-const mv2 = new MoodleVersion(&apos;3.5dev&apos;);
+const mv2 = new MoodleVersion(&apos;3.5.4dev&apos;);
 console.log(mv1.equals(mv2)); // false
 console.log(mv1.sameBranch(mv2)); // true
 console.log(mv1.lessThan(mv2)); // false
 console.log(mv1.greaterThan(mv2)); // true</code>
 </code></pre><h2 id="api-documentation">API Documentation</h2><p>Full API documentation is available at
 <a href="https://bbusschots-mu.github.io/moodle-version/">bbusschots-mu.github.io/moodle-version</a>.</p>
-<h2 id="nodejs">NodeJS</h2><p>Install the package:</p>
-<pre><code><code class="source-code prettyprint">npm install --save @maynoothuniversity/moodle-version</code>
-</code></pre><p>Import the module:</p>
-<pre><code><code class="source-code prettyprint">const MoodleVersion = require(&apos;@maynoothuniversity/moodle-version&apos;);</code>
-</code></pre><h2 id="in-browser">In Browser</h2><p>The original source package is written for use in Node, and cannot be directly
-used in a web browser, however, an automatically generated browser-ready version
-can be found in <code>build/MoodleVersion.js</code>. You can download this file, or,
-access it via any of the many CDNs that publish content form GitHub.</p>
-<p>To use this class in a web page you&apos;ll also need to import the
-<a href="http://is.js.org/">is.js</a> libray. Again, you can download this library, or,
-access it via a CDN.</p>
-<p>The following example uses CDNs for both this class and it&apos;s requirements:</p>
-<pre><code><code class="source-code prettyprint">&lt;!-- Load is.js from the CloudFlare CDN --&gt;
-&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/is_js/0.9.0/is.min.js&quot;&gt;&lt;/script&gt;
-
-&lt;!-- Load MoodleVersion from the RawGit CDN --&gt;
-&lt;script src=&quot;https://cdn.rawgit.com/bbusschots-mu/moodle-version/v0.1.1/build/MoodleVersion.js&quot;&gt;&lt;/script&gt;</code>
-</code></pre></div>
+</div>
 </div>
 
 <footer class="footer">
