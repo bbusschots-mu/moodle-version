@@ -18,74 +18,81 @@ in common use:
    the version was branched in source control in reverse order followed by the
    release number. So, under the hood `Moodle 3.5+ (Build: 20180614)` is
    represented as version `2018051700`.
-   
+
 This JavaScript class is here to help!
 
+## Install & Import
+
+### NodeJS
+
+Install:
+
 ```
-// create a Moodle Version object from a release string
-const mv1 = new MoodleVersion('Moodle 3.5+ (Build: 20180614)');
+npm install --save @maynoothuniversity/moodle-version
+```
+
+Import:
+
+```
+const MoodleVersion = require('@maynoothuniversity/moodle-version');
+```
+
+### ES6 Module
+
+```
+// import
+import * as MoodleVersion from './dist/index.es.js'
+```
+
+### Browser (from CDN)
+
+```
+<!-- Import module, always imported as MoodleVersion -->
+<script type="text/javascript" src="">https://cdn.jsdelivr.net/npm/@maynoothuniversity/moodle-version/dist/index.js</script>
+```
+
+## Usage
+
+```
+const MoodleVersion = require('@maynoothuniversity/moodle-version');
+let mv1;
+
+// create a Moodle Version object from a version string
+mv1 = new MoodleVersion('3.5.4+');
+
+// create a Moodle Version object a version number (Moodle's internal represenation)
+mv1 = new MoodleVersion('2018051704.05');
+
+// create a Moodle Version object from a release string (as seen in admin GUI)
+mv1 = new MoodleVersion('Moodle 3.5.4+ (Build: 20190124)');
 
 // output the version in any format
-console.log(mv1.version); // 3.5+
-console.log(mv1.versionNumber); // 2018051700
-console.log(mv1.release); // 3.5+ (Build: 20180614)
+console.log(mv1.version); // 3.5.4+
+console.log(mv1.versionNumber); // 2018051704
+console.log(mv1.release); // 3.5.4+ (Build: 20190124)
 
 // interrogate the version
 console.log(mv1.branch); // 3.5
 console.log(mv1.branchNumber); // 35
 console.log(mv1.branchingDate); // 2018-05-17T00:00:00.000Z
 console.log(mv1.branchingDateNumber); // 20180517
-console.log(mv1.releaseNumber); // 0
+console.log(mv1.releaseNumber); // 4
 console.log(mv1.releaseType); // weekly
 console.log(mv1.releaseSuffix); // +
-console.log(mv1.buildNumber); // 20180614
+console.log(mv1.buildNumber); // 20190124
 console.log(mv1.isStable()); // true
 console.log(mv1.isLTS()); // true
 
 // compare versions
-const mv2 = new MoodleVersion('3.5dev');
+const mv2 = new MoodleVersion('3.5.4dev');
 console.log(mv1.equals(mv2)); // false
 console.log(mv1.sameBranch(mv2)); // true
 console.log(mv1.lessThan(mv2)); // false
 console.log(mv1.greaterThan(mv2)); // true
 ```
 
+
 ## API Documentation
 
 Full API documentation is available at
 [bbusschots-mu.github.io/moodle-version](https://bbusschots-mu.github.io/moodle-version/).
-
-## NodeJS
-
-Install the package:
-
-```
-npm install --save @maynoothuniversity/moodle-version
-```
-
-Import the module:
-
-```
-const MoodleVersion = require('@maynoothuniversity/moodle-version');
-```
-
-## In Browser
-
-The original source package is written for use in Node, and cannot be directly
-used in a web browser, however, an automatically generated browser-ready version
-can be found in `build/MoodleVersion.js`. You can download this file, or,
-access it via any of the many CDNs that publish content form GitHub.
-
-To use this class in a web page you'll also need to import the
-[is.js](http://is.js.org/) libray. Again, you can download this library, or,
-access it via a CDN.
-
-The following example uses CDNs for both this class and it's requirements:
-
-```
-<!-- Load is.js from the CloudFlare CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/is_js/0.9.0/is.min.js"></script>
-
-<!-- Load MoodleVersion from the RawGit CDN -->
-<script src="https://cdn.rawgit.com/bbusschots-mu/moodle-version/v0.1.1/build/MoodleVersion.js"></script>
-```

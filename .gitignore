@@ -65,3 +65,5 @@ typings/
 temp*.*
 
 docs-dev/
+
+.DS_Store
