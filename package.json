@@ -33,7 +33,7 @@
     "is_js": "^0.9.0"
   },
   "devDependencies": {
-    "@maynoothuniversity/mu-qunit-util": "^1.1.0",
+    "@maynoothuniversity/mu-qunit-util": "^1.1.1",
     "esdoc": "^1.1.0",
     "esdoc-node": "^1.0.3",
     "esdoc-standard-plugin": "^1.0.0",
