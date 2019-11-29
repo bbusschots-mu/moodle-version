@@ -2,9 +2,9 @@
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
 	(global = global || self, global.MoodleVersion = factory());
-}(this, function () { 'use strict';
+}(this, (function () { 'use strict';
 
-	var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+	var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 	function createCommonjsModule(fn, module) {
 		return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -1052,7 +1052,10 @@
 	    '32': 20161205,
 	    '33': 20170515,
 	    '34': 20171113,
-	    '35': 20180517
+	    '35': 20180517,
+		'36': 20181203,
+		'37': 20190520,
+		'38': 20191118
 	};
 
 	/**
@@ -2242,4 +2245,4 @@
 
 	return MoodleVersion;
 
-}));
+})));

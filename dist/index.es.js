@@ -1,4 +1,4 @@
-var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -1046,7 +1046,10 @@ const BNUM_BDNUM_MAP = {
     '32': 20161205,
     '33': 20170515,
     '34': 20171113,
-    '35': 20180517
+    '35': 20180517,
+	'36': 20181203,
+	'37': 20190520,
+	'38': 20191118
 };
 
 /**

@@ -391,13 +391,13 @@ window.esdocSearchIndex = [
   ],
   [
     "src/index.js~moodleversion#buildnumber",
-    "class/src/index.js~MoodleVersion.html#instance-set-buildNumber",
+    "class/src/index.js~MoodleVersion.html#instance-get-buildNumber",
     "src/index.js~MoodleVersion#buildNumber",
     "member"
   ],
   [
     "src/index.js~moodleversion#buildnumber",
-    "class/src/index.js~MoodleVersion.html#instance-get-buildNumber",
+    "class/src/index.js~MoodleVersion.html#instance-set-buildNumber",
     "src/index.js~MoodleVersion#buildNumber",
     "member"
   ],
@@ -475,13 +475,13 @@ window.esdocSearchIndex = [
   ],
   [
     "src/index.js~moodleversion#releasesuffix",
-    "class/src/index.js~MoodleVersion.html#instance-set-releaseSuffix",
+    "class/src/index.js~MoodleVersion.html#instance-get-releaseSuffix",
     "src/index.js~MoodleVersion#releaseSuffix",
     "member"
   ],
   [
     "src/index.js~moodleversion#releasesuffix",
-    "class/src/index.js~MoodleVersion.html#instance-get-releaseSuffix",
+    "class/src/index.js~MoodleVersion.html#instance-set-releaseSuffix",
     "src/index.js~MoodleVersion#releaseSuffix",
     "member"
   ],
