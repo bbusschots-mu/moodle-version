@@ -944,7 +944,7 @@
 	/**
 	 * A Moodle branch string. These are the human-friendly major-version numbers
 	 * used throught the official Moodle documentation. They take the form of two
-	 * digits separated by a period, e.g. `3.5`.
+	 * sets of digits separated by a period, e.g. `3.5` or `3.10`.
 	 * 
 	 * @typedef {string} BranchString
 	 * @example '3.5'
@@ -952,9 +952,10 @@
 
 	/**
 	 * A Moodle branch number. These are used under-the-hood to represent Moodel
-	 * branches within the Moodle code. They take the form of a two-digit integer
-	 * number - the human-friendly branch without the period e.g. Moodle 3.5 has a
-	 * branch number of `35`.
+	 * branches within the Moodle code. They take the form of a (usuall) two-digit
+	 * integer number - the human-friendly branch without the period e.g. Moodle
+	 * 3.5 has a branch number of `35`. The exception being Moodle 3.10 which has a
+	 * branch number of 310.
 	 *
 	 * @typedef {number|string} BranchNumber
 	 * @see BranchString
@@ -1056,7 +1057,8 @@
 		'36': 20181203,
 		'37': 20190520,
 		'38': 20191118,
-		'39': 20200615
+	    '39': 20200615,
+	    '310': 20201109
 	};
 
 	/**
@@ -1194,17 +1196,18 @@
 	    }
 	    
 	    /**
-	     * Test if a given value is a branch string, e.g. `'3.5'`.
+	     * Test if a given value is a branch string, e.g. `'3.5'` or `'3.10'`.
 	     *
 	     * @param {*} val - the value to test.
 	     * @return {boolean}
 	     */
 	    static isBranch(val){
-	        return is.string(val) && val.match(/^[1-9][.]\d$/) ? true : false;
+	        return is.string(val) && val.match(/^[1-9][.]\d{1,2}$/) ? true : false;
 	    }
 	    
 	    /**
-	     * Test if a given value is a branch number, e.g. `35` or `'35'`.
+	     * Test if a given value is a branch number, e.g. `35`, `'35'`, `310` or
+	     * `'310'.
 	     *
 	     * @param {*} val - the value to test.
 	     * @param {boolean} [strictTypeCheck=false] - whether or not to enable
@@ -1217,7 +1220,7 @@
 	            if(strictTypeCheck) return false;
 	            if(is.not.string(val)) return false;
 	        }
-	        return String(val).match(/^[1-9]\d$/) ? true : false;
+	        return String(val).match(/^[1-9]\d{1,2}$/) ? true : false;
 	    }
 	    
 	    /**
@@ -1264,7 +1267,8 @@
 	    }
 	    
 	    /**
-	     * Convert a branch number into a branch string, i.e. `35` to `'3.5'`.
+	     * Convert a branch number into a branch string, i.e. `35` to `'3.5'` and
+	     * `310` to `'3.10'`.
 	     *
 	     * @param {BranchNumber} bn
 	     * @return {BranchString|undefined} If the passed value can't be converted
@@ -1273,7 +1277,9 @@
 	    static branchFromBranchNumber(bn){
 	        if(is.undefined(bn)) return undefined;
 	        if(!MoodleVersion.isBranchNumber(bn, false)) return undefined;
-	        return String(bn).split('').join('.');
+	        const bnMatch = String(bn).match(/^(\d)(\d+)$/);
+	        if(!bnMatch) return undefined;
+	        return `${bnMatch[1]}.${bnMatch[2]}`;
 	    }
 	    
 	    /**

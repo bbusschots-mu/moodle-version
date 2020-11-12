@@ -53,17 +53,17 @@ QUnit.module('Static Validation Functions', {}, function(){
         
         // make sure subtly incorrect values return false
         a.strictEqual(MoodleVersion.isBranch('0.1'), false, "'0.1' returns false");
-        a.strictEqual(MoodleVersion.isBranch('3.55'), false, "'3.55' returns false");
         
         // make sure valid values return true
         a.strictEqual(MoodleVersion.isBranch('3.5'), true, "'3.5' returns true");
+        a.strictEqual(MoodleVersion.isBranch('3.10'), true, "'3.10' returns true");
     });
     
     QUnit.test('isBranchNumber()', function(a){
         const mustAlwaysReturnFalse = [
-            ...util.dummyDataExcept([], ['2digit'])
+            ...util.dummyDataExcept([], ['2digit', '3digit'])
         ];
-        a.expect((mustAlwaysReturnFalse.length * 2) + 5);
+        a.expect((mustAlwaysReturnFalse.length * 2) + 9);
         
         // make sure the function actually exists
         a.ok(is.function(MoodleVersion.isBranchNumber), 'function exists');
@@ -77,10 +77,14 @@ QUnit.module('Static Validation Functions', {}, function(){
         // make sure values that are always correct return true in both modes
         a.strictEqual(MoodleVersion.isBranchNumber(35, false), true, '35 returns true without strict type checking');
         a.strictEqual(MoodleVersion.isBranchNumber(35, true), true, '35 returns true with strict type checking');
+        a.strictEqual(MoodleVersion.isBranchNumber(310, false), true, '310 returns true without strict type checking');
+        a.strictEqual(MoodleVersion.isBranchNumber(310, true), true, '310 returns true with strict type checking');
         
         // make sure valid strings are only accepted when strict mode is disabled
         a.strictEqual(MoodleVersion.isBranchNumber('35', false), true, "'35' returns true without strict type checking");
         a.strictEqual(MoodleVersion.isBranchNumber('35', true), false, "'35' returns false with strict type checking");
+        a.strictEqual(MoodleVersion.isBranchNumber('310', false), true, "'310' returns true without strict type checking");
+        a.strictEqual(MoodleVersion.isBranchNumber('310', true), false, "'310' returns false with strict type checking");
     });
     
     QUnit.test('isReleaseNumber()', function(a){
@@ -164,9 +168,9 @@ QUnit.module('Static Validation Functions', {}, function(){
 QUnit.module('Static Conversion Functions', {}, function(){    
     QUnit.test('branchFromBranchNumber()', function(a){
         const mustReturnUndefined = [
-            ...util.dummyDataExcept([], ['2digit'])
+            ...util.dummyDataExcept([], ['2digit', '3digit'])
         ];
-        a.expect(mustReturnUndefined.length + 3);
+        a.expect(mustReturnUndefined.length + 5);
         
         // make sure the function actually exists
         a.ok(is.function(MoodleVersion.branchFromBranchNumber), 'function exists');
@@ -179,7 +183,11 @@ QUnit.module('Static Conversion Functions', {}, function(){
         // make sure valid data returns as expected
         a.strictEqual(MoodleVersion.branchFromBranchNumber(35), '3.5', "35 converts to '3.5'");
         a.strictEqual(MoodleVersion.branchFromBranchNumber('35'), '3.5', "'35' converts to '3.5'");
+        a.strictEqual(MoodleVersion.branchFromBranchNumber(310), '3.10', "310 converts to '3.10'");
+        a.strictEqual(MoodleVersion.branchFromBranchNumber('310'), '3.10', "'310' converts to '3.10'");
     });
+
+    // LEFT OFF HERE!!!
     
     QUnit.test('branchFromBranchingDateNumber()', function(a){
         const mustReturnUndefined = [
@@ -440,7 +448,7 @@ QUnit.module('Getters & Setters', function(){
             ...util.dummyDataExcept([], ['integer'], ['other.undefined']),
             ...util.dummyDataWithAllTags('integer', 'negative'),
             ...util.dummyDataWithAnyTag('digit'),
-            ...util.dummyDataWithAnyTag('3digit')
+            ...util.dummyDataWithAnyTag('4digit')
         ];
         const mustThrowBranch = [
             ...util.dummyDataExcept([], ['float'], ['other.undefined']),
