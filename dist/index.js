@@ -1580,7 +1580,7 @@
 	     * @see {@link ReleaseString}
 	     */
 	    static get releaseRE(){
-	        return /(?:Moodle[ ]?)?(\d[.]\d)(?:[.](\d+))?(dev|[+])?[ ]?[(]Build[:][ ]?(\d{8})[)]/i;
+	        return /(?:Moodle[ ]?)?(\d[.]\d{1,2})(?:[.](\d+))?(dev|[+])?[ ]?[(]Build[:][ ]?(\d{8})[)]/i;
 	    }
 	    
 	    /**
@@ -1593,7 +1593,7 @@
 	     * @see {@link VersionString}
 	     */
 	    static get versionRE(){
-	        return /(?:Moodle[ ]?)?(\b\d[.]\d)(?:[.](\d+))?(dev|[+])?/i;
+	        return /(?:Moodle[ ]?)?(\b\d[.]\d{1,2})(?:[.](\d+))?(dev|[+])?/i;
 	    }
 	    
 	    /**
