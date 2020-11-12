@@ -89,7 +89,7 @@
 /**
  * A Moodle branch string. These are the human-friendly major-version numbers
  * used throught the official Moodle documentation. They take the form of two
- * digits separated by a period, e.g. `3.5`.
+ * sets of digits separated by a period, e.g. `3.5` or `3.10`.
  * 
  * @typedef {string} BranchString
  * @example &apos;3.5&apos;
@@ -97,9 +97,10 @@
 
 /**
  * A Moodle branch number. These are used under-the-hood to represent Moodel
- * branches within the Moodle code. They take the form of a two-digit integer
- * number - the human-friendly branch without the period e.g. Moodle 3.5 has a
- * branch number of `35`.
+ * branches within the Moodle code. They take the form of a (usuall) two-digit
+ * integer number - the human-friendly branch without the period e.g. Moodle
+ * 3.5 has a branch number of `35`. The exception being Moodle 3.10 which has a
+ * branch number of 310.
  *
  * @typedef {number|string} BranchNumber
  * @see BranchString
@@ -201,7 +202,8 @@ const BNUM_BDNUM_MAP = {
 	&apos;36&apos;: 20181203,
 	&apos;37&apos;: 20190520,
 	&apos;38&apos;: 20191118,
-	&apos;39&apos;: 20200615
+    &apos;39&apos;: 20200615,
+    &apos;310&apos;: 20201109
 };
 
 /**
@@ -339,17 +341,18 @@ class MoodleVersion {
     }
     
     /**
-     * Test if a given value is a branch string, e.g. `&apos;3.5&apos;`.
+     * Test if a given value is a branch string, e.g. `&apos;3.5&apos;` or `&apos;3.10&apos;`.
      *
      * @param {*} val - the value to test.
      * @return {boolean}
      */
     static isBranch(val){
-        return is.string(val) &amp;&amp; val.match(/^[1-9][.]\d$/) ? true : false;
+        return is.string(val) &amp;&amp; val.match(/^[1-9][.]\d{1,2}$/) ? true : false;
     }
     
     /**
-     * Test if a given value is a branch number, e.g. `35` or `&apos;35&apos;`.
+     * Test if a given value is a branch number, e.g. `35`, `&apos;35&apos;`, `310` or
+     * `&apos;310&apos;.
      *
      * @param {*} val - the value to test.
      * @param {boolean} [strictTypeCheck=false] - whether or not to enable
@@ -362,7 +365,7 @@ class MoodleVersion {
             if(strictTypeCheck) return false;
             if(is.not.string(val)) return false;
         }
-        return String(val).match(/^[1-9]\d$/) ? true : false;
+        return String(val).match(/^[1-9]\d{1,2}$/) ? true : false;
     }
     
     /**
@@ -409,7 +412,8 @@ class MoodleVersion {
     }
     
     /**
-     * Convert a branch number into a branch string, i.e. `35` to `&apos;3.5&apos;`.
+     * Convert a branch number into a branch string, i.e. `35` to `&apos;3.5&apos;` and
+     * `310` to `&apos;3.10&apos;`.
      *
      * @param {BranchNumber} bn
      * @return {BranchString|undefined} If the passed value can&apos;t be converted
@@ -418,7 +422,9 @@ class MoodleVersion {
     static branchFromBranchNumber(bn){
         if(is.undefined(bn)) return undefined;
         if(!MoodleVersion.isBranchNumber(bn, false)) return undefined;
-        return String(bn).split(&apos;&apos;).join(&apos;.&apos;);
+        const bnMatch = String(bn).match(/^(\d)(\d+)$/);
+        if(!bnMatch) return undefined;
+        return `${bnMatch[1]}.${bnMatch[2]}`;
     }
     
     /**
@@ -719,7 +725,7 @@ class MoodleVersion {
      * @see {@link ReleaseString}
      */
     static get releaseRE(){
-        return /(?:Moodle[ ]?)?(\d[.]\d)(?:[.](\d+))?(dev|[+])?[ ]?[(]Build[:][ ]?(\d{8})[)]/i;
+        return /(?:Moodle[ ]?)?(\d[.]\d{1,2})(?:[.](\d+))?(dev|[+])?[ ]?[(]Build[:][ ]?(\d{8})[)]/i;
     }
     
     /**
@@ -732,7 +738,7 @@ class MoodleVersion {
      * @see {@link VersionString}
      */
     static get versionRE(){
-        return /(?:Moodle[ ]?)?(\b\d[.]\d)(?:[.](\d+))?(dev|[+])?/i;
+        return /(?:Moodle[ ]?)?(\b\d[.]\d{1,2})(?:[.](\d+))?(dev|[+])?/i;
     }
     
     /**
