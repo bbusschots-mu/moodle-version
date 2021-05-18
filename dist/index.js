@@ -1,7 +1,7 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
-	(global = global || self, global.MoodleVersion = factory());
+	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.MoodleVersion = factory());
 }(this, (function () { 'use strict';
 
 	var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
@@ -1058,7 +1058,8 @@
 		'37': 20190520,
 		'38': 20191118,
 	    '39': 20200615,
-	    '310': 20201109
+	    '310': 20201109,
+	    '311': 20210517
 	};
 
 	/**

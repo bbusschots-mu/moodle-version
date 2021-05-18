@@ -1,6 +1,6 @@
 {
   "name": "@maynoothuniversity/moodle-version",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "A parser for Moodle version strings",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -39,7 +39,7 @@
     "esdoc-standard-plugin": "^1.0.0",
     "lodash": "^4.17.21",
     "node-qunit": "^2.0.0",
-    "rollup": "^2.47.0",
+    "rollup": "^2.48.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0"
   }
