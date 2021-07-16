@@ -1313,6 +1313,21 @@ class MoodleVersion {
         if(is.nan(cmp)) return undefined;
         return cmp === 1 ? true : false;
     }
+
+    /**
+     * Determine whether this version is greater than or equal to the given version.
+     *
+     * @param {MoodleVersion} mv
+     * @return {boolean|undefined} If the version is definitely greater or
+     * equal then `true` is returned, and if the version is definitely less
+     * than then `false` is returned. If the value is not a Moodle version
+     * object then `undefined` is returned.
+     */
+    atLeast(mv){
+       const cmp = MoodleVersion.compare(this, mv);
+       if(is.nan(cmp)) return undefined;
+       return cmp >= 0 ? true : false;
+    }
     
     /**
      * Is this a stable release? I.e. is the release type `official` or
