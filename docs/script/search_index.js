@@ -318,6 +318,12 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
+    "src/index.js~moodleversion#atleast",
+    "class/src/index.js~MoodleVersion.html#instance-method-atLeast",
+    "src/index.js~MoodleVersion#atLeast",
+    "method"
+  ],
+  [
     "src/index.js~moodleversion#branch",
     "class/src/index.js~MoodleVersion.html#instance-get-branch",
     "src/index.js~MoodleVersion#branch",
@@ -507,6 +513,18 @@ window.esdocSearchIndex = [
     "src/index.js~moodleversion#toobject",
     "class/src/index.js~MoodleVersion.html#instance-method-toObject",
     "src/index.js~MoodleVersion#toObject",
+    "method"
+  ],
+  [
+    "src/index.js~moodleversion#tosemverarray",
+    "class/src/index.js~MoodleVersion.html#instance-method-toSemVerArray",
+    "src/index.js~MoodleVersion#toSemVerArray",
+    "method"
+  ],
+  [
+    "src/index.js~moodleversion#tosemverobject",
+    "class/src/index.js~MoodleVersion.html#instance-method-toSemVerObject",
+    "src/index.js~MoodleVersion#toSemVerObject",
     "method"
   ],
   [

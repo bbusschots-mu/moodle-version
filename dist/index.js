@@ -2083,7 +2083,7 @@
 	    get release(){
 	        return `${this.version} (Build: ${is.undefined(this.buildNumber) ? '????????' : this.buildNumber})`;
 	    }
-	    
+
 	    /**
 	     * Create a new Moodle version object representing the same version
 	     * information.
@@ -2146,6 +2146,43 @@
 	            releaseSuffix: this.releaseSuffix,
 	            buildNumber: this.buildNumber
 	        };
+	    }
+
+	    /**
+	     * An object containing a SemVer
+	     * ([Semantic Versioning](https://semver.org)) representation of the
+	     * version information.
+	     * 
+	     * @return {{major: number, minor: number, patch: number}} 
+	     */
+	    toSemVerObject(){
+	        const ans = {
+	            major: 0,
+	            minor: 0,
+	            patch: 0
+	        };
+	        if(this.branch){
+	            const branchParts = this.branch.split('.');
+	            ans.major = parseInt(branchParts[0]);
+	            ans.minor = parseInt(branchParts[1]);
+	        }
+	        if(this.releaseNumber){
+	            ans.patch = this.releaseNumber;
+	        }
+	        return ans;
+	    }
+
+	    /**
+	     * An array containing a SemVer
+	     * ([Semantic Versioning](https://semver.org)) representation of the
+	     * version information. The first element will be the major version number,
+	     * the second the minor, and the third the patch.
+	     * 
+	     * @return {Array<number>} An array of three integers. 
+	     */
+	    toSemVerArray(){
+	        const semVer = this.toSemVerObject();
+	        return [semVer.major, semVer.minor, semVer.patch];
 	    }
 	    
 	    /**
@@ -2214,6 +2251,21 @@
 	        const cmp = MoodleVersion.compare(this, mv);
 	        if(is.nan(cmp)) return undefined;
 	        return cmp === 1 ? true : false;
+	    }
+
+	    /**
+	     * Determine whether this version is greater than or equal to the given version.
+	     *
+	     * @param {MoodleVersion} mv
+	     * @return {boolean|undefined} If the version is definitely greater or
+	     * equal then `true` is returned, and if the version is definitely less
+	     * than then `false` is returned. If the value is not a Moodle version
+	     * object then `undefined` is returned.
+	     */
+	    atLeast(mv){
+	       const cmp = MoodleVersion.compare(this, mv);
+	       if(is.nan(cmp)) return undefined;
+	       return cmp >= 0 ? true : false;
 	    }
 	    
 	    /**
