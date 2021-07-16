@@ -1153,6 +1153,43 @@ QUnit.module('comparison methods', function(){
         a.strictEqual(v.greaterThan(MoodleVersion.fromObject(_.assign({}, vObj, { releaseType: 'weekly'}))), false, 'official release not considered greater than weekly release');
         a.strictEqual(v.greaterThan(MoodleVersion.fromObject(_.assign({}, vObj, { buildNumber: 20180524}))), false, 'not considered greater than higher build number');
     });
+
+    QUnit.test('.atLeast()', function(a){
+        const mustReturnUndefined = [
+            ...util.dummyBasicData()
+        ];
+        a.expect(mustReturnUndefined.length + 10);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.prototype.atLeast), 'function exists');
+        
+        // make sure values other than version objects return undefined
+        const vObj = {
+            branch: '3.3',
+            releaseNumber: '6',
+            releaseType: 'official',
+            buildNumber: 20180517
+        };
+        const v = MoodleVersion.fromObject(vObj);
+        for(const dd of mustReturnUndefined){
+            a.ok(is.undefined(v.atLeast(dd.val)), `${dd.description} returns undefined`);
+        }
+        
+        // make sure an equal version returns true
+        a.strictEqual(v.atLeast(MoodleVersion.fromObject(vObj)), true, 'an equal version is considered at least');
+        
+        // make sure comparing to lesser versions returns true
+        a.strictEqual(v.atLeast(MoodleVersion.fromObject(_.assign({}, vObj, { branch: '3.2'}))), true, 'lower branch consiered at least');
+        a.strictEqual(v.atLeast(MoodleVersion.fromObject(_.assign({}, vObj, { releaseNumber: 5}))), true, 'lower release number considered at least');
+        a.strictEqual(v.atLeast(MoodleVersion.fromObject(_.assign({}, vObj, { releaseType: 'development'}))), true, 'official release considered greater than dev release');
+        a.strictEqual(v.atLeast(MoodleVersion.fromObject(_.assign({}, vObj, { buildNumber: 20180510}))), true, 'lower build number considered at least');
+        
+        // make sure greater versions return false
+        a.strictEqual(v.atLeast(MoodleVersion.fromObject(_.assign({}, vObj, { branch: '3.4'}))), false, 'not considered at least higher branch');
+        a.strictEqual(v.atLeast(MoodleVersion.fromObject(_.assign({}, vObj, { releaseNumber: 7}))), false, 'not considered at least higher release number');
+        a.strictEqual(v.atLeast(MoodleVersion.fromObject(_.assign({}, vObj, { releaseType: 'weekly'}))), false, 'official release not considered at least weekly release');
+        a.strictEqual(v.atLeast(MoodleVersion.fromObject(_.assign({}, vObj, { buildNumber: 20180524}))), false, 'not considered at least higher build number');
+    });
     
     QUnit.test('.sameBranch()', function(a){
         const mustReturnUndefined = [
