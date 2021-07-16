@@ -915,6 +915,54 @@ QUnit.module('Object Utility Functions', function(){
             'expected values returned'
         );
     });
+
+    QUnit.test('.toSemVerObject()', function(a){
+        a.expect(3);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.prototype.toSemVerObject), 'function exists');
+        
+        // make sure the function returns an object
+        let v = new MoodleVersion();
+        a.ok(is.object(v.toSemVerObject()), 'returns an object');
+        
+        // make sure the function returns the expected values
+        let mv = MoodleVersion.fromObject({
+            branch: '3.10',
+            releaseNumber: 11,
+        });
+        a.deepEqual(
+            mv.toSemVerObject(),
+            {
+                major: 3,
+                minor: 10,
+                patch: 11
+            },
+            'expected values returned'
+        );
+    });
+
+    QUnit.test('.toSemVerArray()', function(a){
+        a.expect(3);
+        
+        // make sure the function actually exists
+        a.ok(is.function(MoodleVersion.prototype.toSemVerArray), 'function exists');
+        
+        // make sure the function returns an object
+        let v = new MoodleVersion();
+        a.ok(is.object(v.toSemVerObject()), 'returns an object');
+        
+        // make sure the function returns the expected values
+        let mv = MoodleVersion.fromObject({
+            branch: '3.10',
+            releaseNumber: 11,
+        });
+        a.deepEqual(
+            mv.toSemVerArray(),
+            [3, 10, 11],
+            'expected values returned'
+        );
+    });
 });
 
 QUnit.module('comparison methods', function(){

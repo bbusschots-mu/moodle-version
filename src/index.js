@@ -1181,7 +1181,7 @@ class MoodleVersion {
     get release(){
         return `${this.version} (Build: ${is.undefined(this.buildNumber) ? '????????' : this.buildNumber})`;
     }
-    
+
     /**
      * Create a new Moodle version object representing the same version
      * information.
@@ -1244,6 +1244,43 @@ class MoodleVersion {
             releaseSuffix: this.releaseSuffix,
             buildNumber: this.buildNumber
         };
+    }
+
+    /**
+     * An object containing a SemVer
+     * ([Semantic Versioning](https://semver.org)) representation of the
+     * version information.
+     * 
+     * @return {{major: number, minor: number, patch: number}} 
+     */
+    toSemVerObject(){
+        const ans = {
+            major: 0,
+            minor: 0,
+            patch: 0
+        }
+        if(this.branch){
+            const branchParts = this.branch.split('.');
+            ans.major = parseInt(branchParts[0]);
+            ans.minor = parseInt(branchParts[1]);
+        }
+        if(this.releaseNumber){
+            ans.patch = this.releaseNumber;
+        }
+        return ans;
+    }
+
+    /**
+     * An array containing a SemVer
+     * ([Semantic Versioning](https://semver.org)) representation of the
+     * version information. The first element will be the major version number,
+     * the second the minor, and the third the patch.
+     * 
+     * @return {Array<number>} An array of three integers. 
+     */
+    toSemVerArray(){
+        const semVer = this.toSemVerObject()
+        return [semVer.major, semVer.minor, semVer.patch];
     }
     
     /**
