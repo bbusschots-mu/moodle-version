@@ -1059,7 +1059,8 @@
 		'38': 20191118,
 	    '39': 20200615,
 	    '310': 20201109,
-	    '311': 20210517
+	    '311': 20210517,
+	    '400': 20220419
 	};
 
 	/**
@@ -1280,7 +1281,10 @@
 	        if(!MoodleVersion.isBranchNumber(bn, false)) return undefined;
 	        const bnMatch = String(bn).match(/^(\d)(\d+)$/);
 	        if(!bnMatch) return undefined;
-	        return `${bnMatch[1]}.${bnMatch[2]}`;
+	        const major = bnMatch[1];
+	        let minor = bnMatch[2];
+	        minor = minor.replace(/^0*([1-9]*\d)$/, '$1'); // strip leading zeros from minor number
+	        return `${major}.${minor}`;
 	    }
 	    
 	    /**
@@ -1308,7 +1312,11 @@
 	    static branchNumberFromBranch(b){
 	        if(is.undefined(b)) return undefined;
 	        if(!MoodleVersion.isBranch(b)) return undefined;
-	        return parseInt(b.split(/[.]/).join(''));
+	        const parts = b.split(/[.]/);
+	        const major = parts[0];
+	        let minor = parts[1];
+	        if(parseInt(major) >= 4 && minor.length == 1) minor = `0${minor}`;
+	        return parseInt(`${major}${minor}`);
 	    }
 	    
 	    /**

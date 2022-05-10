@@ -63,7 +63,7 @@ QUnit.module('Static Validation Functions', {}, function(){
         const mustAlwaysReturnFalse = [
             ...util.dummyDataExcept([], ['2digit', '3digit'])
         ];
-        a.expect((mustAlwaysReturnFalse.length * 2) + 9);
+        a.expect((mustAlwaysReturnFalse.length * 2) + 13);
         
         // make sure the function actually exists
         a.ok(is.function(MoodleVersion.isBranchNumber), 'function exists');
@@ -79,12 +79,16 @@ QUnit.module('Static Validation Functions', {}, function(){
         a.strictEqual(MoodleVersion.isBranchNumber(35, true), true, '35 returns true with strict type checking');
         a.strictEqual(MoodleVersion.isBranchNumber(310, false), true, '310 returns true without strict type checking');
         a.strictEqual(MoodleVersion.isBranchNumber(310, true), true, '310 returns true with strict type checking');
+        a.strictEqual(MoodleVersion.isBranchNumber(400, false), true, '400 returns true without strict type checking');
+        a.strictEqual(MoodleVersion.isBranchNumber(400, true), true, '400 returns true with strict type checking');
         
         // make sure valid strings are only accepted when strict mode is disabled
         a.strictEqual(MoodleVersion.isBranchNumber('35', false), true, "'35' returns true without strict type checking");
         a.strictEqual(MoodleVersion.isBranchNumber('35', true), false, "'35' returns false with strict type checking");
         a.strictEqual(MoodleVersion.isBranchNumber('310', false), true, "'310' returns true without strict type checking");
         a.strictEqual(MoodleVersion.isBranchNumber('310', true), false, "'310' returns false with strict type checking");
+        a.strictEqual(MoodleVersion.isBranchNumber('400', false), true, "'400' returns true without strict type checking");
+        a.strictEqual(MoodleVersion.isBranchNumber('400', true), false, "'400' returns false with strict type checking");
     });
     
     QUnit.test('isReleaseNumber()', function(a){
@@ -170,7 +174,7 @@ QUnit.module('Static Conversion Functions', {}, function(){
         const mustReturnUndefined = [
             ...util.dummyDataExcept([], ['2digit', '3digit'])
         ];
-        a.expect(mustReturnUndefined.length + 5);
+        a.expect(mustReturnUndefined.length + 7);
         
         // make sure the function actually exists
         a.ok(is.function(MoodleVersion.branchFromBranchNumber), 'function exists');
@@ -185,15 +189,15 @@ QUnit.module('Static Conversion Functions', {}, function(){
         a.strictEqual(MoodleVersion.branchFromBranchNumber('35'), '3.5', "'35' converts to '3.5'");
         a.strictEqual(MoodleVersion.branchFromBranchNumber(310), '3.10', "310 converts to '3.10'");
         a.strictEqual(MoodleVersion.branchFromBranchNumber('310'), '3.10', "'310' converts to '3.10'");
+        a.strictEqual(MoodleVersion.branchFromBranchNumber(400), '4.0', "400 converts to '4.0'");
+        a.strictEqual(MoodleVersion.branchFromBranchNumber('400'), '4.0', "'400' converts to '4.0'");
     });
-
-    // LEFT OFF HERE!!!
     
     QUnit.test('branchFromBranchingDateNumber()', function(a){
         const mustReturnUndefined = [
             ...util.dummyBasicDataExcept('number')
         ];
-        a.expect(mustReturnUndefined.length + 6);
+        a.expect(mustReturnUndefined.length + 7);
         
         // make sure the function actually exists
         a.ok(is.function(MoodleVersion.branchFromBranchingDateNumber), 'function exists');
@@ -207,6 +211,7 @@ QUnit.module('Static Conversion Functions', {}, function(){
         a.strictEqual(MoodleVersion.branchFromBranchingDateNumber(20180517), '3.5', "20180517 converts to '3.5'");
         a.strictEqual(MoodleVersion.branchFromBranchingDateNumber('20180517'), '3.5', "'20180517' converts to '3.5'");
         a.strictEqual(MoodleVersion.branchFromBranchingDateNumber('20201109'), '3.10', "'20201109' converts to '3.10'");
+        a.strictEqual(MoodleVersion.branchFromBranchingDateNumber('20220419'), '4.0', "'20220419' converts to '4.0'");
         a.ok(is.undefined(MoodleVersion.branchFromBranchingDateNumber(20180513)), '20180513 converts to undefined (no such mapping)');
         a.ok(is.undefined(MoodleVersion.branchFromBranchingDateNumber('20180513')),"'20180513' converts to undefined (no such mapping)");
     });
@@ -217,7 +222,7 @@ QUnit.module('Static Conversion Functions', {}, function(){
             ...util.dummyData('string', {excludeTags: ['float']}),
             util.dummyData('string.float.negative')
         ];
-        a.expect(mustReturnUndefined.length + 3);
+        a.expect(mustReturnUndefined.length + 4);
         
         // make sure the function actually exists
         a.ok(is.function(MoodleVersion.branchNumberFromBranch), 'function exists');
@@ -230,13 +235,14 @@ QUnit.module('Static Conversion Functions', {}, function(){
         // make sure that values are converted as expected
         a.strictEqual(MoodleVersion.branchNumberFromBranch('3.5'), 35, "'3.5' converts to 35");
         a.strictEqual(MoodleVersion.branchNumberFromBranch('3.10'), 310, "'3.10' converts to 310");
+        a.strictEqual(MoodleVersion.branchNumberFromBranch('4.0'), 400, "'4.0' converts to 400");
     });
     
     QUnit.test('branchNumberFromBranchingDateNumber()', function(a){
         const mustReturnUndefined = [
             ...util.dummyBasicDataExcept('number')
         ];
-        a.expect(mustReturnUndefined.length + 6);
+        a.expect(mustReturnUndefined.length + 7);
         
         // make sure the function actually exists
         a.ok(is.function(MoodleVersion.branchNumberFromBranchingDateNumber), 'function exists');
@@ -250,6 +256,7 @@ QUnit.module('Static Conversion Functions', {}, function(){
         a.strictEqual(MoodleVersion.branchNumberFromBranchingDateNumber(20180517), 35, '20180517 converts to 35');
         a.strictEqual(MoodleVersion.branchNumberFromBranchingDateNumber('20180517'), 35, "'20180517' converts to 35");
         a.strictEqual(MoodleVersion.branchNumberFromBranchingDateNumber('20201109'), 310, "'20201109' converts to 310");
+        a.strictEqual(MoodleVersion.branchNumberFromBranchingDateNumber('20220419'), 400, "'20220419' converts to 400");
         a.ok(is.undefined(MoodleVersion.branchNumberFromBranchingDateNumber(20180513)), '20180513 converts to undefined (no such mapping)');
         a.ok(is.undefined(MoodleVersion.branchNumberFromBranchingDateNumber('20180513')),"'20180513' converts to undefined (no such mapping)");
     });
@@ -258,7 +265,7 @@ QUnit.module('Static Conversion Functions', {}, function(){
         const mustReturnUndefined = [
             ...util.dummyBasicDataExcept('string')
         ];
-        a.expect(mustReturnUndefined.length + 4);
+        a.expect(mustReturnUndefined.length + 5);
         
         // make sure the function actually exists
         a.ok(is.function(MoodleVersion.branchingDateNumberFromBranch), 'function exists');
@@ -271,6 +278,7 @@ QUnit.module('Static Conversion Functions', {}, function(){
         // make sure valid data returns as expected
         a.strictEqual(MoodleVersion.branchingDateNumberFromBranch('3.5'), 20180517, "'3.5' converts to 20180517");
         a.strictEqual(MoodleVersion.branchingDateNumberFromBranch('3.10'), 20201109, "'3.10' converts to 20201109");
+        a.strictEqual(MoodleVersion.branchingDateNumberFromBranch('4.0'), 20220419, "'4.0' converts to 20220419");
         a.ok(is.undefined(MoodleVersion.branchingDateNumberFromBranch('9.9')), "'9.9' converts to undefined (no such mapping)");
     });
     
@@ -278,7 +286,7 @@ QUnit.module('Static Conversion Functions', {}, function(){
         const mustReturnUndefined = [
             ...util.dummyBasicDataExcept('number')
         ];
-        a.expect(mustReturnUndefined.length + 7);
+        a.expect(mustReturnUndefined.length + 9);
         
         // make sure the function actually exists
         a.ok(is.function(MoodleVersion.branchingDateNumberFromBranchNumber), 'function exists');
@@ -293,6 +301,8 @@ QUnit.module('Static Conversion Functions', {}, function(){
         a.strictEqual(MoodleVersion.branchingDateNumberFromBranchNumber('35'), 20180517, "'35' converts to 20180517");
         a.strictEqual(MoodleVersion.branchingDateNumberFromBranchNumber(310), 20201109, '310 converts to 20201109');
         a.strictEqual(MoodleVersion.branchingDateNumberFromBranchNumber('310'), 20201109, "'310' converts to 20201109");
+        a.strictEqual(MoodleVersion.branchingDateNumberFromBranchNumber(400), 20220419, '400 converts to 20220419');
+        a.strictEqual(MoodleVersion.branchingDateNumberFromBranchNumber('400'), 20220419, "'400' converts to 20220419");
         a.ok(is.undefined(MoodleVersion.branchingDateNumberFromBranchNumber(99)), '99 converts to undefined (no such mapping)');
         a.ok(is.undefined(MoodleVersion.branchingDateNumberFromBranchNumber('99')),"'99' converts to undefined (no such mapping)");
     });
@@ -428,7 +438,7 @@ QUnit.module('constructor', function(){
         const mustThrow = [
             ...util.dummyBasicDataExcept('string', 'object', 'other')
         ];
-        a.expect(mustThrow.length + 4);
+        a.expect(mustThrow.length + 6);
         
         // make sure that types that should throw an error do
         for(const dd of mustThrow){
@@ -442,10 +452,12 @@ QUnit.module('constructor', function(){
         // make sure that strings are parsed
         a.strictEqual((new MoodleVersion('3.5+')).version, '3.5+', 'can initialise from string');
         a.strictEqual((new MoodleVersion('3.10+')).version, '3.10+', 'can initialise from string with two-digit minor-version');
+        a.strictEqual((new MoodleVersion('4.0+')).version, '4.0+', 'can initialise from string with 4.* major-version');
         
         // make sure objects are parsed
         a.strictEqual((new MoodleVersion({branch: '3.3', releaseNumber: 6, releaseType: 'official'})).version, '3.3.6', 'can initialise from object');
         a.strictEqual((new MoodleVersion({branch: '3.10', releaseNumber: 6, releaseType: 'official'})).version, '3.10.6', 'can initialise from object with two-digit minor-version');
+        a.strictEqual((new MoodleVersion({branch: '4.0', releaseNumber: 6, releaseType: 'official'})).version, '4.0.6', 'can initialise from object with 4.* major-version');
     });
 });
 
@@ -464,10 +476,10 @@ QUnit.module('Getters & Setters', function(){
         ];
         
         // matching lists of valid data
-        const vbn  = [ 30,       33,     310];       // valid branch numbers as numbers
-        const vbns = ['30',     '33',   '310'];      // valid branch numbes as strings
-        const vb   = ['3.0',    '3.3',  '3.10'];     // valid branches as strings
-        const vbf  = [ 3.0,      3.3,    3.10];      // valid branches as floating point numbers
+        const vbn  = [ 30,       33,     310,    400];  // valid branch numbers as numbers
+        const vbns = ['30',     '33',   '310',  '400']; // valid branch numbes as strings
+        const vb   = ['3.0',    '3.3',  '3.10', '4.0']; // valid branches as strings
+        const vbf  = [ 3.0,      3.3,    3.10,   4.0];  // valid branches as floating point numbers
         
         // set the number of expected tests
         a.expect(mustThrowBranchNumber.length + mustThrowBranch.length + (vbn.length * 6) + 7);
@@ -757,7 +769,7 @@ QUnit.module('Getters & Setters', function(){
     });
     
     QUnit.test('.version', function(a){
-        a.expect(8);
+        a.expect(10);
         
         // make sure an empty object renders correctly
         a.strictEqual((new MoodleVersion()).version, '??.??.??', 'empty object rendered correctly');
@@ -765,10 +777,12 @@ QUnit.module('Getters & Setters', function(){
         // make sure an official version with release number renders correctly
         a.strictEqual(MoodleVersion.fromObject({ branch: '3.3', releaseNumber: 6, releaseType: 'official' }).version, '3.3.6', 'official release with non-zero release number rendered correctly');
         a.strictEqual(MoodleVersion.fromObject({ branch: '3.10', releaseNumber: 6, releaseType: 'official' }).version, '3.10.6', 'official release with non-zero release number and 2-digit minor version rendered correctly');
+        a.strictEqual(MoodleVersion.fromObject({ branch: '4.0', releaseNumber: 6, releaseType: 'official' }).version, '4.0.6', 'official release with non-zero release number and 4.* major version rendered correctly');
         
         // make sure zero release numbers are omitted
         a.strictEqual(MoodleVersion.fromObject({ branch: '3.5', releaseNumber: 0, releaseType: 'official' }).version, '3.5', 'official release with release number 0 rendered correctly');
         a.strictEqual(MoodleVersion.fromObject({ branch: '3.10', releaseNumber: 0, releaseType: 'official' }).version, '3.10', 'official release with release number 0 and 2-digit minor-version rendered correctly');
+        a.strictEqual(MoodleVersion.fromObject({ branch: '4.0', releaseNumber: 0, releaseType: 'official' }).version, '4.0', 'official release with release number 0 and 4.* major-version rendered correctly');
         
         // make sure siffixes are handled properly
         a.strictEqual(MoodleVersion.fromObject({ branch: '3.3', releaseNumber: 0, releaseType: 'development' }).version, '3.3dev', 'dev release rendered correctly');
@@ -917,7 +931,7 @@ QUnit.module('Object Utility Functions', function(){
     });
 
     QUnit.test('.toSemVerObject()', function(a){
-        a.expect(3);
+        a.expect(4);
         
         // make sure the function actually exists
         a.ok(is.function(MoodleVersion.prototype.toSemVerObject), 'function exists');
@@ -938,12 +952,25 @@ QUnit.module('Object Utility Functions', function(){
                 minor: 10,
                 patch: 11
             },
-            'expected values returned'
+            'expected values returned for 3.10.11'
+        );
+        mv = MoodleVersion.fromObject({
+            branch: '4.0',
+            releaseNumber: 11,
+        });
+        a.deepEqual(
+            mv.toSemVerObject(),
+            {
+                major: 4,
+                minor: 0,
+                patch: 11
+            },
+            'expected values returned for 4.0.11'
         );
     });
 
     QUnit.test('.toSemVerArray()', function(a){
-        a.expect(3);
+        a.expect(4);
         
         // make sure the function actually exists
         a.ok(is.function(MoodleVersion.prototype.toSemVerArray), 'function exists');
@@ -960,7 +987,16 @@ QUnit.module('Object Utility Functions', function(){
         a.deepEqual(
             mv.toSemVerArray(),
             [3, 10, 11],
-            'expected values returned'
+            'expected values returned for 3.10.11'
+        );
+        mv = MoodleVersion.fromObject({
+            branch: '4.0',
+            releaseNumber: 11,
+        });
+        a.deepEqual(
+            mv.toSemVerArray(),
+            [4, 0, 11],
+            'expected values returned for 4.0.11'
         );
     });
 });
