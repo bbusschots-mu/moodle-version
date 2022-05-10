@@ -204,7 +204,8 @@ const BNUM_BDNUM_MAP = {
 	&apos;38&apos;: 20191118,
     &apos;39&apos;: 20200615,
     &apos;310&apos;: 20201109,
-    &apos;311&apos;: 20210517
+    &apos;311&apos;: 20210517,
+    &apos;400&apos;: 20220419
 };
 
 /**
@@ -425,7 +426,10 @@ class MoodleVersion {
         if(!MoodleVersion.isBranchNumber(bn, false)) return undefined;
         const bnMatch = String(bn).match(/^(\d)(\d+)$/);
         if(!bnMatch) return undefined;
-        return `${bnMatch[1]}.${bnMatch[2]}`;
+        const major = bnMatch[1];
+        let minor = bnMatch[2];
+        minor = minor.replace(/^0*([1-9]*\d)$/, &apos;$1&apos;); // strip leading zeros from minor number
+        return `${major}.${minor}`;
     }
     
     /**
@@ -453,7 +457,11 @@ class MoodleVersion {
     static branchNumberFromBranch(b){
         if(is.undefined(b)) return undefined;
         if(!MoodleVersion.isBranch(b)) return undefined;
-        return parseInt(b.split(/[.]/).join(&apos;&apos;));
+        const parts = b.split(/[.]/);
+        const major = parts[0];
+        let minor = parts[1];
+        if(parseInt(major) &gt;= 4 &amp;&amp; minor.length == 1) minor = `0${minor}`;
+        return parseInt(`${major}${minor}`);
     }
     
     /**
