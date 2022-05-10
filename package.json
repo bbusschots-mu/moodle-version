@@ -1,6 +1,6 @@
 {
   "name": "@maynoothuniversity/moodle-version",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "A parser for Moodle version strings",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
