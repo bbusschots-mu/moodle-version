@@ -1,7 +1,7 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
-	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.MoodleVersion = factory());
+	(global = global || self, global.MoodleVersion = factory());
 }(this, (function () { 'use strict';
 
 	var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
@@ -1060,7 +1060,9 @@
 	    '39': 20200615,
 	    '310': 20201109,
 	    '311': 20210517,
-	    '400': 20220419
+	    '400': 20220419,
+	    '401': 20221128,
+	    '402': 20230424
 	};
 
 	/**
@@ -1143,7 +1145,7 @@
 	                newObj = MoodleVersion.fromString(versionInfo);
 	            }else if(is.object(versionInfo) && is.not.array(versionInfo) && is.not.function(versionInfo) && is.not.error(versionInfo)){
 	                newObj = MoodleVersion.fromObject(versionInfo);
-	            }else {
+	            }else{
 	                throw new TypeError('the MoodleVersion constructor only accepts strings and objects');
 	            }
 	        }

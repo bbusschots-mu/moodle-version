@@ -1054,7 +1054,9 @@ const BNUM_BDNUM_MAP = {
     '39': 20200615,
     '310': 20201109,
     '311': 20210517,
-    '400': 20220419
+    '400': 20220419,
+    '401': 20221128,
+    '402': 20230424
 };
 
 /**
@@ -1137,7 +1139,7 @@ class MoodleVersion {
                 newObj = MoodleVersion.fromString(versionInfo);
             }else if(is.object(versionInfo) && is.not.array(versionInfo) && is.not.function(versionInfo) && is.not.error(versionInfo)){
                 newObj = MoodleVersion.fromObject(versionInfo);
-            }else {
+            }else{
                 throw new TypeError('the MoodleVersion constructor only accepts strings and objects');
             }
         }
